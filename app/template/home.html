@@ -1,0 +1,154 @@
+<style>
+
+    .map {
+        height: 600px;
+        border-radius: 5px;
+        border: 1px solid silver;
+    }
+
+    #lista {
+        height: 300px;
+        width: 200px;
+        border: 1px solid #ddd;
+        background: #f1f1f1;
+        overflow-y: scroll;
+    }
+    #usuario {
+        height: auto;
+    }
+    .buscar::placeholder { color: white; }
+
+    .position-abajo{
+        position:absolute;
+        bottom:5px;
+        right:10px;
+    }
+     .title{
+         font-size: 120%;
+         margin: auto;
+         padding:30px;
+         font-family: sans-serif;
+
+
+     }
+
+    .buttonClose{
+        margin-top: -7px;
+        height: 36px;
+        width: 36px;
+        cursor: pointer;
+    }
+    .scroll
+    {
+        width:auto;
+        height:500px;
+        overflow: auto;
+
+    }
+    .buttonMenu{
+         margin-top: 10px;
+         position: absolute;
+         z-index: 100;
+     }
+
+    .nameOp{
+        margin-left: 80%;
+        position: absolute;
+        z-index: 100;
+    }
+
+</style>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none; background-color: #595959; height: auto " id="mySidebar">
+<!--
+    class="w3-sidebar w3-bar-block w3-card w3-animate-left"
+-->
+    <div ng-controller="controladorUsers as contUsers">
+
+        <div class="panel panel-warning" style="background-color: #004b8c; border-bottom: 5px solid #0062a7; border-top: 0px solid;border-left: 0px solid;border-right: 0px solid; height:80px;">
+
+        <div style="color: white " ><h3 class="title">   Lista de Usuarios <img class="buttonClose" src="app/mapa/imagen/cerrar.png" onclick="w3_close()" align="right"></h3></div>
+        </div>
+
+
+<div class=" lista scroll">
+
+            <ul ng-repeat="user in datosResource| filter:filtro" style="clear: both;">
+
+                <div ng-controller="controladorMapa as contMap" class=" " >
+
+                    <a  style="color: white" id="usuario" ng-click="contMap.contenidoMap(user.name,user.surname,user.id,user.identikey)"><img src="app/mapa/imagen/listUser.png">   |
+                        {{user.name}} {{user.surname}}</a><br>
+
+                </div>
+
+
+            </ul>
+</div>
+
+                <div class="input-group position-abajo" style="margin:10px;">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default " style="background-color: #004b8c; border-right: 3px solid #fff; border-top:0px solid;border-bottom:0px solid;border-left:0px solid;"><img src="app/mapa/imagen/buscar.png" alt=""> <span class="caret"></span></button>
+                    </div>
+                    <input type="text" class="form-control buscar" ng-model="filtro" placeholder="Buscar Operario " style="background-color: #008bbc; border:0px solid; color:#ffffff;" >
+
+                </div>
+
+
+</div>
+</div>
+<div id="main"  ng-app="mapa">
+    <div ng-controller="controladorMapa as contMap">
+    <div class="" style="background-color: #004b8c" >
+        <button id="openNav" class="w3-button w3-xlarge" style="color: white" onclick="w3_open()">&#9776;</button>
+
+
+
+    </div>
+
+        <div class="btn-group-vertical buttonMenu">
+
+            <button class="btn-group form-control btn-default" role="group" ng-show="contMap.active == true" ng-click="contMap.deleteClaimsFinish()">
+
+                Terminados <span class="glyphicon glyphicon-eye-open" style="color: #4AA02C" aria-hidden="true"></span></button>
+
+
+            <button class="btn-group form-control btn-default" role="group"  ng-show="contMap.active == false" ng-click="contMap.getClaimsFinishClose()">
+
+                Terminados  <span class="glyphicon glyphicon-eye-close" style="color: #ff5555" aria-hidden="true"></span></button>
+
+
+            <button class="btn-group form-control btn-default" role="group" ng-show="asignadosClaims == true" ng-click="contMap.deleteClaim()">
+
+                Asignados <span class="glyphicon glyphicon-eye-open" style="color: #4AA02C" aria-hidden="true"></span></button>
+
+
+            <button class="btn-group form-control btn-default" role="group"  ng-show="asignadosClaims == false" ng-click="contMap.viewClaim()">
+
+                Asignados  <span class="glyphicon glyphicon-eye-close" style="color: #ff5555"  aria-hidden="true"></span></button>
+
+            <!--<button class="btn-group form-control btn-default" role="group" >Recorrido</button>-->
+        </div>
+        <div class="list-group nameOp" align="right">
+            <!--<a href="#" class="list-group-item active">-->
+                <!--Cras justo odio-->
+            <!--</a>-->
+            <a href="#" class="list-group-item" style="border-color :#0f0f0f">{{nameOperario}}</a>
+
+        </div>
+
+
+        <div id="map" class="map"> </div>
+
+        <div id="repeat" ng-repeat="marker in $rootScope.markers | orderBy : 'title'">
+            <a id="country_container" href="#" ng-click="openInfoWindow($event, marker)"><label id="names" >{{marker.title}}</label></a>
+        </div>
+
+
+
+    </div>
+
+
+
+</div>
