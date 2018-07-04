@@ -11,7 +11,7 @@
 
     function serviceButtons($resource) {
 
-        var resourceUrl =  'http://192.168.1.117:8089/SimpleTask_Rest/adr/service/getClaimsFinish/:id';
+        var resourceUrl =  'http://192.168.1.109:8089/SimpleTask_Rest/adr/service/getClaimsFinish/:id';
 
         return $resource(resourceUrl,{},
 
