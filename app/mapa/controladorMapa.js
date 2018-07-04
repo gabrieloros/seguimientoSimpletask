@@ -29,8 +29,7 @@
       
         contMap.contenidoMap = function (nameOperario, surnameOperario, idUser, identikey) {
             if($rootScope.markers != null){
-
-                 contMap.closeContentMap();
+                contMap.clearPoints();
             }
                         contMap.userActive = true;
                       $rootScope.nameOperario = nameOperario +''+ surnameOperario;

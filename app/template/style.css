@@ -1,3 +1,68 @@
+/* Responsive */
+
+@media only screen and (max-height: 1080px) {
+
+ 
+    
+    #boxTitle{
+        height: 50px;
+        width: 300px;
+        background-color: #000;
+        position: absolute;
+        top:12%;
+        left: 5%;
+        z-index: 100;
+        border: 1px solid #e6e5e4;
+        border-radius: 4px;
+
+    
+    }
+
+    #boxSearch{
+        height: 88px;
+        width: 300px;
+        background-color: white;
+        position: absolute;
+        top:18%;
+        left: 5%;
+        z-index: 100;
+        border: 1px solid #e6e5e4;
+        border-radius: 4px;
+        border-left: 6px solid #699742;
+        padding: 26px 0px 0px 20px;
+    
+    }
+    
+    .general{
+        height: 320px;
+        width: 300px;
+        background-color: white;
+        position: absolute;
+        top:28%;
+        left: 5%;
+        z-index: 100;
+        border: 1px solid #e6e5e4;
+        border-radius: 4px;
+    
+    }
+
+    .contenedor{
+        height: 260px;
+        width: 300px;
+        background-color: white;
+        position: absolute;
+        top:36%;
+        left: 5%;
+        z-index: 100;
+        border: 1px solid #e6e5e4;
+        border-radius: 4px;
+        overflow-y: scroll
+    
+    }
+}
+
+
+
 #boxTitle{
     height: 50px;
     width: 300px;
@@ -136,16 +201,3 @@ a:hover{
 /* Adaptando diseño a todos los dispositivos */
 
 
-/* Samsung Galaxy S5 */
-
-@media only screen and (max-width: 900px) {
-
-    #Title{
-       
-        color:#000307;
-        
-    }
-
-    
-    
-}

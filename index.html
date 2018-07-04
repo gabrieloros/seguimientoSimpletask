@@ -3,22 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet"  type="text/css" href="app/template/style.css">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0"> 
     
-    <link rel="stylesheet" type="text/css" href="app/template/style.css">
-
     <title>Simple Task</title>
 </head>
 
-<body  ng-app="app" >
+<body ng-app="app" >
 
+<div ui-view="sideBar"></div>
 
-
-            <div ui-view="sideBar">    </div>
-
-
-
-            <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3O8uGKpwOVbdvKGnqEpAK45qJex9BdPE&libraries=drawing,geometry&amp;sensor=false"></script>
-            <script type="text/javascript" src="app/js/menu.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3O8uGKpwOVbdvKGnqEpAK45qJex9BdPE&libraries=drawing,geometry&amp;sensor=false"></script>
+<script type="text/javascript" src="app/js/menu.js"></script>
 <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
