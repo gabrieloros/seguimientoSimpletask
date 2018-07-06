@@ -28,6 +28,8 @@
         
       
         contMap.contenidoMap = function (nameOperario, surnameOperario, idUser, identikey) {
+            contMap.asignadosClaims = false;
+             contMap.userActive = false;
             if($rootScope.markers != null){
                 contMap.clearPoints();
                         $rootScope.idUser = null;
@@ -155,9 +157,9 @@
                 var image = {
 
                     url: 'app/mapa/imagen/positionUser.png',
-                    size: new google.maps.Size(80, 104),
+                    size: new google.maps.Size(40, 52),
                     origin: new google.maps.Point(0, 0),
-                    anchor: new google.maps.Point(24, 80)
+                    anchor: new google.maps.Point(12, 40)
                 };
 
                 /* var fecha = setTime(data.date);*/
