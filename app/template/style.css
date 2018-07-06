@@ -43,7 +43,7 @@
 
 
 .general{
-    height: 320px;
+    height: 270px;
     width: 300px;
     background-color: white;
     position: absolute;
@@ -57,7 +57,7 @@
 
 
 .contenedor{
-    height: 260px;
+    height: 210px;
     width: 300px;
     background-color: white;
     position: absolute;
@@ -100,6 +100,26 @@
     padding-top: 9px;
     padding-left: 20px;
 }
+
+
+
+#BoxUser{
+    height: 50px;
+    width: 300px;
+    background-color: white;
+    position: absolute;
+    top:40%;
+    left: 5%;
+    z-index: 100;
+    border: 1px solid #e6e5e4;
+    border-radius: 4px;
+
+}
+
+
+
+
+
 .map {
         min-height: 1200px;
        
@@ -190,7 +210,7 @@ a:hover{
     
     
     .general{
-        height: 320px;
+        height: 270px;
         width: 300px;
         background-color: white;
         position: absolute;
@@ -204,7 +224,7 @@ a:hover{
     
     
     .contenedor{
-        height: 260px;
+        height: 210px;
         width: 300px;
         background-color: white;
         position: absolute;
@@ -247,6 +267,21 @@ a:hover{
         padding-top: 9px;
         padding-left: 20px;
     }
+
+    #BoxUser{
+        height: 50px;
+        width: 300px;
+        background-color: white;
+        position: absolute;
+        top:40%;
+        left: 5%;
+        z-index: 100;
+        border: 1px solid #e6e5e4;
+        border-radius: 4px;
+    
+    }
+
+
     .map {
             min-height: 1080px;
            
@@ -337,7 +372,7 @@ a:hover{
     
     
     .general{
-        height: 320px;
+        height: 270px;
         width: 300px;
         background-color: white;
         position: absolute;
@@ -351,7 +386,7 @@ a:hover{
     
     
     .contenedor{
-        height: 260px;
+        height: 210px;
         width: 300px;
         background-color: white;
         position: absolute;
@@ -394,6 +429,20 @@ a:hover{
         padding-top: 9px;
         padding-left: 20px;
     }
+
+    #BoxUser{
+        height: 50px;
+        width: 300px;
+        background-color: white;
+        position: absolute;
+        top:40%;
+        left: 5%;
+        z-index: 100;
+        border: 1px solid #e6e5e4;
+        border-radius: 4px;
+    
+    }
+
     .map {
             min-height: 1080px;
            
@@ -483,7 +532,7 @@ a:hover{
     
     
     .general{
-        height: 320px;
+        height: 270px;
         width: 300px;
         background-color: white;
         position: absolute;
@@ -497,7 +546,7 @@ a:hover{
     
     
     .contenedor{
-        height: 260px;
+        height: 210px;
         width: 300px;
         background-color: white;
         position: absolute;
@@ -540,6 +589,20 @@ a:hover{
         padding-top: 9px;
         padding-left: 20px;
     }
+
+    #BoxUser{
+        height: 50px;
+        width: 300px;
+        background-color: white;
+        position: absolute;
+        top:40%;
+        left: 5%;
+        z-index: 100;
+        border: 1px solid #e6e5e4;
+        border-radius: 4px;
+    
+    }
+
     .map {
             min-height: 1080px;
            
