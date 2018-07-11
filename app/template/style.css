@@ -1,7 +1,4 @@
 
-/* Responsive */
-
-@media only screen and (max-height: 2080px) {
 
 
 #boxTitle{
@@ -26,28 +23,14 @@
     padding-left: 15px;
 }
 
-#boxSearch{
-    height: 88px;
-    width: 300px;
-    background-color: white;
-    position: absolute;
-    top:18%;
-    left: 5%;
-    z-index: 100;
-    border: 1px solid #e6e5e4;
-    border-radius: 4px;
-    border-left: 6px solid #699742;
-    padding: 26px 0px 0px 20px;
-
-}
 
 
 .general{
     height: 270px;
-    width: 300px;
+    width: 390px;
     background-color: white;
     position: absolute;
-    top:28%;
+    top:20%;
     left: 5%;
     z-index: 100;
     border: 1px solid #e6e5e4;
@@ -58,7 +41,7 @@
 
 .contenedor{
     height: 210px;
-    width: 300px;
+    width: 390px;
     background-color: white;
     position: absolute;
     top:36%;
@@ -72,12 +55,33 @@
 
 #Title{
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 28px;
-    color:#699742;
-    height: 80px;
-    padding-top: 22px;
-    padding-left: 20px;
-    border-bottom: 1px solid #e6e5e4;
+    font-size: 18px;
+    color:#211915;
+    height: 50px;
+    width: 300px;
+    float: left;
+    padding-top: 0px;
+    padding-left: 0px;
+    background-color: #537bb8;
+}
+
+#generalBtn{
+
+    width: 80px;
+    height: 50px;
+    float: left;
+}
+
+
+#generalBtn button{
+
+
+    border: 0px;
+    background-image: url(../template/img/agregar.png);
+    background-repeat: no-repeat;
+    width: 25px;
+    height: 25px;
+    background-color: white;
 }
 
 #Usuarios{
@@ -159,491 +163,3 @@ a:hover{
     background: #bfbfbe; 
 }
 
-
-}
-
-/* Adaptando diseño a todos los dispositivos */
-
-
-
-/* Responsive */
-
-@media only screen and (max-height: 870px) {
-
-
-    #boxTitle{
-        height: 50px;
-        width: 300px;
-        background-color: white;
-        position: absolute;
-        top:10%;
-        left: 5%;
-        z-index: 100;
-        border: 1px solid #e6e5e4;
-        border-radius: 4px;
-    
-    }
-    
-    #UsuariosBoxTitle{
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 28px;
-        height: 50px;
-        color:#699742;
-        padding-top: 6px;
-        padding-left: 15px;
-    }
-    
-    #boxSearch{
-        height: 88px;
-        width: 300px;
-        background-color: white;
-        position: absolute;
-        top:17%;
-        left: 5%;
-        z-index: 100;
-        border: 1px solid #e6e5e4;
-        border-radius: 4px;
-        border-left: 6px solid #699742;
-        padding: 26px 0px 0px 20px;
-    
-    }
-    
-    
-    .general{
-        height: 270px;
-        width: 300px;
-        background-color: white;
-        position: absolute;
-        top:29%;
-        left: 5%;
-        z-index: 100;
-        border: 1px solid #e6e5e4;
-        border-radius: 4px;
-    
-    }
-    
-    
-    .contenedor{
-        height: 210px;
-        width: 300px;
-        background-color: white;
-        position: absolute;
-        top:38%;
-        left: 5%;
-        z-index: 100;
-        border: 1px solid #e6e5e4;
-        border-radius: 4px;
-        overflow-y: scroll
-    
-    }
-    
-    #Title{
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 28px;
-        color:#699742;
-        height: 80px;
-        padding-top: 22px;
-        padding-left: 20px;
-        border-bottom: 1px solid #e6e5e4;
-    }
-    
-    #Usuarios{
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 20px;
-        height: 45px;
-        border-bottom: 1px solid #e6e5e4;
-        color:#211915;
-        padding-top: 10px;
-        padding-left: 20px;
-    }
-    
-    #UsuariosActive{
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 20px;
-        height: 45px;
-        color:#211915;
-        border-left: 6px solid #537bb8;
-        border-bottom: 1px solid #e6e5e4;
-        padding-top: 9px;
-        padding-left: 20px;
-    }
-
-    #BoxUser{
-        height: 50px;
-        width: 300px;
-        background-color: white;
-        position: absolute;
-        top:40%;
-        left: 5%;
-        z-index: 100;
-        border: 1px solid #e6e5e4;
-        border-radius: 4px;
-    
-    }
-
-
-    .map {
-            min-height: 1080px;
-           
-        }
-    
-    #UsuariosImg{
-        
-        float:right;
-        margin-right: 15px;
-    }
-    
-    a{
-        color:#211915;
-    }
-    
-    a:hover{
-        text-decoration: none;
-    }
-    
-    /* width */
-    ::-webkit-scrollbar {
-        width: 10px;
-    }
-    
-    /* Track */
-    ::-webkit-scrollbar-track {
-        background: #f1f1f1; 
-    }
-     
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-        background: #bfbfbe; 
-    }
-    
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-        background: #bfbfbe; 
-    }
-    
-    
-    }
-    
-    /* Adaptando diseño a todos los dispositivos */
-    
-
-
-/* Responsive */
-
-@media only screen and (max-height: 720px) {
-
-
-    #boxTitle{
-        height: 50px;
-        width: 300px;
-        background-color: white;
-        position: absolute;
-        top:10%;
-        left: 5%;
-        z-index: 100;
-        border: 1px solid #e6e5e4;
-        border-radius: 4px;
-    
-    }
-    
-    #UsuariosBoxTitle{
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 28px;
-        height: 50px;
-        color:#699742;
-        padding-top: 6px;
-        padding-left: 15px;
-    }
-    
-    #boxSearch{
-        height: 88px;
-        width: 300px;
-        background-color: white;
-        position: absolute;
-        top:18%;
-        left: 5%;
-        z-index: 100;
-        border: 1px solid #e6e5e4;
-        border-radius: 4px;
-        border-left: 6px solid #699742;
-        padding: 26px 0px 0px 20px;
-    
-    }
-    
-    
-    .general{
-        height: 270px;
-        width: 300px;
-        background-color: white;
-        position: absolute;
-        top:32%;
-        left: 5%;
-        z-index: 100;
-        border: 1px solid #e6e5e4;
-        border-radius: 4px;
-    
-    }
-    
-    
-    .contenedor{
-        height: 210px;
-        width: 300px;
-        background-color: white;
-        position: absolute;
-        top:42%;
-        left: 5%;
-        z-index: 100;
-        border: 1px solid #e6e5e4;
-        border-radius: 4px;
-        overflow-y: scroll
-    
-    }
-    
-    #Title{
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 28px;
-        color:#699742;
-        height: 80px;
-        padding-top: 22px;
-        padding-left: 20px;
-        border-bottom: 1px solid #e6e5e4;
-    }
-    
-    #Usuarios{
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 20px;
-        height: 45px;
-        border-bottom: 1px solid #e6e5e4;
-        color:#211915;
-        padding-top: 10px;
-        padding-left: 20px;
-    }
-    
-    #UsuariosActive{
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 20px;
-        height: 45px;
-        color:#211915;
-        border-left: 6px solid #537bb8;
-        border-bottom: 1px solid #e6e5e4;
-        padding-top: 9px;
-        padding-left: 20px;
-    }
-
-    #BoxUser{
-        height: 50px;
-        width: 300px;
-        background-color: white;
-        position: absolute;
-        top:40%;
-        left: 5%;
-        z-index: 100;
-        border: 1px solid #e6e5e4;
-        border-radius: 4px;
-    
-    }
-
-    .map {
-            min-height: 1080px;
-           
-        }
-    
-    #UsuariosImg{
-        
-        float:right;
-        margin-right: 15px;
-    }
-    
-    a{
-        color:#211915;
-    }
-    
-    a:hover{
-        text-decoration: none;
-    }
-    
-    /* width */
-    ::-webkit-scrollbar {
-        width: 10px;
-    }
-    
-    /* Track */
-    ::-webkit-scrollbar-track {
-        background: #f1f1f1; 
-    }
-     
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-        background: #bfbfbe; 
-    }
-    
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-        background: #bfbfbe; 
-    }
-    
-    
-    }
-    
-    /* Adaptando diseño a todos los dispositivos */
-    
-
-    /* Responsive */
-
-@media only screen and (max-height: 600px) {
-
-
-    #boxTitle{
-        height: 50px;
-        width: 300px;
-        background-color: white;
-        position: absolute;
-        top:10%;
-        left: 5%;
-        z-index: 100;
-        border: 1px solid #e6e5e4;
-        border-radius: 4px;
-    
-    }
-    
-    #UsuariosBoxTitle{
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 28px;
-        height: 50px;
-        color:#699742;
-        padding-top: 6px;
-        padding-left: 15px;
-    }
-    
-    #boxSearch{
-        height: 88px;
-        width: 300px;
-        background-color: white;
-        position: absolute;
-        top:20%;
-        left: 5%;
-        z-index: 100;
-        border: 1px solid #e6e5e4;
-        border-radius: 4px;
-        border-left: 6px solid #699742;
-        padding: 26px 0px 0px 20px;
-    
-    }
-    
-    
-    .general{
-        height: 270px;
-        width: 300px;
-        background-color: white;
-        position: absolute;
-        top:36%;
-        left: 5%;
-        z-index: 100;
-        border: 1px solid #e6e5e4;
-        border-radius: 4px;
-    
-    }
-    
-    
-    .contenedor{
-        height: 210px;
-        width: 300px;
-        background-color: white;
-        position: absolute;
-        top:49%;
-        left: 5%;
-        z-index: 100;
-        border: 1px solid #e6e5e4;
-        border-radius: 4px;
-        overflow-y: scroll
-    
-    }
-    
-    #Title{
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 28px;
-        color:#699742;
-        height: 80px;
-        padding-top: 22px;
-        padding-left: 20px;
-        border-bottom: 1px solid #e6e5e4;
-    }
-    
-    #Usuarios{
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 20px;
-        height: 45px;
-        border-bottom: 1px solid #e6e5e4;
-        color:#211915;
-        padding-top: 10px;
-        padding-left: 20px;
-    }
-    
-    #UsuariosActive{
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 20px;
-        height: 45px;
-        color:#211915;
-        border-left: 6px solid #537bb8;
-        border-bottom: 1px solid #e6e5e4;
-        padding-top: 9px;
-        padding-left: 20px;
-    }
-
-    #BoxUser{
-        height: 50px;
-        width: 300px;
-        background-color: white;
-        position: absolute;
-        top:40%;
-        left: 5%;
-        z-index: 100;
-        border: 1px solid #e6e5e4;
-        border-radius: 4px;
-    
-    }
-
-    .map {
-            min-height: 1080px;
-           
-        }
-    
-    #UsuariosImg{
-        
-        float:right;
-        margin-right: 15px;
-    }
-    
-    a{
-        color:#211915;
-    }
-    
-    a:hover{
-        text-decoration: none;
-    }
-    
-    /* width */
-    ::-webkit-scrollbar {
-        width: 10px;
-    }
-    
-    /* Track */
-    ::-webkit-scrollbar-track {
-        background: #f1f1f1; 
-    }
-     
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-        background: #bfbfbe; 
-    }
-    
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-        background: #bfbfbe; 
-    }
-    
-    
-    }
-    
-    /* Adaptando diseño a todos los dispositivos */
-    
