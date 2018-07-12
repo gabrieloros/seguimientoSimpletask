@@ -2,50 +2,94 @@
 
 
 
-<div class="wrapper">    
+<div class="wrapper">  
 
-    <div id="boxTitle">
-        <div id="UsuariosBoxTitle">Godoy Cruz</div>
-      </div>
-
-      
-
-      <div class="general" >
-          <div id="Title">Lista de Usuariosss</div>
-      </div>
-      
-      <div class="contenedor">
-
-      <div id="Usuarios" ng-repeat="user in datosResource| filter:filtro" style="clear: both;" >
-          <div ng-controller="controladorMapa as contMap">
-              <a style="color:#211915;"> {{user.name}} {{user.surname}}</a>
-              <div id="UsuariosImg">
-              
-              <a href="#" ng-show=" contMap.userActive == false" ng-click="contMap.contenidoMap(user.name,user.surname,user.id,user.identikey)"><img src="app/template/img/eye.png"></a>
-              <a href="#" ng-show=" contMap.userActive == true" ng-click="contMap.closeContentMap()"><img src="app/template/img/eye1.png"></a>
-
-              <a href="#" ng-show="contMap.active == true" ng-click="contMap.deleteClaimsFinish()"><img src="app/template/img/icon1.png"></a>
-              <a href="#" ng-show="contMap.active == false" ng-click="contMap.getClaimsFinishClose()"><img src="app/template/img/icon3.png"></a>
-
-              <a href="#"ng-show="contMap.asignadosClaims == true" ng-click="contMap.deleteClaim()"><img src="app/template/img/icon2.png"></a>
-              <a href="#"ng-show="contMap.asignadosClaims == false" ng-click="contMap.viewClaim()"><img src="app/template/img/icon3.png"></a>
-              </div>
-          </div>
-      </div>
-
-      
-      
-      <!-- <div id="UsuariosActive"><a style="color:#211915;" href="#">Facundo Acevedo</a>
-        <div id="UsuariosImg">
-            <a href="#"><img src="app/template/img/eye.png"></a>
-            <a href="#"><img src="../template/img/icon1.png"></a>
-            <a href="#"><img src="../template/img/icon2.png"></a>
-            </div>
-          </div> -->
-  
-      
+    <div class="Box1">
+        <div class="img"><img src="app/template/img/truck-chico.png"></div>
+        <div class="titulo">Seguimiento Godoy Cruz</div>
+        <div class="img2"><a href="#"><img src="app/template/img/arrow.png"></a></div>
     </div>
+    <div class="Box2">
+        <button>ver</button>
+        <div class="terminadas">42045</div>
+        <div class="pendientes">12545</div>
+    </div>
+    <div class="Box3">
+        <div class="titulo">Total Proyecto</div>
+        <button>ver</button>
+        <div class="terminadas">42045</div>
+        <div class="pendientes">12545</div>
+        <div class="date">21 / 12 / 1981 12:20</div>
+
+    </div>
+
+    <div class="Box4">
+
+            <div class="Box5">
+                    <div class="titulo">Mario Perez</div>
+                    <div class="cerrar"><a href="#"><img src="app/template/img/cerrar.png"></a></div>
+                    <div class="terminadas">42045</div>
+                    <div class="pendientes">12545</div>
+                    <div class="date">21 / 12 / 1981 12:20</div>
+            </div>
+            <div class="Box5">
+                    <div class="titulo">Diego Sanchez</div>
+                    <div class="cerrar"><a href="#"><img src="app/template/img/cerrar.png"></a></div>
+                    <div class="terminadas">42045</div>
+                    <div class="pendientes">12545</div>
+                    <div class="date">21 / 12 / 1981 12:20</div>
+            </div>
+            <div class="Box5">
+                    <div class="titulo">Mario Vilches</div>
+                    <div class="cerrar"><a href="#"><img src="app/template/img/cerrar.png"></a></div>
+                    <div class="terminadas">42045</div>
+                    <div class="pendientes">12545</div>
+                    <div class="date">21 / 12 / 1981 12:20</div>
+            </div>
+            <div class="Box5">
+                    <div class="titulo">Sergio Mendez</div>
+                    <div class="cerrar"><a href="#"><img src="app/template/img/cerrar.png"></a></div>
+                    <div class="terminadas">42045</div>
+                    <div class="pendientes">12545</div>
+                    <div class="date">21 / 12 / 1981 12:20</div>
+            </div>
+            <div class="Box5">
+                    <div class="titulo">Adrián Lopez</div>
+                    <div class="cerrar"><a href="#"><img src="app/template/img/cerrar.png"></a></div>
+                    <div class="terminadas">42045</div>
+                    <div class="pendientes">12545</div>
+                    <div class="date">21 / 12 / 1981 12:20</div>
+            </div>
+            <div class="Box5">
+                    <div class="titulo">Sandro Martinez</div>
+                    <div class="cerrar"><a href="#"><img src="app/template/img/cerrar.png"></a></div>
+                    <div class="terminadas">42045</div>
+                    <div class="pendientes">12545</div>
+                    <div class="date">21 / 12 / 1981 12:20</div>
+            </div>
+            
+
+    </div>
+
+    <div class="Box6">
+            <div class="titulo">Agregar Usuarios</div>
+    </div>
+
     
+    <div class="Box7">
+        <div class="Box8">
+            <div class="flecha"><img src="app/template/img/flecha.png"></div>
+            <div class="terminadas">42045</div>
+            <div class="pendientes">12545</div>
+            <div class="nombre">Marcos Díaz</div>
+    
+        </div>
+        
+    </div>
+
+
+    
+          
 </div>
 
     <div id="main"  ng-app="mapa">
