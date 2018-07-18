@@ -25,49 +25,14 @@
 
     <div class="Box4">
 
-            <div class="Box5">
-                    <div class="titulo">Mario Perez</div>
-                    <div class="cerrar"><a href="#"><img src="app/template/img/cerrar.png"></a></div>
-                    <div class="terminadas">42045</div>
-                    <div class="pendientes">12545</div>
-                    <div class="date">21 / 12 / 1981 12:20</div>
+            <div class="Box5" ng-repeat="selectedUser in selectedUsers track by $index">
+                    <div class="titulo">{{ selectedUser.full_name }}</div>
+                    <div class="cerrar"><a href="#" ng-click="removeUser(selectedUser)"><img src="app/template/img/cerrar.png"></a></div>
+                    <div class="terminadas">{{ selectedUser.completed_claims }}</div>
+                    <div class="pendientes">{{ selectedUser.pending_claims }}</div>
+                    <div class="date">{{ selectedUser.last_position_date | date:'dd-MM-yyyy HH:mm:ss' }}</div>
             </div>
-            <div class="Box5">
-                    <div class="titulo">Diego Sanchez</div>
-                    <div class="cerrar"><a href="#"><img src="app/template/img/cerrar.png"></a></div>
-                    <div class="terminadas">42045</div>
-                    <div class="pendientes">12545</div>
-                    <div class="date">21 / 12 / 1981 12:20</div>
-            </div>
-            <div class="Box5">
-                    <div class="titulo">Mario Vilches</div>
-                    <div class="cerrar"><a href="#"><img src="app/template/img/cerrar.png"></a></div>
-                    <div class="terminadas">42045</div>
-                    <div class="pendientes">12545</div>
-                    <div class="date">21 / 12 / 1981 12:20</div>
-            </div>
-            <div class="Box5">
-                    <div class="titulo">Sergio Mendez</div>
-                    <div class="cerrar"><a href="#"><img src="app/template/img/cerrar.png"></a></div>
-                    <div class="terminadas">42045</div>
-                    <div class="pendientes">12545</div>
-                    <div class="date">21 / 12 / 1981 12:20</div>
-            </div>
-            <div class="Box5">
-                    <div class="titulo">Adrián Lopez</div>
-                    <div class="cerrar"><a href="#"><img src="app/template/img/cerrar.png"></a></div>
-                    <div class="terminadas">42045</div>
-                    <div class="pendientes">12545</div>
-                    <div class="date">21 / 12 / 1981 12:20</div>
-            </div>
-            <div class="Box5">
-                    <div class="titulo">Sandro Martinez</div>
-                    <div class="cerrar"><a href="#"><img src="app/template/img/cerrar.png"></a></div>
-                    <div class="terminadas">42045</div>
-                    <div class="pendientes">12545</div>
-                    <div class="date">21 / 12 / 1981 12:20</div>
-            </div>
-            
+                      
 
     </div>
 
@@ -77,51 +42,17 @@
 
     
     <div class="Box7">
-        <div class="Box8">
-            <div class="flecha"><img src="app/template/img/flecha.png"></div>
-            <div class="terminadas">42045</div>
-            <div class="pendientes">12545</div>
-            <div class="nombre">Marcos Díaz</div>
-    
-        </div>
-        <div class="Box8">
-            <div class="flecha"><img src="app/template/img/flecha.png"></div>
-            <div class="terminadas">42045</div>
-            <div class="pendientes">12545</div>
-            <div class="nombre">Sergio Ramos</div>
-    
-        </div>
-        <div class="Box8">
-            <div class="flecha"><img src="app/template/img/flecha.png"></div>
-            <div class="terminadas">42045</div>
-            <div class="pendientes">12545</div>
-            <div class="nombre">Celia Díaz</div>
-    
-        </div>
-        <div class="Box8">
-            <div class="flecha"><img src="app/template/img/flecha.png"></div>
-            <div class="terminadas">42045</div>
-            <div class="pendientes">12545</div>
-            <div class="nombre">Cecilia Perez</div>
-    
-        </div>
-        <div class="Box8">
-            <div class="flecha"><img src="app/template/img/flecha.png"></div>
-            <div class="terminadas">42045</div>
-            <div class="pendientes">12545</div>
-            <div class="nombre">Analia Gomez</div>
-    
-        </div>
-        
-    </div>
-
-
-    
-          
+        <div class="Box8" ng-repeat="freeUser in freeUsers track by $index">
+            <div class="flecha"><a href="#" ng-click="selectUser(freeUser)"><img src="app/template/img/flecha.png"></img></a></div>
+            <div class="terminadas">{{ freeUser.completed_claims }}</div>
+            <div class="pendientes">{{ freeUser.pending_claims }}</div>
+            <div class="nombre">{{ freeUser.full_name }}</div>    
+        </div>   
+    </div>       
 </div>
 
     <div id="main"  ng-app="mapa">
-        <div ng-controller="controladorMapa as contMap">
+        <div>
             <div id="map" class="map"> </div>
             <div id="repeat" ng-repeat="marker in $rootScope.markers | orderBy : 'title'">
                 <a id="country_container" href="#" ng-click="openInfoWindow($event, marker)"><label id="names" >{{marker.title}}</label></a>

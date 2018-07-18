@@ -13,7 +13,7 @@
     function serviceUser($resource) {
 
 
-        var resourceUrl =  'http://192.168.1.109:8089/SimpleTask_Rest/adr/service/positionUser/:id';
+        var resourceUrl =  'http://godoycruz.simpletask.com.ar:8080/Simpletask_Rest_GC/adr/service/positionUser/:id';
 
         return $resource(resourceUrl,{},
 
