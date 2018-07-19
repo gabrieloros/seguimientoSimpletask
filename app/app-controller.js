@@ -89,10 +89,10 @@
                 user_id: user.id,
                 type: "position"
             });
-            markerUser.content = '<div class="infoWindowContent" style="color: #0f0f0f">' + date + '  </div>';
+            markerUser.content = '<div class="infoWindowContent" style="color: #0f0f0f">' + date + ' hs</div>';
 
             google.maps.event.addListener(markerUser, 'click', function () {
-                infoWindow.setContent('<h2 style="color: #0f0f0f">' + markerUser.title + '</h2>' +
+                infoWindow.setContent('<h4 style="color: #0f0f0f">' + markerUser.title + '</h4>' +
                     markerUser.content);
                 infoWindow.open($rootScope.map, markerUser);
             });
@@ -120,7 +120,7 @@
             });
 
             google.maps.event.addListener(marker, 'click', function () {
-                infoWindow.setContent('<h2 style="color: #0f0f0f">' + marker.title + '</h2>' +
+                infoWindow.setContent('<h4 style="color: #0f0f0f">' + marker.title + '</h4>' +
                     marker.content);
                 infoWindow.open($rootScope.map, marker);
             });
