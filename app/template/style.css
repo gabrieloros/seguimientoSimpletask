@@ -3,7 +3,7 @@
 
 .wrapper{
     
-    height: 620px;
+    height: 530px;
     width: 300px;
     background-color: white;
     position: absolute;
@@ -166,7 +166,7 @@ button{
 
 .Box4{
     width: 298px;
-    height: 250px;
+    height: 180px;
     background-color: #e5e4e2;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -224,7 +224,7 @@ button{
 
 .Box7{
     width: 298px;
-    height: 155px;
+    height: 120px;
     background-color: #ffffff;
     overflow-y: scroll;
     overflow-x: hidden;
