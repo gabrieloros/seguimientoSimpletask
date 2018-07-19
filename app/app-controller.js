@@ -90,10 +90,10 @@
                 type: "position"
             });
             markerUser.content = '<div class="infoWindowContent" style="color: #0f0f0f">' + date + ' hs</div>';
+            infoWindow.setContent('<b style="color: #0f0f0f">' + markerUser.title + '</b>');
+            infoWindow.open($rootScope.map, markerUser);
 
             google.maps.event.addListener(markerUser, 'click', function () {
-                infoWindow.setContent('<h4 style="color: #0f0f0f">' + markerUser.title + '</h4>' +
-                    markerUser.content);
                 infoWindow.open($rootScope.map, markerUser);
             });
             $rootScope.markers.push(markerUser);
@@ -237,7 +237,7 @@
         }
         $scope.getResumen();
         $interval( function(){ $scope.getResumen(); }, 5000);
-        $interval( function(){ $scope.getClaims(); }, 5000);
+        $interval( function(){ $scope.getClaims(); }, 15000);
         
 
 

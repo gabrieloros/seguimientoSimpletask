@@ -279,6 +279,7 @@ button{
     top:70%;
     right: 10%;
     z-index: 100;
+    font-weight: bold;
 }
 
 .circulos .pendientes {
@@ -333,8 +334,6 @@ button{
       font-size: 12px;
     
 }
-
-
 
 .map {
     position: absolute;
