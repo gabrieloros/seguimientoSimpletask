@@ -17,9 +17,9 @@
     <div class="Box3">
         <div class="titulo">Proyecto Lugano</div>
         <button>ver</button>
-        <div class="terminadas">42000</div>
-        <div class="pendientes">10000</div>
-        <div class="totales">Total: 52000</div>
+        <div class="terminadas">{{ proyectCompletedClaims }}</div>
+        <div class="pendientes">{{ proyectPendingClaims }}</div>
+        <div class="totales">Total: {{ proyectPendingClaims + proyectCompletedClaims }}</div>
 
     </div>
 
@@ -48,7 +48,8 @@
             <div class="pendientes">{{ freeUser.pending_claims }}</div>
             <div class="nombre">{{ freeUser.full_name }}</div>    
         </div>   
-    </div>       
+    </div> 
+      
 </div>
 
     <div id="main"  ng-app="mapa">

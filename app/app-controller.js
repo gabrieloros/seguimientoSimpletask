@@ -9,6 +9,7 @@
         appController.$inject = ['$rootScope','$scope','$http', '$filter', '$interval', 'statusServiceTest'];
 
     function appController($rootScope, $scope, $http, $filter, $interval, statusServiceTest) {
+
         $rootScope.markers = [];
         $scope.selectedUsers = [];
         $scope.freeUsers = [];
@@ -16,6 +17,8 @@
         $scope.claims = [];
         $scope.completedClaims = 0;
         $scope.pendingClaims = 0;
+        $scope.proyectPendingClaims = 0;
+        $scope.proyectCompletedClaims = 0;
 
         var proyectTest = {
             id: 1,
@@ -59,6 +62,7 @@
                         $scope.freeUsers.push(value);
                     });
                     drawPositionMarkers();
+                    updateSeletedData();
                 }else{
                     newDataCount = newDataCount - 1;
                 }
@@ -176,17 +180,42 @@
             });
         }
 
+        var updatePendingClaims = function(){
+            $scope.pendingClaims = $scope.selectedUsers.sum('pending_claims');
+        }
+
+        var updateCompletedClaims = function(){
+            $scope.completedClaims = $scope.selectedUsers.sum('completed_claims');
+        }
+
+        var updateProyectPendingClaims = function(){
+            $scope.proyectPendingClaims = $scope.allUsers.sum('pending_claims');
+        }
+
+        var updateProyectCompletedClaims = function(){
+            $scope.proyectCompletedClaims = $scope.allUsers.sum('completed_claims');
+        }
+
+        var updateSeletedData = function(){
+            updatePendingClaims();
+            updateCompletedClaims();
+            updateProyectPendingClaims();
+            updateProyectCompletedClaims();
+        }
+
         $scope.selectUser = function(user){
             $scope.selectedUsers.push(user);
             $scope.freeUsers = $filter('filter')($scope.freeUsers, {id: '!' + user.id })
             createPositionMarkerFromUser(user);
             $scope.getClaims();
+            updateSeletedData();
         }
         
         $scope.removeUser = function(user){
             $scope.selectedUsers = $filter('filter')($scope.selectedUsers, {id: '!' + user.id })
             $scope.freeUsers.push(user);
-            deleteInfoUser(user);        
+            deleteInfoUser(user);
+            updateSeletedData();        
         }
         
         $scope.getClaims = function(){
