@@ -8,7 +8,7 @@
           var resource = $resource(route, {},
             {
               'getResumenUsers': { url: route + "userList/:proyectId", method: 'GET', proyectId: '@proyectId' },
-              'getClaimsFromUsers': { url: route + "claimsList/1", method: 'GET'},
+              'getClaimsFromUsers': { url: route + "claimsList/:proyectId", method: 'GET', proyectId: '@proyectId'},
               'getProyects': { url: route + "proyectList", method: 'GET'}
             });
           return resource;

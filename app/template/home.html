@@ -5,35 +5,31 @@
 <div class="wrapper">  
 
     <div class="Box1">
-        <div class="titulo">Seguimiento Godoy Cruz</div>
-        
+        <div class="titulo">{{ instalation.name }}</div>   
     </div>
     <div class="Box2">
-        <button>ver</button>
-        <div class="terminadas">50000</div>
-        <div class="pendientes">20000</div>
-        <div class="totales">Total: 70000</div>
+        <!--<button>ver</button>-->
+        <div class="terminadas">{{ instalation.total_completed_claims }}</div>
+        <div class="pendientes">{{ instalation.total_pending_claims }}</div>
+        <div class="totales">Total: {{ instalation.total_completed_claims + instalation.total_pending_claims }}</div>
     </div>
+
     <div class="Box3">
-        <div class="titulo">{{ currentProyectName }}</div>
-        <button>ver</button>
+        <div class="titulo">{{ currentProyectName }}</div>       
+        <!--<button>ver</button> -->
         <div class="terminadas">{{ proyectCompletedClaims }}</div>
         <div class="pendientes">{{ proyectPendingClaims }}</div>
         <div class="totales">Total: {{ proyectPendingClaims + proyectCompletedClaims }}</div>
-
     </div>
 
     <div class="Box4">
-
-            <div class="Box5" ng-repeat="selectedUser in selectedUsers track by $index">
-                    <div class="titulo">{{ selectedUser.full_name }}</div>
-                    <div class="cerrar"><a href="#" ng-click="removeUser(selectedUser)"><img src="app/template/img/cerrar.png"></a></div>
-                    <div class="terminadas">{{ selectedUser.completed_claims }}</div>
-                    <div class="pendientes">{{ selectedUser.pending_claims }}</div>
-                    <div class="date">{{ selectedUser.last_position_date | date:'dd-MM-yyyy HH:mm:ss' }} hs</div>
-            </div>
-                      
-
+      <div class="Box5" ng-repeat="selectedUser in selectedUsers track by $index">
+        <div class="titulo">{{ selectedUser.full_name }}</div>
+        <div class="cerrar"><a href="#" ng-click="removeUser(selectedUser)"><img src="app/template/img/cerrar.png"></a></div>
+        <div class="terminadas">{{ selectedUser.completed_claims }}</div>
+        <div class="pendientes">{{ selectedUser.pending_claims }}</div>
+        <div class="date">{{ selectedUser.last_position_date | date:'dd-MM-yyyy HH:mm:ss' }} hs</div>
+      </div>                     
     </div>
 
     <div class="Box6">
@@ -48,8 +44,7 @@
             <div class="pendientes">{{ freeUser.pending_claims }}</div>
             <div class="nombre">{{ freeUser.full_name }}</div>    
         </div>   
-    </div> 
-      
+    </div>  
 </div>
 
     <div class="circulos">

@@ -21,6 +21,9 @@
         $scope.currentProyectName = "";
         $scope.proyectPendingClaims = 0;
         $scope.proyectCompletedClaims = 0;
+        $scope.totalPendingClaims = 0;
+        $scope.instalation = null;
+        $scope.proyects = null;
 
         var mapOptions = {
             zoom: 13,
@@ -217,7 +220,7 @@
             var userSelectedIds = $scope.selectedUsers.map(function (user) {
                 return user.id;
               });
-            statusService.getClaimsFromUsers({'ids[]': userSelectedIds}, function(response){
+            statusService.getClaimsFromUsers({proyectId: $scope.currentProyectId, 'ids[]': userSelectedIds}, function(response){
                 $scope.claims = response.data;
                 drawClaimMarkers();
             }, function(error){
@@ -236,10 +239,12 @@
 
         $scope.getProyects = function(){
             statusService.getProyects({}, function(response){
-                $scope.currentProyectId = response.data.id;
-                $scope.proyectPendingClaims = response.data.pending_claims;
-                $scope.proyectCompletedClaims = response.data.completed_claims;
-                $scope.currentProyectName = response.data.name;
+                $scope.instalation = response.data[0];
+                var proyects = response.data[1]
+                $scope.currentProyectId = proyects[0].id;
+                $scope.proyectPendingClaims = proyects[0].pending_claims;
+                $scope.proyectCompletedClaims = proyects[0].completed_claims;
+                $scope.currentProyectName = proyects[0].name;
                 $scope.getResumen();                
             }, function(error){
                 console.log(error);
