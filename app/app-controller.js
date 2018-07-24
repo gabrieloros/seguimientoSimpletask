@@ -6,9 +6,9 @@
         .module('app')
         .controller('appController', appController);
 
-        appController.$inject = ['$rootScope','$scope','$http', '$filter', '$interval', 'statusServiceTest'];
+        appController.$inject = ['$rootScope','$scope','$http', '$filter', '$interval', 'statusService'];
 
-    function appController($rootScope, $scope, $http, $filter, $interval, statusServiceTest) {
+    function appController($rootScope, $scope, $http, $filter, $interval, statusService) {
 
         $rootScope.markers = [];
         $scope.selectedUsers = [];
@@ -17,15 +17,10 @@
         $scope.claims = [];
         $scope.completedClaims = 0;
         $scope.pendingClaims = 0;
+        $scope.currentProyectId = 0;
+        $scope.currentProyectName = "";
         $scope.proyectPendingClaims = 0;
         $scope.proyectCompletedClaims = 0;
-
-        var proyectTest = {
-            id: 1,
-            name: "Proyecto",
-            pending_claims: 1234,
-            completed_claims: 2222
-        }
 
         var mapOptions = {
             zoom: 13,
@@ -102,7 +97,7 @@
         var createClaimMarker = function (claim) {           
             var infoWindow = new google.maps.InfoWindow();
             var claimIcon = {
-                url: 'app/mapa/imagen/'+ (claim.status == 'pending' ? 'claimPending-new' : 'claimClose-new') +'.png',
+                url: 'app/mapa/imagen/'+ (claim.status == 'pending' ? 'red' : 'green') +'.png',
                 size: new google.maps.Size(40, 52),
                 origin: new google.maps.Point(0, 0),
                 anchor: new google.maps.Point(12, 40)
@@ -219,28 +214,40 @@
         }
         
         $scope.getClaims = function(){
-            statusServiceTest.getClaimsFromUsers($scope.selectedUsers).then(function (response) {
+            var userSelectedIds = $scope.selectedUsers.map(function (user) {
+                return user.id;
+              });
+            statusService.getClaimsFromUsers({'ids[]': userSelectedIds}, function(response){
                 $scope.claims = response.data;
                 drawClaimMarkers();
-            },function(error){
+            }, function(error){
                 console.log(error);
-            });  
+            }); 
         }
 
         $scope.getResumen = function(){
-            statusServiceTest.getResumenUsers().then(function (response) {
+            statusService.getResumenUsers({proyectId: $scope.currentProyectId}, function(response){
                 $scope.allUsers = response.data;
                 updateResumenData(response.data);
-            },function(error){
+            }, function(error){
                 console.log(error);
             });
         }
-        $scope.getResumen();
+
+        $scope.getProyects = function(){
+            statusService.getProyects({}, function(response){
+                $scope.currentProyectId = response.data.id;
+                $scope.proyectPendingClaims = response.data.pending_claims;
+                $scope.proyectCompletedClaims = response.data.completed_claims;
+                $scope.currentProyectName = response.data.name;
+                $scope.getResumen();                
+            }, function(error){
+                console.log(error);
+            });
+        }
+        $scope.getProyects();
         $interval( function(){ $scope.getResumen(); }, 5000);
         $interval( function(){ $scope.getClaims(); }, 15000);
-        
-
-
     }
 
 })();
