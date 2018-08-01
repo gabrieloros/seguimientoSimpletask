@@ -13,7 +13,7 @@
     function servicePath($resource) {
 
 
-        var resourceUrl =  'http://192.168.1.104:8089/SimpleTask_Rest/adr/service/positionsPath/:id';
+        var resourceUrl =  'http://192.168.1.109:8089/SimpleTask_Rest/adr/service/positionsPath/:id';
 
         return $resource(resourceUrl,{},
 

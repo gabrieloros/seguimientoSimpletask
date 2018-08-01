@@ -1,0 +1,367 @@
+
+/* Responsive */
+
+.wrapper{
+    
+    height: 620px;
+    width: 300px;
+    background-color: white;
+    position: absolute;
+    top:10%;
+    left: 2%;
+    z-index: 100;
+    border: 1px solid #e6e5e4;
+    border-radius: 4px;
+    box-shadow: 5px 10px 18px #888888;
+}
+
+.Box1{
+
+    width:298px;
+    height: 50px;
+
+}
+
+.Box1 .img{
+    width: 50px;
+    float: left;
+    padding: 10px 0px 0px 10px;
+}
+
+.Box1 .titulo {
+    width: 250px;
+    float: left;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
+    font-weight: bold;
+    padding: 15px 0px 0px 10px;
+
+}
+
+.Box1 .img2{
+    width: 20px;
+    float: left;
+    padding: 15px 0px 0px 10px;
+}
+
+.Box2{
+
+    width:298px;
+    height: 30px;
+    border-bottom: 1px solid #e6e5e4;
+
+}
+
+.Box2 .pendientes{
+
+    width:50px;
+    float: right;
+    font-family: Arial, Helvetica, sans-serif;
+    text-decoration: black;
+    color:#c85327;
+    font-size: 18px;
+    margin-right: 10px;
+    padding: 0px 0px 0px 0px;
+
+    
+}
+
+.Box2 .terminadas{
+
+    width:50px;
+    float: right;
+    color:#7fb147;
+    font-family: Arial, Helvetica, sans-serif;
+    text-decoration: black;
+    font-size: 18px;
+    margin-right: 10px;
+    padding: 0px 0px 0px 0px;
+
+    
+}
+
+.pendientes{
+
+    width:50px;
+    float: right;
+    font-family: Arial, Helvetica, sans-serif;
+    text-decoration: black;
+    color:#c85327;
+    font-size: 18px;
+    margin-right: 10px;
+    padding: 3px 0px 0px 0px;
+
+    
+}
+
+.terminadas{
+
+    width:50px;
+    float: right;
+    color:#7fb147;
+    font-family: Arial, Helvetica, sans-serif;
+    text-decoration: black;
+    font-size: 18px;
+    margin-right: 10px;
+    padding: 3px 0px 0px 0px;
+
+    
+}
+
+button{
+
+    background-color: #7fb147;
+    border: none;
+    color: white;
+    margin: 0px 10px 0px 0px;
+    float: right;
+
+    
+}
+
+.totales{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18px;
+    margin:5px 0px 0px 10px;
+
+}
+
+.Box3{
+
+    width:298px;
+    height: 60px;
+    border-bottom: 1px solid #e6e5e4;
+
+}
+
+.Box3 button{
+    margin: 2px 10px 0px 0px;
+}
+
+
+
+.Box3 .titulo{
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    padding: 8px 0px 0px 10px;
+    font-weight: bold;
+}
+
+
+.Box3 .totales{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    margin:5px 0px 0px 10px;
+
+}
+
+.Box3 .date {
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    padding: 7px 0px 0px 10px;
+}
+
+.Box4{
+    width: 298px;
+    height: 250px;
+    background-color: #e5e4e2;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+}
+
+.Box5{
+
+    width:285px;
+    height: 60px;
+    border-bottom: 1px solid #b6b6b7;
+
+}
+
+
+
+.Box5 .cerrar{
+
+    float:right;
+ }
+
+.Box5 .titulo{
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    padding: 8px 0px 0px 10px;
+    font-weight: bold;
+}
+
+
+.Box5 .date {
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    padding: 10px 0px 0px 10px;
+}
+
+
+.Box6{
+
+    width:298px;
+    height: 60px;
+    border-bottom: 1px solid #e6e5e4;
+    margin:0px 0px 0px 0px;
+}
+
+.Box6 .titulo{
+    
+    float: left;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 18px 0px 0px 10px;
+}
+
+.Box7{
+    width: 298px;
+    height: 155px;
+    background-color: #ffffff;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.Box8{
+
+    width:285px;
+    height: 40px;
+    border-bottom: 1px solid #e6e5e4;
+
+}
+
+.Box8 .nombre {
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    padding: 12px 0px 0px 10px;
+}
+
+.Box8 .terminadas {
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    padding: 12px 0px 0px 10px;
+    font-weight: bold;
+}
+
+.Box8 .pendientes {
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    padding: 12px 0px 0px 0px;
+    font-weight: bold;
+}
+
+.Box8 .flecha{
+
+    margin: 8px 10px 0px 0px;
+    float: right;
+
+    
+}
+
+
+.circulos{
+    
+    height: 100px;
+    width: 220px;
+    position: absolute;
+    float: right;
+    top:70%;
+    right: 10%;
+    z-index: 100;
+    font-weight: bold;
+}
+
+.circulos .pendientes {
+    width: 100px;
+    height: 100px;
+    background-color: #c85327;
+    border-radius: 100px;
+    text-align: center;
+    
+  }
+
+  .circulos .pendientes .valor {
+
+      color:#ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 20px;
+      margin: 20px 0px 0px 0px;
+    
+}
+
+.circulos .pendientes .estado {
+
+      color:#ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+    
+}
+
+.circulos .terminados {
+    width: 100px;
+    height: 100px;
+    background-color: #7fb147;
+    border-radius: 100px;
+    text-align: center;
+    float: left;
+    
+  }
+
+  .circulos .terminados .valor {
+
+      color:#ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 20px;
+      margin: 20px 0px 0px 0px;
+    
+}
+
+.circulos .terminados .estado {
+
+      color:#ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+    
+}
+
+.map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+       
+    }
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #bfbfbe; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #bfbfbe; 
+}
+
+

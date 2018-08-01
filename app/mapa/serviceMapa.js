@@ -13,7 +13,7 @@
 
     function serviceMapa($resource) {
 
-        var resourceUrl =  'http://192.168.1.104:8089/SimpleTask_Rest/adr/service/getMarkers/:id';
+        var resourceUrl =  'http://192.168.1.109:8089/SimpleTask_Rest/adr/service/getMarkers/:id';
 
         return $resource(resourceUrl,{},
 

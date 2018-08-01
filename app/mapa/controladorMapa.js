@@ -15,7 +15,8 @@
 
         var contMap = this;
 
-        $rootScope.asignadosClaims = false;
+        contMap.asignadosClaims = false;
+        contMap.userActive = false;
 
 
         var mapOptions = {
@@ -23,14 +24,24 @@
             center: new google.maps.LatLng(-32.885, -68.8422),
             mapTypeId: google.maps.MapTypeId.ROADMAP
         }
-
+        $rootScope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+        
+      
         contMap.contenidoMap = function (nameOperario, surnameOperario, idUser, identikey) {
+            contMap.asignadosClaims = false;
+             contMap.userActive = false;
+            if($rootScope.markers != null){
+                contMap.clearPoints();
+                        $rootScope.idUser = null;
+                      $rootScope.identikey = null;
+            }
+                        contMap.userActive = true;
                       $rootScope.nameOperario = nameOperario +''+ surnameOperario;
                       $rootScope.idUser = idUser;
                       $rootScope.identikey = identikey;
-
+                    
                       console.log("identikey "+ $rootScope.identikey);
-            $rootScope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+            
 
             var locationUser = function (idUser) {
 
@@ -70,7 +81,7 @@
                     contMap.dataMarkers = response.data;
                     if (contMap.dataMarkers != null) {
                         if(contMap.dataMarkers.length != 0){
-                            $rootScope.asignadosClaims = true;
+                            contMap.asignadosClaims = true;
                             var i = 0;
 
                             for (i; i < contMap.dataMarkers.length; i++) {
@@ -79,7 +90,7 @@
                             }
 
                         }else {
-                            $rootScope.asignadosClaims = false;
+                            contMap.asignadosClaims = false;
                             alert("No se encontraron Reclamos Asignados para este Usuario... ");
                         }
 
@@ -95,6 +106,7 @@
             var infoWindow = new google.maps.InfoWindow();
 
             $rootScope.markers = [];
+    
             var flightPlanCoordinates = [];
 
 
@@ -145,9 +157,9 @@
                 var image = {
 
                     url: 'app/mapa/imagen/positionUser.png',
-                    size: new google.maps.Size(80, 104),
+                    size: new google.maps.Size(40, 52),
                     origin: new google.maps.Point(0, 0),
-                    anchor: new google.maps.Point(24, 80)
+                    anchor: new google.maps.Point(12, 40)
                 };
 
                 /* var fecha = setTime(data.date);*/
@@ -314,10 +326,10 @@
 
         }
         contMap.deleteClaim=function() {
-            $rootScope.asignadosClaims = false;
+            contMap.asignadosClaims = false;
             for (var i = 0; i < $rootScope.markers.length; i++) {
                 if ($rootScope.markers[i].title != $rootScope.dataTitle) {
-                    $rootScope.markers[i].setMap(null);
+                    contMap.clearPoints();
                 }
             }
         }
@@ -327,6 +339,23 @@
             $rootScope.claimAssigned($rootScope.identikey);
         }
 
+        contMap.closeContentMap = function (){
+
+           
+            contMap.clearPoints();
+
+              contMap.userActive = false;
+              contMap.asignadosClaims= false;
+              
+            
+        }
+
+
+        contMap.clearPoints = function (){
+            for(var i=0; i< $rootScope.markers.length; i++){ 
+                $rootScope.markers[i].setMap(null); 
+              } 
+        }
         function getPathFindxDay(idUser) {
 
 
