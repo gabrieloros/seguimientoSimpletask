@@ -89,8 +89,8 @@
             });
             markerUser.content = '<div class="infoWindowContent" style="color: #0f0f0f">' + date + ' hs</div>';
             infoWindow.setContent('<b style="color: #0f0f0f">' + markerUser.title + '</b>');
+            infoWindow.setOptions({disableAutoPan: true});
             infoWindow.open($rootScope.map, markerUser);
-
             google.maps.event.addListener(markerUser, 'click', function () {
                 infoWindow.open($rootScope.map, markerUser);
             });
