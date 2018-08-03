@@ -182,13 +182,24 @@ button{
 }
 
 
+.Box5-1{
+    width: 250px;
+    float: left;
+}
 
-.Box5 .cerrar{
+.Box5-2{
+    width: 250px;
+    float: left;
+}
 
-    float:right;
- }
+.Box5-3{
+    width: 25px;
+    float: right;
+}
 
-.Box5 .titulo{
+
+
+.Box5 .Box5-1 .titulo{
 
     font-family: Arial, Helvetica, sans-serif;
     font-size: 15px;
@@ -197,41 +208,60 @@ button{
 }
 
 
-.Box5 .date {
+.Box5 .Box5-1 .date {
 
     font-family: Arial, Helvetica, sans-serif;
     font-size: 12px;
-    padding: 10px 10px 0px 10px;
+    float: right;
+    padding: 0px 0px 0px 0px;
+    margin:12px 0px 0px 0px;
 }
 
+.Box5 .Box5-2 .total{
 
-.Box5 .pendientes{
+    width:100px;
+    float: left;
+    font-family: Arial, Helvetica, sans-serif;
+    text-decoration: black;
+    color:#000000;
+    font-size: 12px;
+    margin: 0px 10px 0px 0px;
+    padding: 8px 0px 0px 10px;
+
+    
+}
+
+.Box5 .Box5-2 .pendientes{
 
     width:50px;
-    float: right;
+    float: left;
     font-family: Arial, Helvetica, sans-serif;
     text-decoration: black;
     color:#c85327;
     font-size: 18px;
-    margin-right: 10px;
-    padding: 3px 0px 0px 20px;
+    margin-right: 0px;
+    padding: 2px 0px 0px 0px;
 
     
 }
 
-.Box5 .terminadas{
+.Box5 .Box5-2 .terminadas{
 
     width:50px;
-    float: right;
+    float: left;
     color:#7fb147;
     font-family: Arial, Helvetica, sans-serif;
     text-decoration: black;
     font-size: 18px;
-    margin-right: 10px;
-    padding: 3px 0px 0px 0px;
+    margin-right: 0px;
+    padding: 2px 0px 0px 0px;
 
     
 }
+
+.Box5 .Box5-3 .cerrar{
+
+ }
 
 
 

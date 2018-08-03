@@ -24,11 +24,19 @@
 
     <div class="Box4">
       <div class="Box5" ng-repeat="selectedUser in selectedUsers track by $index">
+    <div class="Box5-1">
+        <div class="date">{{ selectedUser.last_position_date | date:'dd-MM-yyyy HH:mm:ss' }}</div>
         <div class="titulo">{{ selectedUser.full_name }}</div>
-        <div class="cerrar"><a href="#" ng-click="removeUser(selectedUser)"><img src="app/template/img/cerrar.png"></a></div>
-        <div class="terminadas">{{ selectedUser.completed_claims }}</div>
+    </div>
+    <div class="Box5-2">
+        <div class="total">Total: 4252</div>
         <div class="pendientes">{{ selectedUser.pending_claims }}</div>
-        <div class="date">{{ selectedUser.last_position_date | date:'dd-MM-yyyy HH:mm:ss' }} hs</div>
+        <div class="terminadas">{{ selectedUser.completed_claims }}</div>
+        
+    </div>
+    <div class="Box5-3">
+        <div class="cerrar"><a href="#" ng-click="removeUser(selectedUser)"><img src="app/template/img/cerrar.png"></a></div>
+    </div>
       </div>                     
     </div>
 
