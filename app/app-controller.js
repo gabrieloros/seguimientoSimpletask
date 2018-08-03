@@ -251,8 +251,8 @@
             });
         }
         $scope.getProyects();
-        $interval( function(){ $scope.getResumen(); }, 5000);
-        $interval( function(){ $scope.getClaims(); }, 15000);
+        $interval( function(){ $scope.getResumen(); }, 45000);
+        $interval( function(){ $scope.getClaims(); }, 420000);
     }
 
 })();
