@@ -184,7 +184,6 @@
 
         var updateCompletedClaims = function(){
             $scope.completedClaims = $scope.selectedUsers.sum('completed_claims');
-            $rootScope.totalUsers = $scope.pendingClaims + $scope.completedClaims;
         }
 
         var updateProyectPendingClaims = function(){
