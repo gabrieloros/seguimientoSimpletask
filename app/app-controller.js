@@ -17,13 +17,15 @@
         $scope.claims = [];
         $scope.completedClaims = 0;
         $scope.pendingClaims = 0;
-        $scope.currentProyectId = 0;
-        $scope.currentProyectName = "";
-        $scope.proyectPendingClaims = 0;
-        $scope.proyectCompletedClaims = 0;
+        $scope.currentProjectId = 0;
+        $scope.currentProjectName = "";
+        $scope.projectPendingClaims = 0;
+        $scope.projectCompletedClaims = 0;
         $scope.totalPendingClaims = 0;
         $scope.instalation = null;
-        $scope.proyects = null;
+        $scope.projects = null;
+        
+        $scope.timeCode = 0;
 
         var mapOptions = {
             zoom: 13,
@@ -186,20 +188,33 @@
             $scope.completedClaims = $scope.selectedUsers.sum('completed_claims');
         }
 
-        var updateProyectPendingClaims = function(){
-            $scope.proyectPendingClaims = $scope.allUsers.sum('pending_claims');
+        var updateProjectPendingClaims = function(){
+            $scope.projectPendingClaims = $scope.allUsers.sum('pending_claims');
         }
 
-        var updateProyectCompletedClaims = function(){
-            $scope.proyectCompletedClaims = $scope.allUsers.sum('completed_claims');
+        var updateProjectCompletedClaims = function(){
+            $scope.projectCompletedClaims = $scope.allUsers.sum('completed_claims');
         }
 
       
         var updateSeletedData = function(){
             updatePendingClaims();
             updateCompletedClaims();
-            updateProyectPendingClaims();
-            updateProyectCompletedClaims();
+            updateProjectPendingClaims();
+            updateProjectCompletedClaims();
+        }
+
+        var refreshDataForChangeInPanel = function(){
+            $scope.getResumen();
+            $scope.getClaims();
+        }
+
+        $scope.changeTimeCode = function(){
+            refreshDataForChangeInPanel();
+        }
+
+        $scope.changeCurrentProject = function(){
+            refreshDataForChangeInPanel();
         }
 
         $scope.selectUser = function(user){
@@ -221,7 +236,7 @@
             var userSelectedIds = $scope.selectedUsers.map(function (user) {
                 return user.id;
               });
-            statusService.getClaimsFromUsers({proyectId: $scope.currentProyectId, 'ids[]': userSelectedIds}, function(response){
+            statusService.getClaimsFromUsers({projectId: $scope.currentProjectId, timeCode: $scope.timeCode, 'ids[]': userSelectedIds}, function(response){
                 $scope.claims = response.data;
                 drawClaimMarkers();
             }, function(error){
@@ -230,7 +245,7 @@
         }
 
         $scope.getResumen = function(){
-            statusService.getResumenUsers({proyectId: $scope.currentProyectId}, function(response){
+            statusService.getResumenUsers({projectId: $scope.currentProjectId, timeCode: $scope.timeCode}, function(response){
                 $scope.allUsers = response.data;
                 updateResumenData(response.data);
             }, function(error){
@@ -238,20 +253,25 @@
             });
         }
 
-        $scope.getProyects = function(){
-            statusService.getProyects({}, function(response){
+        $scope.getProjects = function(){
+            statusService.getProjects({}, function(response){
                 $scope.instalation = response.data[0];
-                var proyects = response.data[1]
-                $scope.currentProyectId = proyects[0].id;
-                $scope.proyectPendingClaims = proyects[0].pending_claims;
-                $scope.proyectCompletedClaims = proyects[0].completed_claims;
-                $scope.currentProyectName = proyects[0].name;
+                console.log(response.data[1]);
+                $scope.projects = response.data[1]
+                //Add group by default
+                $scope.projects.push({id: 0, name: "Sin grupo"});
+                $scope.currentProjectId = $scope.projects[0].id;
+                $scope.projectPendingClaims = $scope.projects[0].pending_claims;
+                $scope.projectCompletedClaims = $scope.projects[0].completed_claims;
+                $scope.currentProjectName = $scope.projects[0].name;
                 $scope.getResumen();                
             }, function(error){
                 console.log(error);
             });
         }
-        $scope.getProyects();
+
+        //Init data
+        $scope.getProjects();
         $interval( function(){ $scope.getResumen(); }, 45000);
         $interval( function(){ $scope.getClaims(); }, 420000);
     }

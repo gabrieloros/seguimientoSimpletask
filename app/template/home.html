@@ -2,7 +2,15 @@
 
 
 
-<div class="wrapper">  
+<div class="wrapper">
+    <div class="btn-group btn-group-toggle">
+        <label class="btn btn-secondary">
+            <input type="radio" autocomplete="off" ng-model="timeCode" value="0" ng-change="changeTimeCode()" ng-checked="true"> Día
+        </label>
+        <label class="btn btn-secondary">
+            <input type="radio" autocomplete="off" ng-model="timeCode" value="1" ng-change="changeTimeCode()"> Histórico
+        </label>
+    </div> 
 
     <div class="Box1">
         <div class="titulo">{{ instalation.name }}</div>   
@@ -15,11 +23,12 @@
     </div>
 
     <div class="Box3">
-        <div class="titulo">{{ currentProyectName }}</div>       
+        <select class="titulo" ng-model="currentProjectId" ng-change="changeCurrentProject()" ng-options="project.id as project.name for project in projects"></select>
+        <!--<div class="titulo">{{ currentProjectName }}</div> -->       
         <!--<button>ver</button> -->
-        <div class="terminadas">{{ proyectCompletedClaims }}</div>
-        <div class="pendientes">{{ proyectPendingClaims }}</div>
-        <div class="totales">Total: {{ proyectPendingClaims + proyectCompletedClaims }}</div>
+        <div class="terminadas">{{ projectCompletedClaims }}</div>
+        <div class="pendientes">{{ projectPendingClaims }}</div>
+        <div class="totales">Total: {{ projectPendingClaims + projectCompletedClaims }}</div>
     </div>
 
     <div class="Box4">
