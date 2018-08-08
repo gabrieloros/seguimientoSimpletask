@@ -256,7 +256,6 @@
         $scope.getProjects = function(){
             statusService.getProjects({}, function(response){
                 $scope.instalation = response.data[0];
-                console.log(response.data[1]);
                 $scope.projects = response.data[1]
                 //Add group by default
                 $scope.projects.push({id: 0, name: "Sin grupo"});
