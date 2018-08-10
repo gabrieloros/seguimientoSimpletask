@@ -62,7 +62,7 @@
             <div class="flecha"><a href="#" ng-click="selectUser(freeUser)"><img src="app/template/img/flecha.png"></img></a></div>
             <div class="terminadas">{{ freeUser.completed_claims }}</div>
             <div class="pendientes">{{ freeUser.pending_claims }}</div>
-            <div class="nombre">{{ freeUser.full_name }}</div>    
+            <div class="nombre">{{ freeUser.full_name | limitTo: 16 }}</div>    
         </div>   
     </div>  
 </div>
