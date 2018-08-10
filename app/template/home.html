@@ -38,7 +38,7 @@
       <div class="Box5" ng-repeat="selectedUser in selectedUsers track by $index">
     <div class="Box5-1">
         <div class="date">{{ selectedUser.last_position_date | date:'dd-MM-yyyy HH:mm:ss' }}</div>
-        <div class="titulo">{{ selectedUser.full_name | limitTo: 13 }}</div>
+        <div class="titulo">{{ selectedUser.full_name | limitTo: 11 }}</div>
     </div>
     <div class="Box5-2">
         <div class="total">Total: {{selectedUser.pending_claims + selectedUser.completed_claims}}</div>
