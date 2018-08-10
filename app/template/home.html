@@ -3,6 +3,12 @@
 
 
 <div class="wrapper">
+   
+
+    <div class="Box1">
+        <div class="titulo">{{ instalation.name }}</div>   
+    </div>
+
     <div class="btn-group btn-group-toggle">
         <label class="btn btn-secondary">
             <input type="radio" autocomplete="off" ng-model="timeCode" value="0" ng-change="changeTimeCode()" ng-checked="true"> Día
@@ -12,9 +18,6 @@
         </label>
     </div> 
 
-    <div class="Box1">
-        <div class="titulo">{{ instalation.name }}</div>   
-    </div>
     <div class="Box2">
         <!--<button>ver</button>-->
         <div class="terminadas">{{ instalation.total_completed_claims }}</div>
