@@ -1,3 +1,5 @@
+
+
 (function() {
     'use strict';
     
@@ -5,7 +7,9 @@
     [
         'ui.router',
         'ngResource',
-        'mapa'
+        'mapa',
+        'angular-loading-bar'
+
     ]
 )
 
