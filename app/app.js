@@ -1,3 +1,5 @@
+
+
 (function() {
     'use strict';
     
@@ -5,7 +7,9 @@
     [
         'ui.router',
         'ngResource',
-        'mapa'
+        'mapa',
+        'angular-loading-bar'
+
     ]
 )
 
@@ -23,7 +27,7 @@ $stateProvider
 
       'sideBar':{
         templateUrl:'app/template/home.html',
-        controller:'controladorUsers as contUsers'
+        controller:'appController as appCntrl'
 
       }
     }
