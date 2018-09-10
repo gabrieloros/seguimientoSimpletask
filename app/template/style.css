@@ -14,6 +14,14 @@
     box-shadow: 5px 10px 18px #888888;
 }
 
+.responsive{
+    visibility: hidden;
+    height: 0px;
+    width: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+
 .Box1{
 
     width:298px;
@@ -88,13 +96,13 @@
 .pendientes{
 
     width:50px;
-    float: right;
     font-family: Arial, Helvetica, sans-serif;
     text-decoration: black;
     color:#c85327;
     font-size: 18px;
     margin-right: 10px;
     padding: 0px 0px 0px 0px;
+    float: right;
 
     
 }
@@ -102,13 +110,13 @@
 .terminadas{
 
     width:50px;
-    float: right;
     color:#7fb147;
     font-family: Arial, Helvetica, sans-serif;
     text-decoration: black;
     font-size: 18px;
     margin-right: 10px;
     padding: 0px 0px 0px 0px;
+    float: right;
 
     
 }
@@ -128,7 +136,13 @@ button{
     font-family: Arial, Helvetica, sans-serif;
     font-size: 18px;
     margin:5px 0px 0px 10px;
+    width: 290px;
 
+}
+
+.total{
+    width: 150px;
+    float: left;
 }
 
 select {
@@ -157,7 +171,7 @@ select {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 13px;
     padding: 0px 0px 0px 0px;
-    width: 50%;
+    width: 90%;
 }
 
 
@@ -435,5 +449,80 @@ select {
 ::-webkit-scrollbar-thumb:hover {
     background: #bfbfbe; 
 }
+/* .block {
+    height: 100px;
+    background: #ddd;
+  } */
+  button {
+    display: none
+  }
+ 
+  @media (max-width: 767px) {
+
+    .wrapper{
+        
+        /*height: 620px; */
+        background-color: white;
+        width: auto;
+        position: absolute;
+        top:10%;
+        left: 2%;
+        z-index: 100;
+        border: 1px solid #e6e5e4;
+        border-radius: 4px;
+        padding: 20px;
+        box-shadow: 5px 10px 18px #888888;
+    }
+    
+    .responsive{
+        visibility:visible;
+        height: auto;
+        width: auto;
+        margin: auto;
+        padding: auto;
+    }
+
+    .Box1 .titulo {
+        width: 250px;
+        float: left;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 17px;
+        font-weight: bold;
+        padding: 0px 0px 0px 10px;
+    }
+    
+    .circulos{
+    
+        visibility: hidden;
+    }
+
+    button{
+    
+        background-color: #ffffff;
+        border: none;
+        color: white;
+        margin: 0px 0px 0px 0px;
+        float: left;
+        display: block;
+
+    }
+    .block {
+      display: none;
+    }
 
 
+
+ 
+  }
+
+
+
+
+
+
+  .force-show {
+    display: block;
+  }
+ 
+  
+ 
