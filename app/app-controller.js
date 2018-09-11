@@ -99,10 +99,15 @@
             $rootScope.markers.push(markerUser);
         }
 
-        var createClaimMarker = function (claim) {           
+        var createClaimMarker = function (claim ,type) {           
             var infoWindow = new google.maps.InfoWindow();
+            if(type == 0){
+               var urlRoute =  'app/mapa/imagen/blue.png'
+            }else{
+               var urlRoute = 'app/mapa/imagen/'+ (claim.status == 'pending' ? 'red' : 'green') +'.png'
+            }
             var claimIcon = {
-                url: 'app/mapa/imagen/'+ (claim.status == 'pending' ? 'red' : 'green') +'.png',
+                url: urlRoute,
                 size: new google.maps.Size(40, 52),
                 origin: new google.maps.Point(0, 0),
                 anchor: new google.maps.Point(12, 40)
@@ -151,19 +156,31 @@
             }
         }
 
-        var drawClaimMarkers = function(){
-            var markersToDelete = $filter('filter')($rootScope.markers, function(marker){
-                return marker.type === 'claim';
-            });
-            angular.forEach(markersToDelete, function(marker, key) {
-                var indexToDelete = $rootScope.markers.indexOf(marker);
-                $rootScope.markers.splice(indexToDelete, 1);
-                marker.setMap(null);
-            });
-            $rootScope.markers = $filter('filter')($rootScope.markers, {type: '!claim' });
-            angular.forEach($scope.claims, function(claim, key) {
-                createClaimMarker(claim);
-            });
+        var drawClaimMarkers = function(type){
+            if(type == null){
+                var markersToDelete = $filter('filter')($rootScope.markers, function(marker){
+                    return marker.type === 'claim';
+                });
+                angular.forEach(markersToDelete, function(marker, key) {
+                    var indexToDelete = $rootScope.markers.indexOf(marker);
+                    $rootScope.markers.splice(indexToDelete, 1);
+                    marker.setMap(null);
+                });
+                $rootScope.markers = $filter('filter')($rootScope.markers, {type: '!claim' });
+                angular.forEach($scope.claims, function(claim, key) {
+                    createClaimMarker(claim);
+                });
+            } 
+            else
+            {
+                angular.forEach($rootScope.markers, function(marker, key) {
+                    marker.setMap(null);
+                });
+                angular.forEach($scope.claims, function(claim, key) {
+                    createClaimMarker(claim,type);
+                });
+            }
+          
         }
 
         var deleteInfoUser = function(user){
@@ -248,6 +265,16 @@
             statusService.getResumenUsers({projectId: $scope.currentProjectId, timeCode: $scope.timeCode}, function(response){
                 $scope.allUsers = response.data;
                 updateResumenData(response.data);
+            }, function(error){
+                console.log(error);
+            });
+        }
+
+        
+        $scope.getCount = function(type){
+            statusService.getCountTotal({projectId: $scope.currentProjectId, timeCode:  $scope.timeCode, typeCode: type}, function(response){
+                $scope.claims = response.data;
+                drawClaimMarkers(type);
             }, function(error){
                 console.log(error);
             });
