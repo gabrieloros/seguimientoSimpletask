@@ -34,9 +34,12 @@
 
     <div class="Box2">
         <!--<button>ver</button>-->
-        <div class="terminadas">{{ instalation.total_completed_claims }}</div>
-        <div class="pendientes">{{ instalation.total_pending_claims }}</div>
-        <div class="totales">Total: {{ instalation.total_completed_claims + instalation.total_pending_claims }}</div>
+        <div class="totales"><a class="total" ng-click="getClaimAmounts(0)">Total: {{ instalation.total_completed_claims + instalation.total_pending_claims }}</a></div>
+        <div ><a class="terminadas" ng-click="getClaimAmounts(2)">{{ instalation.total_completed_claims }}</a></div>
+        <div ><a class="pendientes" ng-click="getClaimAmounts(1)">{{ instalation.total_pending_claims }}</a></div>
+        <!-- <div class="terminadas">{{ instalation.total_completed_claims }}</div>
+        <div class="pendientes" > {{ instalation.total_pending_claims }}</div>
+        <div class="totales">Total: {{ instalation.total_completed_claims + instalation.total_pending_claims }}</div> -->
     </div>
 
     <div class="Box3">
@@ -45,9 +48,9 @@
         <!--<button>ver</button> -->
         
         <div class="totales">
-        <div class="total">Total: {{ projectPendingClaims + projectCompletedClaims }}</div>
-        <div class="terminadas">{{ projectCompletedClaims }}</div>
-        <div class="pendientes">{{ projectPendingClaims }}</div>
+        <div class="total"><a class="total" ng-click="getCount(0)">Total: {{ projectPendingClaims + projectCompletedClaims }}</a></div>
+        <div ><a class="terminadas" ng-click="getCount(2)">{{ projectCompletedClaims }}</a></div>
+        <div ><a class="pendientes" ng-click="getCount(1)">{{ projectPendingClaims }}</a></div>
         </div>
     </div>
 
