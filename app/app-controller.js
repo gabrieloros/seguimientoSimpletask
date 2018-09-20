@@ -280,6 +280,17 @@
             });
         }
 
+        
+         
+        $scope.getClaimAmounts = function(type){
+            statusService.getClaimAmountsData({typeCode: type}, function(response){
+                $scope.claims = response.data;
+                drawClaimMarkers(type);
+            }, function(error){
+                console.log(error);
+            });
+        }
+
         $scope.getProjects = function(){
             statusService.getProjects({}, function(response){
                 $scope.instalation = response.data[0];

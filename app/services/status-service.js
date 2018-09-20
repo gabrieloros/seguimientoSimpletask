@@ -10,7 +10,8 @@
               'getResumenUsers': { url: route + "userList/:projectId/:timeCode", method: 'GET', projectId: '@projectId', timeCode: '@projectId' },
               'getClaimsFromUsers': { url: route + "claimsList/:projectId/:timeCode", method: 'GET', projectId: '@projectId', timeCode: '@projectId'},
               'getProjects': { url: route + "proyectList", method: 'GET'},
-              'getCountTotal':  { url: route + "claimsAmounts/:projectId/:timeCode/:typeCode", method: 'GET', projectId: '@projectId', timeCode: '@projectId', typeCode: '@projectId'}
+              'getCountTotal':  { url: route + "claimsAmounts/:projectId/:timeCode/:typeCode", method: 'GET', projectId: '@projectId', timeCode: '@projectId', typeCode: '@projectId'},
+              'getClaimAmountsData' : { url: route + "claimsAmountsData/:typeCode", method: 'GET', typeCode: '@projectId'}
             });
           return resource;
         });
