@@ -5,7 +5,8 @@
         'ui.router',
         'ngResource',
         'angular-loading-bar',
-        'mapa'
+        'mapa',
+        'claims'
 
 
     ])
@@ -22,7 +23,6 @@
                         templateUrl: 'app/template/menu.html',
                         controller: 'appController as appCntrl'
                     },
-
                     'sideBar': {
                         templateUrl: 'app/template/home.html',
                         controller: 'appController as appCntrl'
@@ -31,7 +31,16 @@
                 }
 
             })
+            .state('app.claims', {
+                url: '/claims',
+                views: {
 
+                    'content@': {
+                        templateUrl: 'app/claims/template/menu-claims.html',
+                        controller: 'claimsController as claimsCntrl'
+                    }
+                }
+            })
 
     })
 
