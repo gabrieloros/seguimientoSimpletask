@@ -10,7 +10,7 @@
     function appController($rootScope, $scope, $http, $filter, $interval, statusService) {
 
         appController.menuClaims = menuClaims;
-
+        $rootScope.buttonMultipleMarker;
         $rootScope.markers = [];
         $scope.selectedUsers = [];
         $scope.freeUsers = [];
@@ -131,6 +131,26 @@
                 infoWindow.open($rootScope.map, marker);
             });
             $rootScope.markers.push(marker);
+        }
+
+        // if ($rootScope.buttonMultipleMarker == true) {
+        google.maps.event.addListener($rootScope.map, 'click', function(event) {
+
+            addMarker(event.latLng, $rootScope.map);
+
+        });
+        // }
+
+        function addMarker(location, map) {
+
+            var marker = new google.maps.Marker({
+                position: location,
+                draggable: true,
+                animation: google.maps.Animation.DROP,
+                icon: 'app/mapa/imagen/blue.png',
+                map: $rootScope.map
+            });
+
         }
 
         var drawPositionMarkers = function() {
@@ -313,8 +333,8 @@
 
 
         //route
-        function menuClaims() {
-
+        function menuClaims(data) {
+            $rootScope.buttonMultipleMarker = data;
         }
     }
 
