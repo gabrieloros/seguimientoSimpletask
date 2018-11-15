@@ -5,9 +5,9 @@
         .module('app')
         .controller('appController', appController);
 
-    appController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService'];
+    appController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService', '$window'];
 
-    function appController($rootScope, $scope, $http, $filter, $interval, statusService) {
+    function appController($rootScope, $scope, $http, $filter, $interval, statusService, $window) {
 
         appController.menuClaims = menuClaims;
         $rootScope.buttonMultipleMarker;
@@ -16,6 +16,7 @@
         $scope.freeUsers = [];
         $scope.allUsers = [];
         $scope.claims = [];
+        $scope.newClaims = [];
         $scope.completedClaims = 0;
         $scope.pendingClaims = 0;
         $scope.currentProjectId = 0;
@@ -25,7 +26,7 @@
         $scope.totalPendingClaims = 0;
         $scope.instalation = null;
         $scope.projects = null;
-
+        $scope.index = 0;
         $scope.timeCode = 0;
 
         var mapOptions = {
@@ -137,6 +138,7 @@
         google.maps.event.addListener($rootScope.map, 'click', function(event) {
 
             addMarker(event.latLng, $rootScope.map);
+            $scope.index++;
 
         });
         // }
@@ -151,6 +153,12 @@
                 map: $rootScope.map
             });
 
+            $scope.newClaims.push(marker.getPosition().lat() + marker.getPosition().lng());
+            guardarNewListMarkers();
+        }
+
+        function guardarNewListMarkers() {
+            $window.sessionStorage["listNewMarket"] = $scope.newClaims;
         }
 
         var drawPositionMarkers = function() {
