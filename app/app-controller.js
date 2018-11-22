@@ -153,7 +153,7 @@
                 map: $rootScope.map
             });
 
-            $scope.newClaims.push(marker.getPosition().lat() + marker.getPosition().lng());
+            $scope.newClaims.push(marker.getPosition().lat() + '|' + marker.getPosition().lng());
             guardarNewListMarkers();
         }
 
