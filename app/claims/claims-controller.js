@@ -33,12 +33,34 @@
         function newClaims() {
             claimsCntrl.data;
             $scope.newClaims = $window.sessionStorage.getItem('listNewMarket');
+            $scope.identikey = null;
 
-            statusService.setNewClaims({ identikey: 'dsada', data: claimsCntrl.data, positions: $scope.newClaims }, function(response) {
-                $scope.result = response;
-            }, function(error) {
-                console.log(error);
+            $scope.listUsers.forEach(user => {
+                if (user.id == claimsCntrl.data.operario) {
+                    $scope.identikey = user.identikey;
+                }
             });
+
+
+            var hs = new Date().getHours();
+            var min = new Date().getMinutes();
+            var seg = new Date().getSeconds();
+
+            claimsCntrl.data.code = 'ST-M-' + hs + '-' + min + '-' + seg;
+            $http({
+                method: 'POST',
+                url: 'http://localhost:8089/SimpleTask_Rest/adr/service/createclaimbyst',
+                params: { identikey: $scope.identikey, data: claimsCntrl.data, positions: $scope.newClaims }
+            }).then(function(response) {
+                $window.sessionStorage.removeItem('listNewMarket');
+                alert(response.data);
+            });
+
+            // statusService.setNewClaims({ identikey: $scope.identikey, data: claimsCntrl.data, positions: $scope.newClaims }, function(result) {
+            //     $scope.result = result;
+            // }, function(error) {
+            //     console.log(error);
+            // });
 
         }
 

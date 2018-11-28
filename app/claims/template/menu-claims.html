@@ -11,10 +11,11 @@
         <!-- Full Name -->
         <label for="operario_id" class="control-label">Operario</label>
         <select class="form-control" id="operario_id" ng-model="claimsCntrl.data.operario">
-             <option ng-repeat="user in listUsers" value="{{user.id}}" >{{user.name}}</option>
-                    
-            </select>
+                <option ng-repeat="user in listUsers"  value="{{user.id}}" >{{user.name}}
+                </option>
+        </select>
     </div>
+
     <div class="form-group">
         <!-- Full Name -->
         <label for="grupo_id" class="control-label">Grupo</label>
