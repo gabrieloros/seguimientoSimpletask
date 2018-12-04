@@ -5,9 +5,9 @@
         .module('app')
         .controller('claimsController', claimsController);
 
-    claimsController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService', '$window'];
+    claimsController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService', '$state', '$window'];
 
-    function claimsController($rootScope, $scope, $http, $filter, $interval, statusService, $window) {
+    function claimsController($rootScope, $scope, $http, $filter, $interval, statusService, $state, $window) {
 
         var claimsCntrl = this;
 
@@ -53,7 +53,12 @@
                 params: { identikey: $scope.identikey, data: claimsCntrl.data, positions: $scope.newClaims }
             }).then(function(response) {
                 $window.sessionStorage.removeItem('listNewMarket');
-                alert(response.data);
+                if (response.data.result == true) {
+                    alert("Los reclamos fueron guardados correctamente");
+                    $state.go('app');
+                } else {
+                    alert(response.data.data);
+                }
             });
 
             // statusService.setNewClaims({ identikey: $scope.identikey, data: claimsCntrl.data, positions: $scope.newClaims }, function(result) {
