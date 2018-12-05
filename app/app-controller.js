@@ -5,10 +5,10 @@
         .module('app')
         .controller('appController', appController);
 
-    appController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService', '$window'];
+    appController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService', '$window', '$compile'];
 
-    function appController($rootScope, $scope, $http, $filter, $interval, statusService, $window) {
-
+    function appController($rootScope, $scope, $http, $filter, $interval, statusService, $window, $compile) {
+        var appCntrl = this;
         appController.menuClaims = menuClaims;
         $rootScope.buttonMultipleMarker;
         $rootScope.markers = [];
@@ -144,7 +144,7 @@
         // }
 
         function addMarker(location, map) {
-
+            var infoWindow = new google.maps.InfoWindow();
             var marker = new google.maps.Marker({
                 position: location,
                 draggable: true,
@@ -153,7 +153,14 @@
                 map: $rootScope.map
             });
 
-            $scope.newClaims.push(marker.getPosition().lat() + '|' + marker.getPosition().lng());
+            var htmlElement = '<button class="btn btn-primary" ng-click="removeMarker' + marker.position + '"> Eliminar </button>';
+
+            var compiled = $compile(htmlElement)($scope)
+            google.maps.event.addListener(marker, 'click', function() {
+                infoWindow.setContent(compiled[0]);
+                infoWindow.open($rootScope.map, marker);
+            });
+            //$scope.newClaims.push(marker.getPosition().lat() + '|' + marker.getPosition().lng());
             guardarNewListMarkers();
         }
 
@@ -332,6 +339,22 @@
             }, function(error) {
                 console.log(error);
             });
+        }
+
+        $scope.removeMarker = function(lat, long) {
+
+            var latLong = lat + "|" + long;
+
+            angular.forEach($scope.newClaims, function(marker) {
+                if (marker == latLong) {
+                    $scope.newClaims.splice(marker);
+                }
+
+            })
+            $window.sessionStorage.removeItem('listNewMarket');
+            if ($scope.newClaims.length != 0) {
+                guardarNewListMarkers();
+            }
         }
 
         //Init data
