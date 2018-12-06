@@ -134,14 +134,13 @@
             $rootScope.markers.push(marker);
         }
 
-        // if ($rootScope.buttonMultipleMarker == true) {
         google.maps.event.addListener($rootScope.map, 'click', function(event) {
 
             addMarker(event.latLng, $rootScope.map);
             $scope.index++;
 
         });
-        // }
+
 
         function addMarker(location, map) {
             var infoWindow = new google.maps.InfoWindow();
@@ -151,9 +150,11 @@
                 animation: google.maps.Animation.DROP,
                 icon: 'app/mapa/imagen/blue.png',
                 map: $rootScope.map
-            });
 
-            var htmlElement = '<button class="btn btn-primary" ng-click="removeMarker' + marker.position + '"> Eliminar </button>';
+            });
+            marker.set("zIndex", $scope.index);
+
+            var htmlElement = '<button class="btn btn-primary" ng-click="removeMarker(' + marker.zIndex + ')"> Eliminar </button>';
 
             var compiled = $compile(htmlElement)($scope)
             google.maps.event.addListener(marker, 'click', function() {
@@ -358,14 +359,14 @@
             });
         }
 
-        $scope.removeMarker = function(lat, long) {
+        $scope.removeMarker = function(index) {
 
-            var latLong = lat + "|" + long;
+
 
             angular.forEach($scope.newClaims, function(marker) {
-                var position = marker.getPosition().lat() + '|' + marker.getPosition().lng();
-                if (position == latLong) {
-                    $scope.newClaims.splice(marker, 1);
+                var mIndex = marker.getZIndex();
+                if (mIndex == index) {
+                    $scope.newClaims.splice(marker.zIndex, 1);
                     marker.setMap(null);
                 }
             })
