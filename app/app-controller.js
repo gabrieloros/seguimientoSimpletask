@@ -160,12 +160,29 @@
                 infoWindow.setContent(compiled[0]);
                 infoWindow.open($rootScope.map, marker);
             });
-            //$scope.newClaims.push(marker.getPosition().lat() + '|' + marker.getPosition().lng());
+            $scope.newClaims.push(marker);
             guardarNewListMarkers();
+
+            google.maps.event.addListener(marker, 'dragend', function() {
+
+                $window.sessionStorage.removeItem('listNewMarket');
+                guardarNewListMarkers();
+            });
         }
 
         function guardarNewListMarkers() {
-            $window.sessionStorage["listNewMarket"] = $scope.newClaims;
+
+            var positions = [];
+
+            if ($scope.newClaims != null) {
+                angular.forEach($scope.newClaims, function(marker) {
+
+                    positions.push(marker.getPosition().lat() + '|' + marker.getPosition().lng());
+
+                })
+                $window.sessionStorage["listNewMarket"] = positions;
+            }
+
         }
 
         var drawPositionMarkers = function() {
@@ -346,10 +363,11 @@
             var latLong = lat + "|" + long;
 
             angular.forEach($scope.newClaims, function(marker) {
-                if (marker == latLong) {
-                    $scope.newClaims.splice(marker);
+                var position = marker.getPosition().lat() + '|' + marker.getPosition().lng();
+                if (position == latLong) {
+                    $scope.newClaims.splice(marker, 1);
+                    marker.setMap(null);
                 }
-
             })
             $window.sessionStorage.removeItem('listNewMarket');
             if ($scope.newClaims.length != 0) {
