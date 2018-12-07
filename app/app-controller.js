@@ -28,6 +28,7 @@
         $scope.projects = null;
         $scope.index = 0;
         $scope.timeCode = 0;
+        $window.sessionStorage.removeItem('listNewMarket');
 
         var mapOptions = {
             zoom: 13,
@@ -366,7 +367,8 @@
             angular.forEach($scope.newClaims, function(marker) {
                 var mIndex = marker.getZIndex();
                 if (mIndex == index) {
-                    $scope.newClaims.splice(marker.zIndex, 1);
+                    var i = $scope.newClaims.indexOf(marker);
+                    $scope.newClaims.splice(i, 1);
                     marker.setMap(null);
                 }
             })
