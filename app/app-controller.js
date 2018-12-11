@@ -71,14 +71,19 @@
                 }
             });
         }
-
+        var src = 'app/mapa/malvinasarg.kml';
+        var kmlLayer = new google.maps.KmlLayer(src, {
+            suppressInfoWindows: true,
+            preserveViewport: false,
+            map: $rootScope.map
+        });
         var createPositionMarkerFromUser = function(user) {
             var infoWindow = new google.maps.InfoWindow();
             var image = {
                 url: 'app/mapa/imagen/positionUser.png',
-                size: new google.maps.Size(40, 52),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(12, 40)
+                // size: new google.maps.Size(40, 52),
+                // origin: new google.maps.Point(0, 0),
+                // anchor: new google.maps.Point(12, 40)
             };
 
             var date = new Date(user.last_position_date);
@@ -111,9 +116,9 @@
             }
             var claimIcon = {
                 url: urlRoute,
-                size: new google.maps.Size(40, 52),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(12, 40)
+                // size: new google.maps.Size(40, 52),
+                // origin: new google.maps.Point(0, 0),
+                // anchor: new google.maps.Point(12, 40)
             };
             var date = new Date(claim.date);
             var marker = new google.maps.Marker({
@@ -145,7 +150,7 @@
 
         function addMarker(location, map) {
             var infoWindow = new google.maps.InfoWindow();
-            var marker = new google.maps.Marker({
+            var markerNew = new google.maps.Marker({
                 position: location,
                 draggable: true,
                 animation: google.maps.Animation.DROP,
@@ -153,19 +158,19 @@
                 map: $rootScope.map
 
             });
-            marker.set("zIndex", $scope.index);
+            markerNew.set("zIndex", $scope.index);
 
-            var htmlElement = '<button class="btn btn-primary" ng-click="removeMarker(' + marker.zIndex + ')"> Eliminar </button>';
+            var htmlElement = '<button class="btn btn-primary" ng-click="removeMarker(' + markerNew.zIndex + ')"> Eliminar </button>';
 
             var compiled = $compile(htmlElement)($scope)
-            google.maps.event.addListener(marker, 'click', function() {
+            google.maps.event.addListener(markerNew, 'click', function() {
                 infoWindow.setContent(compiled[0]);
-                infoWindow.open($rootScope.map, marker);
+                infoWindow.open($rootScope.map, markerNew);
             });
-            $scope.newClaims.push(marker);
+            $scope.newClaims.push(markerNew);
             guardarNewListMarkers();
 
-            google.maps.event.addListener(marker, 'dragend', function() {
+            google.maps.event.addListener(markerNew, 'dragend', function() {
 
                 $window.sessionStorage.removeItem('listNewMarket');
                 guardarNewListMarkers();
