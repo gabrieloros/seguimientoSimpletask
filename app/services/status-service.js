@@ -12,7 +12,7 @@
                 'getCountTotal': { url: route + "claimsAmounts/:projectId/:timeCode/:typeCode", method: 'GET', projectId: '@projectId', timeCode: '@projectId', typeCode: '@projectId' },
                 'getClaimAmountsData': { url: route + "claimsAmountsData/:typeCode", method: 'GET', typeCode: '@projectId' },
                 'getListTheInfoForm': { url: route + "dataInfoForm", method: 'GET' },
-                'setNewClaims': { url: route + "createclaimbyst", params: { identikey: '@identikey', data: '@data', positions: '@positions' }, method: 'POST' }
+                'deleteClaim': { url: route + "deleteClaim/:claimId", claimId: '@claimId', method: 'GET' }
             });
             return resource;
         });

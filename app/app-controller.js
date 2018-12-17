@@ -132,9 +132,13 @@
                 user_id: claim.user_id
             });
 
+            var htmlElement = '<div><h4 style="color: #0f0f0f">' + marker.title + '</h4><br><button class="btn btn-primary" ng-click="deleteCLaim(' + marker.id + ')"> Eliminar </button></div>';
+
+            var compiled = $compile(htmlElement)($scope);
+
             google.maps.event.addListener(marker, 'click', function() {
-                infoWindow.setContent('<h4 style="color: #0f0f0f">' + marker.title + '</h4>' +
-                    marker.content);
+                infoWindow.setContent(compiled[0]);
+                //infoWindow.setContent('<h4 style="color: #0f0f0f">' + marker.title + '</h4><br>' + compiled[0]);
                 infoWindow.open($rootScope.map, marker);
             });
             $rootScope.markers.push(marker);
@@ -154,11 +158,12 @@
                 position: location,
                 draggable: true,
                 animation: google.maps.Animation.DROP,
-                icon: 'app/mapa/imagen/blue.png',
+                icon: 'app/mapa/imagen/createClaim.png',
                 map: $rootScope.map
 
             });
             markerNew.set("zIndex", $scope.index);
+
 
             var htmlElement = '<button class="btn btn-primary" ng-click="removeMarker(' + markerNew.zIndex + ')"> Eliminar </button>';
 
@@ -367,8 +372,6 @@
 
         $scope.removeMarker = function(index) {
 
-
-
             angular.forEach($scope.newClaims, function(marker) {
                 var mIndex = marker.getZIndex();
                 if (mIndex == index) {
@@ -381,6 +384,22 @@
             if ($scope.newClaims.length != 0) {
                 guardarNewListMarkers();
             }
+        }
+        $scope.deleteCLaim = function(claimId) {
+
+
+            statusService.deleteClaim({ claimId: claimId }, function(response) {
+                $scope.a = response.data;
+                angular.forEach($rootScope.markers, function(marker) {
+                    if (marker.id == claimId) {
+                        alert("El reclamo " + marker.title + " ,fue eliminado.");
+                        marker.setMap(null);
+                    }
+
+                })
+            }, function(error) {
+                console.log(error);
+            });
         }
 
         //Init data
