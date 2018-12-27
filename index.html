@@ -45,7 +45,7 @@
                             <li><a ui-sref='app'>Seguimiento</a></li>
                             <li><a ui-sref="app.claims">Nuevo Reclamos</a></li>
                             <li><a href="#">Reclamos</a></li>
-                            <li><a href="#">Asignación de Reclamos</a></li>
+                            <li><a ui-sref="app.assignmentClaim">Asignación de Reclamos</a></li>
                             <li><a href="#">Administración de Grupos</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="#">Separated link</a></li>
@@ -83,12 +83,15 @@
     <!--modulos-->
     <script type="text/javascript" src="app/app.js"></script>
     <script type="text/javascript" src="app/claims/claims.js"></script>
+    <script type="text/javascript" src="app/assignment/assignment.js"></script>
     <script type="text/javascript" src="app/mapa/mapa.js"></script>
 
 
     <!-- Controlador  Y service-->
     <script type="text/javascript" src="app/app-controller.js"></script>
     <script type="text/javascript" src="app/claims/claims-controller.js"></script>
+    <script type="text/javascript" src="app/assignment/assignment-controller.js"></script>
+
     <script type="text/javascript" src="app/services/servicesData/viewModuleMenu-service.js"></script>
     <script type="text/javascript" src="app/services/status-service.js"></script>
 
