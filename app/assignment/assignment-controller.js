@@ -13,6 +13,7 @@
         assignmentCntrl.search = search;
         assignmentCntrl.form = newAssignment;
         assignmentCntrl.formUnassign = unassing;
+        assignmentCntrl.deletePolygon = deletePolygon;
         assignmentCntrl.data = {};
         $scope.listGroups = [];
         $scope.listUsers = [];
@@ -21,6 +22,7 @@
         $scope.userPosition = [];
         $rootScope.markers = [];
         $scope.markerAssignmentId = [];
+        $scope.elementPolygon = null;
 
         statusService.getListTheInfoForm({}, function(response) {
             $scope.listGroups = response.data[1];
@@ -48,10 +50,9 @@
         });
         drawingManager.setMap($rootScope.mapAssignment);
         google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
-            var element = event.overlay;
-            google.maps.event.addListener(element, 'click', function(e) {
-                element.setMap(null);
-            });
+            $scope.elementPolygon = event.overlay;
+
+
             if (event.type == 'polygon') {
                 var polygon = event.overlay;
 
@@ -64,6 +65,9 @@
             }
         });
 
+        function deletePolygon() {
+            $scope.elementPolygon.setMap(null);
+        }
 
         function newAssignment() {
             $http({
