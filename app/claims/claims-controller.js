@@ -5,9 +5,9 @@
         .module('app')
         .controller('claimsController', claimsController);
 
-    claimsController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService', '$state', '$window'];
+    claimsController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService', '$state', '$window', 'CONSTANTS'];
 
-    function claimsController($rootScope, $scope, $http, $filter, $interval, statusService, $state, $window) {
+    function claimsController($rootScope, $scope, $http, $filter, $interval, statusService, $state, $window, $CONSTANTS) {
 
         var claimsCntrl = this;
 
@@ -49,7 +49,7 @@
             claimsCntrl.data.code = 'ST-M-' + hs + '-' + min + '-' + seg;
             $http({
                 method: 'POST',
-                url: 'http://localhost:8089/SimpleTask_Rest/adr/service/createclaimbyst',
+                url: $CONSTANTS.SERVER_URL + 'createclaimbyst',
                 params: { identikey: $scope.identikey, data: claimsCntrl.data, positions: $scope.newClaims }
             }).then(function(response) {
                 $window.sessionStorage.removeItem('listNewMarket');
@@ -60,13 +60,6 @@
                     alert(response.data.data);
                 }
             });
-
-            // statusService.setNewClaims({ identikey: $scope.identikey, data: claimsCntrl.data, positions: $scope.newClaims }, function(result) {
-            //     $scope.result = result;
-            // }, function(error) {
-            //     console.log(error);
-            // });
-
         }
 
     }

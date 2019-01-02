@@ -1,0 +1,38 @@
+<link rel="stylesheet" type="text/css" href="app/claims/template/style-claims.css">
+<form name="assignmentClaims" class="form-claim">
+
+    <h4>Menu de Asignación</h4>
+    <hr>
+    <div class="form-group">
+        <!-- Full Name -->
+        <label for="operario_id" class="control-label">Operario</label>
+        <select class="form-control" id="operario_id" ng-model="assignmentCntrl.data.operario">
+                <option ng-repeat="user in listUsers"  value="{{user.id}}" >{{user.name}}
+                </option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <!-- Full Name -->
+        <label for="grupo_id" class="control-label">Grupo</label>
+        <select class="form-control" id="grupo_id" ng-model="assignmentCntrl.data.group">
+                <option ng-repeat="group in listGroups" value="{{group.id}}" >{{group.name}}</option>
+                </select>
+    </div>
+
+    <div class="form-group">
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-warning" ng-click="assignmentCntrl.formUnassign()">Desasignar</button>
+    </div>
+    <div class="form-group">
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-success" ng-click="assignmentCntrl.form()">Asignar</button>
+    </div>
+    <div class="form-group">
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-info" ng-click="assignmentCntrl.search()">Buscar</button>
+    </div>
+
+
+
+</form>

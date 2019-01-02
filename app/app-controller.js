@@ -38,6 +38,55 @@
 
         $rootScope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
+        var drawingManager = new google.maps.drawing.DrawingManager({
+            // drawingMode: google.maps.drawing.OverlayType.MARKER,
+            drawingControl: true,
+            drawingControlOptions: {
+                position: google.maps.ControlPosition.TOP_CENTER,
+                drawingModes: ['marker', 'polygon', 'rectangle']
+            },
+
+        });
+        drawingManager.setMap($rootScope.map);
+        google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
+
+            if (event.type == 'marker') {
+                event.overlay.visible = false;
+
+                $scope.index++;
+                //createMarker(event);
+                var location = event.overlay.position;
+                var infoWindow = new google.maps.InfoWindow();
+                var markerNew = new google.maps.Marker({
+                    position: location,
+                    draggable: true,
+                    animation: google.maps.Animation.DROP,
+                    icon: 'app/mapa/imagen/createClaim.png',
+                    map: $rootScope.map
+
+                });
+                markerNew.set("zIndex", $scope.index);
+
+
+                var htmlElement = '<button class="btn btn-primary" ng-click="removeMarker(' + markerNew.zIndex + ')"> Eliminar </button>';
+
+                var compiled = $compile(htmlElement)($scope)
+                google.maps.event.addListener(markerNew, 'click', function() {
+                    infoWindow.setContent(compiled[0]);
+                    infoWindow.open($rootScope.map, markerNew);
+                });
+                $scope.newClaims.push(markerNew);
+                guardarNewListMarkers();
+
+                google.maps.event.addListener(markerNew, 'dragend', function() {
+
+                    $window.sessionStorage.removeItem('listNewMarket');
+                    guardarNewListMarkers();
+                });
+            }
+        });
+
+
         var updateResumenData = function(arrayNew) {
             //Actualizar los usuarios seleccionados e ir sacando del nuevo lo que coincide
             //Actualizar los libres e ir sacando del nuevo lo que coincide
@@ -144,43 +193,8 @@
             $rootScope.markers.push(marker);
         }
 
-        google.maps.event.addListener($rootScope.map, 'click', function(event) {
-
-            addMarker(event.latLng, $rootScope.map);
-            $scope.index++;
-
-        });
 
 
-        function addMarker(location, map) {
-            var infoWindow = new google.maps.InfoWindow();
-            var markerNew = new google.maps.Marker({
-                position: location,
-                draggable: true,
-                animation: google.maps.Animation.DROP,
-                icon: 'app/mapa/imagen/createClaim.png',
-                map: $rootScope.map
-
-            });
-            markerNew.set("zIndex", $scope.index);
-
-
-            var htmlElement = '<button class="btn btn-primary" ng-click="removeMarker(' + markerNew.zIndex + ')"> Eliminar </button>';
-
-            var compiled = $compile(htmlElement)($scope)
-            google.maps.event.addListener(markerNew, 'click', function() {
-                infoWindow.setContent(compiled[0]);
-                infoWindow.open($rootScope.map, markerNew);
-            });
-            $scope.newClaims.push(markerNew);
-            guardarNewListMarkers();
-
-            google.maps.event.addListener(markerNew, 'dragend', function() {
-
-                $window.sessionStorage.removeItem('listNewMarket');
-                guardarNewListMarkers();
-            });
-        }
 
         function guardarNewListMarkers() {
 
@@ -405,7 +419,10 @@
         //Init data
         $scope.getProjects();
         $interval(function() { $scope.getResumen(); }, 45000);
-        $interval(function() { $scope.getClaims(); }, 420000);
+        if ($scope.selectedUsers != '' || $scope.selectedUsers != null) {
+
+            $interval(function() { $scope.getClaims(); }, 420000);
+        }
 
 
         //route
