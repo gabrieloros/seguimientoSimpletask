@@ -5,13 +5,14 @@
         .module('app')
         .controller('assignmentController', assignmentController);
 
-    assignmentController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService', '$state', '$window', '$compile', 'CONSTANTS'];
+    assignmentController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService', '$state', '$window', '$compile', 'CONSTANTS', '$timeout'];
 
-    function assignmentController($rootScope, $scope, $http, $filter, $interval, statusService, $state, $window, $compile, $CONSTANTS) {
+    function assignmentController($rootScope, $scope, $http, $filter, $interval, statusService, $state, $window, $compile, $CONSTANTS, $timeout) {
         var assignmentCntrl = this;
 
         assignmentCntrl.search = search;
         assignmentCntrl.form = newAssignment;
+        assignmentCntrl.formUnassign = unassing;
         assignmentCntrl.data = {};
         $scope.listGroups = [];
         $scope.listUsers = [];
@@ -47,7 +48,10 @@
         });
         drawingManager.setMap($rootScope.mapAssignment);
         google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
-
+            var element = event.overlay;
+            google.maps.event.addListener(element, 'click', function(e) {
+                element.setMap(null);
+            });
             if (event.type == 'polygon') {
                 var polygon = event.overlay;
 
@@ -70,7 +74,22 @@
             }).then(function(response) {
                 if (response.data.result == true) {
                     alert("Los reclamos fueron asignados correctamente");
-                    $state.go('app');
+                    assignmentCntrl.search();
+                } else {
+                    alert(response.data.data);
+                }
+            });
+        }
+
+        function unassing() {
+            $http({
+                method: 'POST',
+                url: $CONSTANTS.SERVER_URL + 'unassing',
+                params: { claims: $scope.markerAssignmentId }
+            }).then(function(response) {
+                if (response.data.result == true) {
+                    alert("Los reclamos fueron desasignados correctamente");
+                    assignmentCntrl.search();
                 } else {
                     alert(response.data.data);
                 }
@@ -86,6 +105,7 @@
                 $scope.claimListAssignmentByUser = response.data[1];
                 $scope.userPosition = response.data[0];
                 drawClaimMarkers($scope.claimListAssignmentByUser);
+                createPositionMarkerFromUser($scope.userPosition);
 
             }, function(error) {
                 console.log(error);
@@ -139,6 +159,26 @@
                 infoWindow.open($rootScope.map, marker);
             });
             $rootScope.markers.push(marker);
+        }
+
+        var createPositionMarkerFromUser = function(user) {
+            var infoWindow = new google.maps.InfoWindow();
+            var image = {
+                url: 'app/mapa/imagen/positionUser.png'
+            };
+
+            var date = new Date(user.last_position_date);
+            var date = $filter('date')(user.last_position_date, 'dd-MM-yyyy HH:mm:ss');
+            var markerUser = new google.maps.Marker({
+                labelClass: "label",
+                icon: image,
+                map: $rootScope.mapAssignment,
+                position: new google.maps.LatLng(user.lat, user.lng),
+                user_id: user.id,
+                type: "position"
+            });
+
+            $rootScope.markers.push(markerUser);
         }
 
     }
