@@ -41,6 +41,8 @@
         $rootScope.mapAssignment = new google.maps.Map(document.getElementById('mapAssignment'), mapOptions);
 
 
+
+
         var drawingManager = new google.maps.drawing.DrawingManager({
             drawingControl: true,
             drawingControlOptions: {
