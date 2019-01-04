@@ -19,19 +19,23 @@
                 <option ng-repeat="group in listGroups" value="{{group.id}}" >{{group.name}}</option>
                 </select>
     </div>
+    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <button type="submit" class="btn btn-default" ng-click="assignmentCntrl.search()">Buscar</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="submit" class="btn btn-default" ng-click="assignmentCntrl.deletePolygon()">Borrar Polygon</button>
+        </div>
+    </div>
+    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <button type="submit" class="btn btn-warning" ng-click="assignmentCntrl.formUnassign()">Desasignar</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="submit" class="btn btn-success" ng-click="assignmentCntrl.form()">Asignar</button>
+        </div>
+    </div>
 
-    <div class="form-group">
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-warning" ng-click="assignmentCntrl.formUnassign()">Desasignar</button>
-    </div>
-    <div class="form-group">
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-success" ng-click="assignmentCntrl.form()">Asignar</button>
-    </div>
-    <div class="form-group">
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-info" ng-click="assignmentCntrl.search()">Buscar</button>
-    </div>
 
 
 

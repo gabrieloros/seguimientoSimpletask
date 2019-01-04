@@ -38,6 +38,78 @@
 
         $rootScope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
+        var card = document.getElementById('pac-card');
+        var input = document.getElementById('pac-input');
+        var types = "changetype-all";
+
+        $rootScope.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        // Bind the map's bounds (viewport) property to the autocomplete object,
+        // so that the autocomplete requests use the current map bounds for the
+        // bounds option in the request.
+        autocomplete.bindTo('bounds', $rootScope.map);
+
+        // Set the data fields to return when the user selects a place.
+        autocomplete.setFields(
+            ['address_components', 'geometry', 'icon', 'name']);
+
+        var infowindow = new google.maps.InfoWindow();
+        var infowindowContent = document.getElementById('infowindow-content');
+        infowindow.setContent(infowindowContent);
+        var marker = new google.maps.Marker({
+            map: $rootScope.map,
+            anchorPoint: new google.maps.Point(0, -29)
+        });
+
+        autocomplete.addListener('place_changed', function() {
+            infowindow.close();
+            marker.setVisible(false);
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+
+                var markersSearch = $filter('filter')($rootScope.markers, { type: 'claim' });
+                var markerlocation = false;
+                angular.forEach(markersSearch, function(marker) {
+
+                    if (marker.title == place.name) {
+                        $rootScope.map.setCenter(marker.position);
+                        $rootScope.map.setZoom(17);
+                        markerlocation = true;
+                    }
+
+                })
+                if (!markerlocation) {
+
+                    window.alert("No se encontro la direccion solicitada: '" + place.name + "'");
+                }
+                return;
+            }
+
+
+            if (place.geometry.viewport) {
+                $rootScope.map.fitBounds(place.geometry.viewport);
+            } else {
+                $rootScope.map.setCenter(place.geometry.location);
+                $rootScope.map.setZoom(17); // Why 17? Because it looks good.
+            }
+            marker.setPosition(place.geometry.location);
+            marker.setVisible(true);
+
+            var address = '';
+            if (place.address_components) {
+                address = [
+                    (place.address_components[0] && place.address_components[0].short_name || ''),
+                    (place.address_components[1] && place.address_components[1].short_name || ''),
+                    (place.address_components[2] && place.address_components[2].short_name || '')
+                ].join(' ');
+            }
+
+            //infowindow.open($rootScope.map, marker);
+        });
+
+
         var drawingManager = new google.maps.drawing.DrawingManager({
             // drawingMode: google.maps.drawing.OverlayType.MARKER,
             drawingControl: true,
