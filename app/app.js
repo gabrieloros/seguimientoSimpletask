@@ -59,6 +59,22 @@
                         }
                     }
                 })
+                .state('app.groupAssignmentClaim', {
+                    url: '/groupAssignmentClaim',
+                    views: {
+
+                        'content@': {
+                            templateUrl: 'app/groupAssignment/template/menuGroupAssignment.html',
+                            controller: 'groupAssignmentController as groupAssignmentCntrl'
+                        },
+                        'sideBar@': {
+                            templateUrl: 'app/groupAssignment/template/mapaGroupAssignment.html',
+                            controller: 'groupAssignmentController as groupAssignmentCntrl'
+
+                        }
+                    }
+                })
+
 
         })
 

@@ -1,0 +1,34 @@
+<link rel="stylesheet" type="text/css" href="app/claims/template/style-claims.css">
+<form name="assignmentClaims" class="form-claim">
+
+    <h4>Menu de Asignación Grupo</h4>
+    <hr>
+
+    <div class="form-group">
+        <!-- Full Name -->
+        <label for="grupo_id" class="control-label">Grupo</label>
+        <select class="form-control" id="grupo_id" ng-model="groupAssignmentController.data.group">
+                <option ng-repeat="group in listGroups" value="{{group.id}}" >{{group.name}}</option>
+                </select>
+    </div>
+    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <button type="submit" class="btn btn-default" ng-click="groupAssignmentController.search()">Buscar</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="submit" class="btn btn-default" ng-click="groupAssignmentController.deletePolygon()">Borrar Polygon</button>
+        </div>
+    </div>
+    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+        <div class="btn-group" role="group">
+            <button type="submit" class="btn btn-warning" ng-click="groupAssignmentController.formUnassign()">Desasignar</button>
+        </div>
+        <div class="btn-group" role="group">
+            <button type="submit" class="btn btn-success" ng-click="groupAssignmentController.form()">Asignar</button>
+        </div>
+    </div>
+
+
+
+
+</form>
