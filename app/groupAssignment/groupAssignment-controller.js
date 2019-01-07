@@ -22,9 +22,18 @@
         $scope.markerAssignmentId = [];
         $scope.elementPolygon = null;
 
-        statusService.geGroupInfoForm({}, function(response) {
+        statusService.getGroupInfoForm({}, function(response) {
             $scope.listGroups = response.data;
             $scope.listGroups.push({ id: 0, name: "Sin grupo" });
+        }, function(error) {
+            console.log(error);
+        });
+        angular.forEach($rootScope.markers, function(marker, key) {
+            marker.setMap(null);
+        });
+        statusService.getListClaimsAssignmentByGroup({}, function(response) {
+            $scope.claimListAssignmentByGroup = response.data;
+            drawClaimMarkers($scope.claimListAssignmentByGroup);
         }, function(error) {
             console.log(error);
         });
@@ -97,15 +106,15 @@
 
         function search() {
 
-            angular.forEach($rootScope.markers, function(marker, key) {
-                marker.setMap(null);
-            });
-            statusService.getListClaimsAssignmentByGroup({ groupId: assignmentCntrl.data.group }, function(response) {
-                $scope.claimListAssignmentByGroup = response.data;
-                drawClaimMarkers($scope.claimListAssignmentByGroup);
-            }, function(error) {
-                console.log(error);
-            });
+            // angular.forEach($rootScope.markers, function(marker, key) {
+            //     marker.setMap(null);
+            // });
+            // statusService.getListClaimsAssignmentByGroup({}, function(response) {
+            //     $scope.claimListAssignmentByGroup = response.data;
+            //     drawClaimMarkers($scope.claimListAssignmentByGroup);
+            // }, function(error) {
+            //     console.log(error);
+            // });
             statusService.getListClaimsNotAssignmentByGroup({ groupId: assignmentCntrl.data.group }, function(response) {
                 $scope.claimListNotAssignment = response.data;
                 drawClaimMarkers($scope.claimListNotAssignment);
