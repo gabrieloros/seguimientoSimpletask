@@ -5,9 +5,9 @@
         .module('app')
         .controller('appController', appController);
 
-    appController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService', '$window', '$compile'];
+    appController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService', '$window', '$compile', '$uibModal'];
 
-    function appController($rootScope, $scope, $http, $filter, $interval, statusService, $window, $compile) {
+    function appController($rootScope, $scope, $http, $filter, $interval, statusService, $window, $compile, $uibModal) {
         var appCntrl = this;
         appController.menuClaims = menuClaims;
         $rootScope.buttonMultipleMarker;
@@ -488,6 +488,7 @@
             });
         }
 
+
         //Init data
         $scope.getProjects();
         $interval(function() { $scope.getResumen(); }, 45000);
@@ -501,6 +502,43 @@
         function menuClaims(data) {
             $rootScope.buttonMultipleMarker = data;
         }
+
+        $scope.openModal = function(size) {
+            var modalInstance = $uibModal.open({
+                templateUrl: 'app/template/login.html',
+                controller: 'loginController',
+                size: size,
+                resolve: {
+                    Items: function() //scope del modal
+                        {
+                            return "Hola que asé";
+                        }
+                }
+            });
+        }
     }
 
+})();
+
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app')
+        .controller('loginController', loginController);
+
+    loginController.$inject = ['$scope', '$uibmodalInstance', 'Items'];
+
+    function loginController($scope, $uibmodalInstance, Items) {
+        $scope.items = Items;
+
+        $scope.save = function(param) {
+            console.log(param)
+        };
+
+        $scope.cancel = function() {
+            $modalInstance.dismiss('cancel');
+        };
+    }
 })();

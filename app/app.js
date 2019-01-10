@@ -2,6 +2,7 @@
     'use strict';
 
     angular.module('app', [
+            'ui.bootstrap',
             'ui.router',
             'ngResource',
             'angular-loading-bar',
@@ -25,7 +26,7 @@
                         // 'content': {
                         //     templateUrl: 'app/template/menu.html',
                         //     controller: 'appController as appCntrl'
-                        // },
+                        //},
                         'sideBar': {
                             templateUrl: 'app/template/home.html',
                             controller: 'appController as appCntrl'
