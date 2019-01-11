@@ -28,7 +28,11 @@
         $scope.projects = null;
         $scope.index = 0;
         $scope.timeCode = 0;
-
+        if ('identikeyST23581321' in sessionStorage) {
+            $scope.viewMenu = true;
+        } else {
+            $scope.viewMenu = false;
+        }
         if ($window.sessionStorage.getItem('identikeyST23581321') !== null) {
             $rootScope.sessionUser = $window.sessionStorage.getItem('identikeyST23581321');
         }
