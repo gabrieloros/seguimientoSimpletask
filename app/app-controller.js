@@ -28,7 +28,15 @@
         $scope.projects = null;
         $scope.index = 0;
         $scope.timeCode = 0;
+
+        if ($window.sessionStorage.getItem('identikeyST23581321') !== null) {
+            $rootScope.sessionUser = $window.sessionStorage.getItem('identikeyST23581321');
+        }
         $window.sessionStorage.removeItem('listNewMarket');
+
+        $scope.closeSesion = function() {
+            $window.sessionStorage.removeItem('identikeyST23581321');
+        }
 
         var mapOptions = {
             zoom: 13,
@@ -41,9 +49,9 @@
         var card = document.getElementById('pac-card');
         var input = document.getElementById('pac-input');
         var types = "changetype-all";
-
-        $rootScope.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
-
+        if ($rootScope.sessionUser !== undefined) {
+            $rootScope.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+        }
         var autocomplete = new google.maps.places.Autocomplete(input);
 
         // Bind the map's bounds (viewport) property to the autocomplete object,
@@ -119,7 +127,9 @@
             },
 
         });
-        drawingManager.setMap($rootScope.map);
+        if ($rootScope.sessionUser !== undefined) {
+            drawingManager.setMap($rootScope.map);
+        }
         google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
 
             if (event.type == 'marker') {
@@ -201,10 +211,7 @@
         var createPositionMarkerFromUser = function(user) {
             var infoWindow = new google.maps.InfoWindow();
             var image = {
-                url: 'app/mapa/imagen/positionUser.png',
-                // size: new google.maps.Size(40, 52),
-                // origin: new google.maps.Point(0, 0),
-                // anchor: new google.maps.Point(12, 40)
+                url: 'app/mapa/imagen/positionUser.png'
             };
 
             var date = new Date(user.last_position_date);
@@ -236,10 +243,7 @@
                 var urlRoute = 'app/mapa/imagen/' + (claim.status == 'pending' ? 'red' : 'green') + '.png'
             }
             var claimIcon = {
-                url: urlRoute,
-                // size: new google.maps.Size(40, 52),
-                // origin: new google.maps.Point(0, 0),
-                // anchor: new google.maps.Point(12, 40)
+                url: urlRoute
             };
             var date = new Date(claim.date);
             var marker = new google.maps.Marker({
@@ -409,53 +413,55 @@
                 console.log(error);
             });
         }
+        if ($rootScope.sessionUser !== undefined) {
 
-        $scope.getResumen = function() {
-            statusService.getResumenUsers({ projectId: $scope.currentProjectId, timeCode: $scope.timeCode }, function(response) {
-                $scope.allUsers = response.data;
-                updateResumenData(response.data);
-            }, function(error) {
-                console.log(error);
-            });
+            $scope.getResumen = function() {
+                statusService.getResumenUsers({ projectId: $scope.currentProjectId, timeCode: $scope.timeCode }, function(response) {
+                    $scope.allUsers = response.data;
+                    updateResumenData(response.data);
+                }, function(error) {
+                    console.log(error);
+                });
+            }
+
+
+            $scope.getCount = function(type) {
+                statusService.getCountTotal({ projectId: $scope.currentProjectId, timeCode: $scope.timeCode, typeCode: type }, function(response) {
+                    $scope.claims = response.data;
+                    drawClaimMarkers(type);
+                }, function(error) {
+                    console.log(error);
+                });
+            }
+
+
+
+            $scope.getClaimAmounts = function(type) {
+                statusService.getClaimAmountsData({ typeCode: type }, function(response) {
+                    $scope.claims = response.data;
+                    drawClaimMarkers(type);
+                }, function(error) {
+                    console.log(error);
+                });
+            }
+
+            $scope.getProjects = function() {
+                statusService.getProjects({}, function(response) {
+                    $scope.instalation = response.data[0];
+                    $scope.projects = response.data[1]
+                        //Add group by default
+                    $scope.projects.push({ id: 0, name: "Sin grupo" });
+                    $scope.currentProjectId = $scope.projects[0].id;
+                    $scope.projectPendingClaims = $scope.projects[0].pending_claims;
+                    $scope.projectCompletedClaims = $scope.projects[0].completed_claims;
+                    $scope.currentProjectName = $scope.projects[0].name;
+                    $scope.getResumen();
+                }, function(error) {
+                    console.log(error);
+                });
+            }
+
         }
-
-
-        $scope.getCount = function(type) {
-            statusService.getCountTotal({ projectId: $scope.currentProjectId, timeCode: $scope.timeCode, typeCode: type }, function(response) {
-                $scope.claims = response.data;
-                drawClaimMarkers(type);
-            }, function(error) {
-                console.log(error);
-            });
-        }
-
-
-
-        $scope.getClaimAmounts = function(type) {
-            statusService.getClaimAmountsData({ typeCode: type }, function(response) {
-                $scope.claims = response.data;
-                drawClaimMarkers(type);
-            }, function(error) {
-                console.log(error);
-            });
-        }
-
-        $scope.getProjects = function() {
-            statusService.getProjects({}, function(response) {
-                $scope.instalation = response.data[0];
-                $scope.projects = response.data[1]
-                    //Add group by default
-                $scope.projects.push({ id: 0, name: "Sin grupo" });
-                $scope.currentProjectId = $scope.projects[0].id;
-                $scope.projectPendingClaims = $scope.projects[0].pending_claims;
-                $scope.projectCompletedClaims = $scope.projects[0].completed_claims;
-                $scope.currentProjectName = $scope.projects[0].name;
-                $scope.getResumen();
-            }, function(error) {
-                console.log(error);
-            });
-        }
-
         $scope.removeMarker = function(index) {
 
             angular.forEach($scope.newClaims, function(marker) {
@@ -488,15 +494,16 @@
             });
         }
 
+        if ($rootScope.sessionUser !== undefined) {
 
-        //Init data
-        $scope.getProjects();
-        $interval(function() { $scope.getResumen(); }, 45000);
-        if ($scope.selectedUsers != '' || $scope.selectedUsers != null) {
+            //Init data
+            $scope.getProjects();
+            $interval(function() { $scope.getResumen(); }, 45000);
+            if ($scope.selectedUsers != '' || $scope.selectedUsers != null) {
 
-            $interval(function() { $scope.getClaims(); }, 420000);
+                $interval(function() { $scope.getClaims(); }, 420000);
+            }
         }
-
 
         //route
         function menuClaims(data) {
@@ -507,13 +514,8 @@
             var modalInstance = $uibModal.open({
                 templateUrl: 'app/template/login.html',
                 controller: 'loginController',
+                controllerAs: 'lc',
                 size: size,
-                resolve: {
-                    Items: function() //scope del modal
-                        {
-                            return "Hola que asé";
-                        }
-                }
             });
         }
     }
@@ -528,17 +530,22 @@
         .module('app')
         .controller('loginController', loginController);
 
-    loginController.$inject = ['$scope', '$uibmodalInstance', 'Items'];
+    loginController.$inject = ['$scope', '$uibModalInstance', '$window', '$location'];
 
-    function loginController($scope, $uibmodalInstance, Items) {
-        $scope.items = Items;
+    function loginController($scope, $uibModalInstance, $window, $location) {
+        var loginc = this;
 
-        $scope.save = function(param) {
-            console.log(param)
+        $scope.save = function() {
+            if ($scope.user != null) {
+                $window.sessionStorage["identikeyST23581321"] = $scope.user;
+            }
+            $uibModalInstance.close();
+            $location.path("");
+            // $state.go('app');
         };
 
         $scope.cancel = function() {
-            $modalInstance.dismiss('cancel');
+            $uibModalInstance.dismiss('cancel');
         };
     }
 })();

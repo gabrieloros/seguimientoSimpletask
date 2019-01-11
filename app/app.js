@@ -19,28 +19,9 @@
         .config(function config($stateProvider) {
 
             $stateProvider
-                .state('login', {
-                    url: '',
-                    views: {
 
-                        // 'content': {
-                        //     templateUrl: 'app/template/menu.html',
-                        //     controller: 'appController as appCntrl'
-                        //},
-                        'sideBar': {
-                            templateUrl: 'app/template/home.html',
-                            controller: 'appController as appCntrl'
-
-                        },
-                        'route': {
-                            templateUrl: 'app/template/menuRoute.html',
-                            controller: 'appController as appCntrl'
-                        }
-                    }
-
-                })
                 .state('app', {
-                    url: '/seguimiento',
+                    url: '',
                     views: {
 
                         'content': {
