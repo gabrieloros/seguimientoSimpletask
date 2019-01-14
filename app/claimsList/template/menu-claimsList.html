@@ -1,0 +1,57 @@
+<link rel="stylesheet" type="text/css" href="app/claims/template/style-claims.css">
+<form name="newsClaims" class="form-claim" ng-if="viewMenu == true">
+    <div class="alert alert-info" role="alert">
+        <div class="row">
+            <div class="col-xs-6 col-sm-3">
+                Pendiente <span class="badge">14</span>
+            </div>
+            <div class="col-xs-6 col-sm-3">
+                Cerrado <span class="badge">14</span>
+            </div>
+            <div class="col-xs-6 col-sm-3">
+                Baja <span class="badge">14</span>
+            </div>
+            <div class="col-xs-6 col-sm-3">
+                Baja S/G <span class="badge">14</span>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    <div class="form-group">
+        <!-- Street 1 -->
+        <label for="solicitante_id" class="control-label">ID</label>
+        <input type="text" class="form-control" id="id" name="id" ng-model="claimsListCntrl.data.id">
+    </div>
+    <div class="form-group">
+        <!-- Street 1 -->
+        <label for="telefono" class="control-label">Telefono</label>
+        <input type="text" class="form-control" id="telefono" name="telefono" ng-model="claimsListCntrl.data.phone">
+    </div>
+    <div class="form-group">
+        <!-- Full Name -->
+        <label for="date_id" class="control-label">Elegir tipo de Fecha</label>
+        <input type="date" class="form-control" id="date" name="date" ng-model="claimsListCntrl.data.date">
+    </div>
+    <div class="form-group">
+        <!-- Full Name -->
+        <label for="state_id" class="control-label">Estado</label>
+        <select class="form-control" id="state_id" ng-model="claimsListCntrl.data.state">
+           </select>
+    </div>
+    <div class="form-group">
+        <!-- Full Name -->
+        <label for="operario_id" class="control-label">Operario</label>
+        <select class="form-control" id="operario_id" ng-model="claimsListCntrl.data.operario">
+                <!-- <option ng-repeat="user in listUsers"  value="{{user.id}}" >{{user.name}}
+                </option> -->
+        </select>
+    </div>
+
+
+    <div class="form-group">
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-info" ng-click="claimsListCntrl.form()">Buscar</button>
+    </div>
+
+</form>

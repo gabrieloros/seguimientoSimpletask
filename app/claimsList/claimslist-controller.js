@@ -3,16 +3,16 @@
 
     angular
         .module('app')
-        .controller('claimsController', claimsController);
+        .controller('claimsListController', claimsListController);
 
-    claimsController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService', '$state', '$window', 'CONSTANTS'];
+    claimsListController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService', '$state', '$window', 'CONSTANTS'];
 
-    function claimsController($rootScope, $scope, $http, $filter, $interval, statusService, $state, $window, $CONSTANTS) {
+    function claimsListController($rootScope, $scope, $http, $filter, $interval, statusService, $state, $window, $CONSTANTS) {
 
-        var claimsCntrl = this;
+        var claimsListCntrl = this;
 
-        claimsCntrl.form = newClaims;
-        claimsCntrl.data = {};
+        claimsListCntrl.form = newClaims;
+        claimsListCntrl.data = {};
         $scope.listCauses = [];
         $scope.listGroups = [];
         $scope.listUsers = [];
@@ -33,14 +33,22 @@
         } else {
             $scope.viewMenu = false;
         }
+        var mapOptions = {
+            zoom: 13,
+            center: new google.maps.LatLng(-32.885, -68.8422),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+
+        $rootScope.mapAssignment = new google.maps.Map(document.getElementById('mapClaimList'), mapOptions);
+
 
         function newClaims() {
-            claimsCntrl.data;
+            claimsListCntrl.data;
             $scope.newClaims = $window.sessionStorage.getItem('listNewMarket');
             $scope.identikey = null;
 
             $scope.listUsers.forEach(user => {
-                if (user.id == claimsCntrl.data.operario) {
+                if (user.id == claimsListCntrl.data.operario) {
                     $scope.identikey = user.identikey;
                 }
             });
@@ -50,11 +58,11 @@
             var min = new Date().getMinutes();
             var seg = new Date().getSeconds();
 
-            claimsCntrl.data.code = 'ST-M-' + hs + '-' + min + '-' + seg;
+            claimsListCntrl.data.code = 'ST-M-' + hs + '-' + min + '-' + seg;
             $http({
                 method: 'POST',
                 url: $CONSTANTS.SERVER_URL + 'createclaimbyst',
-                params: { identikey: $scope.identikey, data: claimsCntrl.data, positions: $scope.newClaims }
+                params: { identikey: $scope.identikey, data: claimsListCntrl.data, positions: $scope.newClaims }
             }).then(function(response) {
                 $window.sessionStorage.removeItem('listNewMarket');
                 if (response.data.result == true) {

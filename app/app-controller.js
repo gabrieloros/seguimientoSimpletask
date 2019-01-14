@@ -5,9 +5,9 @@
         .module('app')
         .controller('appController', appController);
 
-    appController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService', '$window', '$compile', '$uibModal'];
+    appController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService', '$window', '$compile', '$uibModal', '$state'];
 
-    function appController($rootScope, $scope, $http, $filter, $interval, statusService, $window, $compile, $uibModal) {
+    function appController($rootScope, $scope, $http, $filter, $interval, statusService, $window, $compile, $uibModal, $state) {
         var appCntrl = this;
         appController.menuClaims = menuClaims;
         $rootScope.buttonMultipleMarker;
@@ -28,6 +28,7 @@
         $scope.projects = null;
         $scope.index = 0;
         $scope.timeCode = 0;
+        //validation de identikey
         if ('identikeyST23581321' in sessionStorage) {
             $scope.viewMenu = true;
         } else {
@@ -40,6 +41,10 @@
 
         $scope.closeSesion = function() {
             $window.sessionStorage.removeItem('identikeyST23581321');
+            $scope.viewMenu = false;
+            $window.location.reload();
+            //$location.path("/login");
+            $state.go('app.login');
         }
 
         var mapOptions = {
@@ -516,7 +521,7 @@
 
         $scope.openModal = function(size) {
             var modalInstance = $uibModal.open({
-                templateUrl: 'app/template/login.html',
+                templateUrl: 'app/login/template/login.html',
                 controller: 'loginController',
                 controllerAs: 'lc',
                 size: size,
@@ -544,7 +549,8 @@
                 $window.sessionStorage["identikeyST23581321"] = $scope.user;
             }
             $uibModalInstance.close();
-            $location.path("");
+            $window.location.reload();
+            $location.path("/login");
             // $state.go('app');
         };
 

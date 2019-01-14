@@ -22,6 +22,12 @@
         $scope.markerAssignmentId = [];
         $scope.elementPolygon = null;
 
+        if ('identikeyST23581321' in sessionStorage) {
+            $scope.viewMenu = true;
+        } else {
+            $scope.viewMenu = false;
+        }
+
         statusService.getGroupInfoForm({}, function(response) {
             $scope.listGroups = response.data;
             $scope.listGroups.push({ id: 0, name: "Sin grupo" });
