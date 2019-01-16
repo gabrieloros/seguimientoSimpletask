@@ -86,6 +86,10 @@
                         'content@': {
                             templateUrl: 'app/login/template/viewWelcome.html',
                             controller: 'appController as appCntrl'
+                        },
+                        'route@': {
+                            templateUrl: 'app/template/menuRoute.html',
+                            controller: 'appController as appCntrl'
                         }
                     }
 

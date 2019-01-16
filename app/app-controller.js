@@ -539,19 +539,37 @@
         .module('app')
         .controller('loginController', loginController);
 
-    loginController.$inject = ['$scope', '$uibModalInstance', '$window', '$location'];
+    loginController.$inject = ['$scope', '$uibModalInstance', 'serviceLogin', '$window', '$location', '$state'];
 
-    function loginController($scope, $uibModalInstance, $window, $location) {
+    function loginController($scope, $uibModalInstance, serviceLogin, $window, $location, $state) {
         var loginc = this;
 
         $scope.save = function() {
-            if ($scope.user != null) {
-                $window.sessionStorage["identikeyST23581321"] = $scope.user;
+            if ($scope.user != null && $scope.pass != null) {
+
+                serviceLogin.getLoginST({ userName: $scope.user, passwordKey: $scope.pass }, function(response) {
+                    $scope.identikey = response.data.result.identikey;
+                    if ($scope.identikey != undefined && $scope.identikey != null) {
+                        $uibModalInstance.close();
+                        $location.path("/login");
+                        $window.sessionStorage["identikeyST23581321"] = $scope.identikey;
+                    } else {
+                        $uibModalInstance.close();
+                        $location.path("");
+                        alert("Usuario o Contraseña ingresados incorrectamente");
+                    }
+
+                }, function(error) {
+                    console.log(error);
+                    $state.go('app');
+                    //$location.path("");
+                    alert("Usuario o Contraseña ingresados incorrectamente");
+                    $uibModalInstance.close();
+
+                });
+
             }
-            $uibModalInstance.close();
-            $window.location.reload();
-            $location.path("/login");
-            // $state.go('app');
+
         };
 
         $scope.cancel = function() {
