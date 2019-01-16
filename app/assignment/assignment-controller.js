@@ -24,6 +24,12 @@
         $scope.markerAssignmentId = [];
         $scope.elementPolygon = null;
 
+        if ('identikeyST23581321' in sessionStorage) {
+            $scope.viewMenu = true;
+        } else {
+            $scope.viewMenu = false;
+        }
+
         statusService.getListTheInfoForm({}, function(response) {
             $scope.listGroups = response.data[1];
             $scope.listUsers = response.data[2];

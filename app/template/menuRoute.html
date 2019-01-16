@@ -1,0 +1,22 @@
+<div class="Box1">
+    <!-- <div class=" titulo">{{ instalation.name }}</div> -->
+    <div class=" titulo">Simpletask</div>
+
+    <div class="dropdown" style="text-align: center">
+        <button class="btn btn-default" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="margin-top: -30px">
+        <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+        </button>
+        <ul class="dropdown-menu" style="margin-left: 300px" aria-labelledby="dropdownMenu">
+            <li><a ui-sref="app" ng-if="viewMenu == true">Seguimiento</a></li>
+            <li><a ui-sref="app.claims" ng-if="viewMenu == true">Nuevo Reclamos</a></li>
+            <li><a ui-sref="app.listClaims" ng-if="viewMenu == true">Listado Reclamos</a></li>
+            <li><a ui-sref="app.assignmentClaim" ng-if="viewMenu == true">Asignación de Reclamos</a></li>
+            <li><a ui-sref="app.groupAssignmentClaim" ng-if="viewMenu == true">Administración de Grupos</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a ng-click="openModal('lg')" ng-if="viewMenu == false">Iniciar Sesion</a></li>
+            <li><a ng-click="closeSesion()" ng-if="viewMenu == true">Cerrar Sesion</a></li>
+            <li class="disabled"><a href="#" ng-if="viewMenu == true">Más</a></li>
+        </ul>
+    </div>
+</div>
+<!-- ng-if="$rootScope.sessionUser" -->

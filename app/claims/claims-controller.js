@@ -5,9 +5,9 @@
         .module('app')
         .controller('claimsController', claimsController);
 
-    claimsController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService', '$state', '$window', 'CONSTANTS'];
+    claimsController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService', 'serviceLogin', '$state', '$window', 'CONSTANTS'];
 
-    function claimsController($rootScope, $scope, $http, $filter, $interval, statusService, $state, $window, $CONSTANTS) {
+    function claimsController($rootScope, $scope, $http, $filter, $interval, statusService, serviceLogin, $state, $window, $CONSTANTS) {
 
         var claimsCntrl = this;
 
@@ -28,7 +28,11 @@
         });
 
 
-
+        if ('identikeyST23581321' in sessionStorage) {
+            $scope.viewMenu = true;
+        } else {
+            $scope.viewMenu = false;
+        }
 
         function newClaims() {
             claimsCntrl.data;

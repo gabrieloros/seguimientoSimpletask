@@ -2,6 +2,7 @@
     'use strict';
 
     angular.module('app', [
+            'ui.bootstrap',
             'ui.router',
             'ngResource',
             'angular-loading-bar',
@@ -15,13 +16,10 @@
             SERVER_URL: 'http://localhost:8089/SimpleTask_Rest/adr/service/'
         })
         //.constant('SERVER_URL','http://localhost:8080/adr/service/')
-        .config(function config($authProvider, $stateProvider) {
-            // Parametros de configuración
-            $authProvider.loginUrl = "http://api.com/auth/login";
-            $authProvider.signupUrl = "http://api.com/auth/signup";
-            $authProvider.tokenName = "token";
-            $authProvider.tokenPrefix = "myApp",
-                $stateProvider
+        .config(function config($stateProvider) {
+
+            $stateProvider
+
                 .state('app', {
                     url: '',
                     views: {
@@ -34,6 +32,10 @@
                             templateUrl: 'app/template/home.html',
                             controller: 'appController as appCntrl'
 
+                        },
+                        'route': {
+                            templateUrl: 'app/template/menuRoute.html',
+                            controller: 'appController as appCntrl'
                         }
                     }
 
@@ -74,6 +76,34 @@
                         'sideBar@': {
                             templateUrl: 'app/groupAssignment/template/mapaGroupAssignment.html',
                             controller: 'groupAssignmentController as groupAssignmentCntrl'
+
+                        }
+                    }
+                })
+                .state('app.login', {
+                    url: '/login',
+                    views: {
+                        'content@': {
+                            templateUrl: 'app/login/template/viewWelcome.html',
+                            controller: 'appController as appCntrl'
+                        },
+                        'route@': {
+                            templateUrl: 'app/template/menuRoute.html',
+                            controller: 'appController as appCntrl'
+                        }
+                    }
+
+                })
+                .state('app.listClaims', {
+                    url: '/claimsList',
+                    views: {
+                        'content@': {
+                            templateUrl: 'app/claimsList/template/menu-claimsList.html',
+                            controller: 'claimsListController as claimsListCntrl'
+                        },
+                        'sideBar@': {
+                            templateUrl: 'app/claimsList/template/mapaClaimList.html',
+                            controller: 'claimsListController as claimsListCntrl'
 
                         }
                     }

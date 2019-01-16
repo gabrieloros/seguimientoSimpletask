@@ -5,9 +5,9 @@
         .module('app')
         .controller('appController', appController);
 
-    appController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService', '$window', '$compile'];
+    appController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService', '$window', '$compile', '$uibModal', '$state'];
 
-    function appController($rootScope, $scope, $http, $filter, $interval, statusService, $window, $compile) {
+    function appController($rootScope, $scope, $http, $filter, $interval, statusService, $window, $compile, $uibModal, $state) {
         var appCntrl = this;
         appController.menuClaims = menuClaims;
         $rootScope.buttonMultipleMarker;
@@ -28,7 +28,24 @@
         $scope.projects = null;
         $scope.index = 0;
         $scope.timeCode = 0;
+        //validation de identikey
+        if ('identikeyST23581321' in sessionStorage) {
+            $scope.viewMenu = true;
+        } else {
+            $scope.viewMenu = false;
+        }
+        if ($window.sessionStorage.getItem('identikeyST23581321') !== null) {
+            $rootScope.sessionUser = $window.sessionStorage.getItem('identikeyST23581321');
+        }
         $window.sessionStorage.removeItem('listNewMarket');
+
+        $scope.closeSesion = function() {
+            $window.sessionStorage.removeItem('identikeyST23581321');
+            $scope.viewMenu = false;
+            $window.location.reload();
+            //$location.path("/login");
+            $state.go('app.login');
+        }
 
         var mapOptions = {
             zoom: 13,
@@ -41,9 +58,9 @@
         var card = document.getElementById('pac-card');
         var input = document.getElementById('pac-input');
         var types = "changetype-all";
-
-        $rootScope.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
-
+        if ($rootScope.sessionUser !== undefined) {
+            $rootScope.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+        }
         var autocomplete = new google.maps.places.Autocomplete(input);
 
         // Bind the map's bounds (viewport) property to the autocomplete object,
@@ -119,7 +136,9 @@
             },
 
         });
-        drawingManager.setMap($rootScope.map);
+        if ($rootScope.sessionUser !== undefined) {
+            drawingManager.setMap($rootScope.map);
+        }
         google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
 
             if (event.type == 'marker') {
@@ -201,10 +220,7 @@
         var createPositionMarkerFromUser = function(user) {
             var infoWindow = new google.maps.InfoWindow();
             var image = {
-                url: 'app/mapa/imagen/positionUser.png',
-                // size: new google.maps.Size(40, 52),
-                // origin: new google.maps.Point(0, 0),
-                // anchor: new google.maps.Point(12, 40)
+                url: 'app/mapa/imagen/positionUser.png'
             };
 
             var date = new Date(user.last_position_date);
@@ -236,10 +252,7 @@
                 var urlRoute = 'app/mapa/imagen/' + (claim.status == 'pending' ? 'red' : 'green') + '.png'
             }
             var claimIcon = {
-                url: urlRoute,
-                // size: new google.maps.Size(40, 52),
-                // origin: new google.maps.Point(0, 0),
-                // anchor: new google.maps.Point(12, 40)
+                url: urlRoute
             };
             var date = new Date(claim.date);
             var marker = new google.maps.Marker({
@@ -409,53 +422,55 @@
                 console.log(error);
             });
         }
+        if ($rootScope.sessionUser !== undefined) {
 
-        $scope.getResumen = function() {
-            statusService.getResumenUsers({ projectId: $scope.currentProjectId, timeCode: $scope.timeCode }, function(response) {
-                $scope.allUsers = response.data;
-                updateResumenData(response.data);
-            }, function(error) {
-                console.log(error);
-            });
+            $scope.getResumen = function() {
+                statusService.getResumenUsers({ projectId: $scope.currentProjectId, timeCode: $scope.timeCode }, function(response) {
+                    $scope.allUsers = response.data;
+                    updateResumenData(response.data);
+                }, function(error) {
+                    console.log(error);
+                });
+            }
+
+
+            $scope.getCount = function(type) {
+                statusService.getCountTotal({ projectId: $scope.currentProjectId, timeCode: $scope.timeCode, typeCode: type }, function(response) {
+                    $scope.claims = response.data;
+                    drawClaimMarkers(type);
+                }, function(error) {
+                    console.log(error);
+                });
+            }
+
+
+
+            $scope.getClaimAmounts = function(type) {
+                statusService.getClaimAmountsData({ typeCode: type }, function(response) {
+                    $scope.claims = response.data;
+                    drawClaimMarkers(type);
+                }, function(error) {
+                    console.log(error);
+                });
+            }
+
+            $scope.getProjects = function() {
+                statusService.getProjects({}, function(response) {
+                    $scope.instalation = response.data[0];
+                    $scope.projects = response.data[1]
+                        //Add group by default
+                    $scope.projects.push({ id: 0, name: "Sin grupo" });
+                    $scope.currentProjectId = $scope.projects[0].id;
+                    $scope.projectPendingClaims = $scope.projects[0].pending_claims;
+                    $scope.projectCompletedClaims = $scope.projects[0].completed_claims;
+                    $scope.currentProjectName = $scope.projects[0].name;
+                    $scope.getResumen();
+                }, function(error) {
+                    console.log(error);
+                });
+            }
+
         }
-
-
-        $scope.getCount = function(type) {
-            statusService.getCountTotal({ projectId: $scope.currentProjectId, timeCode: $scope.timeCode, typeCode: type }, function(response) {
-                $scope.claims = response.data;
-                drawClaimMarkers(type);
-            }, function(error) {
-                console.log(error);
-            });
-        }
-
-
-
-        $scope.getClaimAmounts = function(type) {
-            statusService.getClaimAmountsData({ typeCode: type }, function(response) {
-                $scope.claims = response.data;
-                drawClaimMarkers(type);
-            }, function(error) {
-                console.log(error);
-            });
-        }
-
-        $scope.getProjects = function() {
-            statusService.getProjects({}, function(response) {
-                $scope.instalation = response.data[0];
-                $scope.projects = response.data[1]
-                    //Add group by default
-                $scope.projects.push({ id: 0, name: "Sin grupo" });
-                $scope.currentProjectId = $scope.projects[0].id;
-                $scope.projectPendingClaims = $scope.projects[0].pending_claims;
-                $scope.projectCompletedClaims = $scope.projects[0].completed_claims;
-                $scope.currentProjectName = $scope.projects[0].name;
-                $scope.getResumen();
-            }, function(error) {
-                console.log(error);
-            });
-        }
-
         $scope.removeMarker = function(index) {
 
             angular.forEach($scope.newClaims, function(marker) {
@@ -488,19 +503,77 @@
             });
         }
 
-        //Init data
-        $scope.getProjects();
-        $interval(function() { $scope.getResumen(); }, 45000);
-        if ($scope.selectedUsers != '' || $scope.selectedUsers != null) {
+        if ($rootScope.sessionUser !== undefined) {
 
-            $interval(function() { $scope.getClaims(); }, 420000);
+            //Init data
+            $scope.getProjects();
+            $interval(function() { $scope.getResumen(); }, 45000);
+            if ($scope.selectedUsers != '' || $scope.selectedUsers != null) {
+
+                $interval(function() { $scope.getClaims(); }, 420000);
+            }
         }
-
 
         //route
         function menuClaims(data) {
             $rootScope.buttonMultipleMarker = data;
         }
+
+        $scope.openModal = function(size) {
+            var modalInstance = $uibModal.open({
+                templateUrl: 'app/login/template/login.html',
+                controller: 'loginController',
+                controllerAs: 'lc',
+                size: size,
+            });
+        }
     }
 
+})();
+
+
+(function() {
+    'use strict';
+
+    angular
+        .module('app')
+        .controller('loginController', loginController);
+
+    loginController.$inject = ['$scope', '$uibModalInstance', 'serviceLogin', '$window', '$location', '$state'];
+
+    function loginController($scope, $uibModalInstance, serviceLogin, $window, $location, $state) {
+        var loginc = this;
+
+        $scope.save = function() {
+            if ($scope.user != null && $scope.pass != null) {
+
+                serviceLogin.getLoginST({ userName: $scope.user, passwordKey: $scope.pass }, function(response) {
+                    $scope.identikey = response.data.result.identikey;
+                    if ($scope.identikey != undefined && $scope.identikey != null) {
+                        $uibModalInstance.close();
+                        $location.path("/login");
+                        $window.sessionStorage["identikeyST23581321"] = $scope.identikey;
+                    } else {
+                        $uibModalInstance.close();
+                        $location.path("");
+                        alert("Usuario o Contraseña ingresados incorrectamente");
+                    }
+
+                }, function(error) {
+                    console.log(error);
+                    $state.go('app');
+                    //$location.path("");
+                    alert("Usuario o Contraseña ingresados incorrectamente");
+                    $uibModalInstance.close();
+
+                });
+
+            }
+
+        };
+
+        $scope.cancel = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
+    }
 })();

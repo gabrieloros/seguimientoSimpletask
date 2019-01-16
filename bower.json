@@ -20,6 +20,7 @@
     "angular-ui-router": "^1.0.10",
     "ngstorage": "^0.3.11",
     "angular-resource": "^1.6.6",
-    "satellizer": "^0.15.5"
+    "ui-bootstrap": "^2.5.6",
+    "angular-bootstrap": "^2.5.0"
   }
 }

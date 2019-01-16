@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
     <link rel='stylesheet' href="node_modules/angular-loading-bar/build/loading-bar.min.css" type='text/css' media='all' />
     <link rel="stylesheet" type="text/css" href="app/template/style.css">
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+
     <meta name="viewport" content="width=device-width; initial-scale=1.0">
 
     <title>Simple Task</title>
@@ -32,29 +34,7 @@
 
             <div class="navbar-nav mr-auto block" class="collapse navbar-collapse" ng-class="{'force-show': showBlock}">
 
-
-                <div class="Box1">
-                    <!-- <div class=" titulo">{{ instalation.name }}</div> -->
-                    <div class=" titulo">Simpletask</div>
-
-                    <div class="dropdown" style="text-align: center">
-                        <button class="btn btn-default" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="margin-top: -30px">
-                        <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
-                                            </button>
-                        <ul class="dropdown-menu" style="margin-left: 300px" aria-labelledby="dropdownMenu">
-                            <li><a ui-sref='app'>Seguimiento</a></li>
-                            <li><a ui-sref="app.claims">Nuevo Reclamos</a></li>
-                            <li class="disabled"><a href="#">Reclamos</a></li>
-                            <li><a ui-sref="app.assignmentClaim">Asignación de Reclamos</a></li>
-                            <li><a ui-sref="app.groupAssignmentClaim">Administración de Grupos</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li class="disabled"><a href="#">Más</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-
-
+                <div ui-view="route"></div>
                 <div ui-view="content"></div>
             </div>
 
@@ -65,17 +45,15 @@
     </div>
 
     <!-- <div ui-view="sideBar"></div> -->
-
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3O8uGKpwOVbdvKGnqEpAK45qJex9BdPE&libraries=drawing,places,geometry&amp;sensor=false"></script>
     <script type="text/javascript" src="app/js/menu.js"></script>
-    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
     <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script type="text/javascript" src="bower_components/ngstorage/ngStorage.min.js"></script>
     <script type="text/javascript" src="bower_components/angular-resource/angular-resource.min.js"></script>
     <script type='text/javascript' src="node_modules/angular-loading-bar/build/loading-bar.min.js"></script>
-
+    <script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <!--utils -->
     <script type="text/javascript" src="app/utils/array_util.js"></script>
 
@@ -85,6 +63,8 @@
     <script type="text/javascript" src="app/claims/claims.js"></script>
     <script type="text/javascript" src="app/assignment/assignment.js"></script>
     <script type="text/javascript" src="app/mapa/mapa.js"></script>
+    <script type="text/javascript" src="app/claimsList/claimsList.js"></script>
+
 
 
     <!-- Controlador  Y service-->
@@ -92,10 +72,13 @@
     <script type="text/javascript" src="app/claims/claims-controller.js"></script>
     <script type="text/javascript" src="app/assignment/assignment-controller.js"></script>
     <script type="text/javascript" src="app/groupAssignment/groupAssignment-controller.js"></script>
+    <script type="text/javascript" src="app/claimsList/claimslist-controller.js"></script>
+
 
 
     <script type="text/javascript" src="app/services/servicesData/viewModuleMenu-service.js"></script>
     <script type="text/javascript" src="app/services/status-service.js"></script>
+    <script type="text/javascript" src="app/services/login-service.js"></script>
 
 
 </body>
