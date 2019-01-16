@@ -11,7 +11,7 @@
             <li><a ui-sref="app.claims" ng-if="viewMenu == true">Nuevo Reclamos</a></li>
             <li><a ui-sref="app.listClaims" ng-if="viewMenu == true">Listado Reclamos</a></li>
             <li><a ui-sref="app.assignmentClaim" ng-if="viewMenu == true">Asignación de Reclamos</a></li>
-            <li><a ui-sref="app.groupAssignmentClaim" ng-if="viewMenu == true">Administración de Grupos</a></li>
+            <li class="disabled" data-toggle="tooltip" data-placement="right" title="En desarrollo"><a ui-sref="app.groupAssignmentClaim" ng-if="viewMenu == true">Administración de Grupos</a></li>
             <li role="separator" class="divider"></li>
             <li><a ng-click="openModal('lg')" ng-if="viewMenu == false">Iniciar Sesion</a></li>
             <li><a ng-click="closeSesion()" ng-if="viewMenu == true">Cerrar Sesion</a></li>
