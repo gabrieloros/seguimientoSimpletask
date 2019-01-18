@@ -58,6 +58,9 @@
         });
         drawingManager.setMap($rootScope.mapAssignment);
         google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
+            if ($scope.elementPolygon != null) {
+                deletePolygon();
+            }
             $scope.elementPolygon = event.overlay;
 
 

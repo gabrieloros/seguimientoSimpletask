@@ -31,7 +31,12 @@
     <div class="form-group">
         <!-- Full Name -->
         <label for="date_id" class="control-label">Elegir tipo de Fecha</label>
-        <input type="date" class="form-control" id="date" name="date" ng-model="claimsListCntrl.data.date">
+        <select class="form-control" id="state_id" ng-model="claimsListCntrl.data.state">
+                <option  value="1" >Fecha de Entrada</option>
+                <option  value="2" >Fecha de Cierre</option
+        </select> <br>
+        <input type="date" class="form-control" id="startDate" name="startDate" ng-model="claimsListCntrl.data.startDate">
+        <input type="date" class="form-control" id="finishDate" name="finishDate" ng-model="claimsListCntrl.data.finishDate">
     </div>
     <div class="form-group">
         <!-- Full Name -->

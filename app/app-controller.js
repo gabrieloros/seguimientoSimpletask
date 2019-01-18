@@ -44,7 +44,7 @@
             $scope.viewMenu = false;
             $window.location.reload();
             //$location.path("/login");
-            $state.go('app.login');
+            $state.go('app');
         }
 
         var mapOptions = {
