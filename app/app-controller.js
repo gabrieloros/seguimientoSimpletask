@@ -5,9 +5,9 @@
         .module('app')
         .controller('appController', appController);
 
-    appController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService', '$window', '$compile'];
+    appController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService', '$window', '$compile', 'CONSTANTS'];
 
-    function appController($rootScope, $scope, $http, $filter, $interval, statusService, $window, $compile) {
+    function appController($rootScope, $scope, $http, $filter, $interval, statusService, $window, $compile, $CONSTANTS) {
         var appCntrl = this;
         appController.menuClaims = menuClaims;
         $rootScope.buttonMultipleMarker;
@@ -62,7 +62,135 @@
             map: $rootScope.map,
             anchorPoint: new google.maps.Point(0, -29)
         });
+        // excek
 
+        //scope.data = [];
+
+        $scope.READ = function() {
+            /*Checks whether the file is a valid excel file*/
+            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
+            var xlsxflag = false; /*Flag for checking whether excel is .xls format or .xlsx format*/
+            if ($("#ngexcelfile").val().toLowerCase().indexOf(".xlsx") > 0) {
+                xlsxflag = true;
+            }
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var data = e.target.result;
+                if (xlsxflag) {
+                    var workbook = XLSX.read(data, { type: 'binary' });
+                } else {
+                    var workbook = XLS.read(data, { type: 'binary' });
+                }
+
+                var sheet_name_list = workbook.SheetNames;
+                var cnt = 0;
+                sheet_name_list.forEach(function(y) { /*Iterate through all sheets*/
+
+                    if (xlsxflag) {
+                        var exceljson = XLSX.utils.sheet_to_json(workbook.Sheets[y]);
+                    } else {
+                        var exceljson = XLS.utils.sheet_to_row_object_array(workbook.Sheets[y]);
+                    }
+                    if (exceljson.length > 0) {
+
+                        $scope.dataClaims = [];
+
+                        for (var i = 0; i < exceljson.length; i++) {
+                            // $scope.data.push(exceljson[i]);
+
+                            var address = exceljson[i].Dirección + " " + exceljson[i].Altura + " , Lanus";
+
+                            // $scope.$apply();
+                            createClaimImport(address, exceljson[i]);
+
+                        }
+
+
+
+                    }
+                });
+            }
+            if (xlsxflag) {
+                reader.readAsArrayBuffer($("#ngexcelfile")[0].files[0]);
+            } else {
+                reader.readAsBinaryString($("#ngexcelfile")[0].files[0]);
+            }
+        };
+
+
+        function createClaimImport(address, datos) {
+
+
+            var res = address.replace(" ", "%20");
+            $.ajax({
+                dataType: "json",
+                url: "http://nominatim.openstreetmap.org/search/" + res,
+                type: "get",
+                data: { format: "json" }
+            }).done(function(data) {
+                var coordinates = data[0];
+                if (coordinates.lat != null && coordinates.lon != null) {
+                    var idClaim = datos.Reclamo;
+                    var detail = datos.Calle;
+                    var data = {
+                        "id": idClaim,
+                        "address": address,
+                        "detail": detail,
+                        "lon": coordinates.lon,
+                        "lat": coordinates.lat
+                    }
+                    $scope.dataClaims.push(data);
+                } else {
+
+                    var idClaim = datos.Reclamo;
+                    var detail = datos.Calle;
+                    var data = {
+                        "id": idClaim,
+                        "address": address,
+                        "detail": detail,
+                        "lon": null,
+                        "lat": null
+                    }
+                    $scope.dataClaims.push(data);
+                }
+
+                if ($scope.dataClaims) {
+                    $http({
+                        method: 'POST',
+                        url: $CONSTANTS.SERVER_URL + 'importClaims',
+                        params: { claims: $scope.dataClaims }
+                    }).then(function(response) {
+                        if (response.data.result == true) {
+
+                        } else {
+                            alert(response.data.data);
+                        }
+                    });
+
+                }
+
+            });
+
+            alert("Los reclamos fueron importados");
+
+        }
+
+        // async function createClaimImport(address, exceljsonParam) {
+        //     var geocoder = new google.maps.Geocoder();
+        //     var result = await geocoder.geocode({ 'address': address }, function(results, status) {
+        //         if (status == 'OK') {
+
+        //             $scope.latGeo = results[0].geometry.location.lat();
+        //             $scope.lngGeo = results[0].geometry.location.lng();
+
+        //         }
+        //     })
+
+        //     return result;
+        // }
+
+
+        //fin de importancion
         autocomplete.addListener('place_changed', function() {
             infowindow.close();
             marker.setVisible(false);
