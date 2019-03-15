@@ -29,6 +29,7 @@
         $scope.index = 0;
         $scope.timeCode = 0;
         $window.sessionStorage.removeItem('listNewMarket');
+        $scope.geocoder = new google.maps.Geocoder();
 
         var mapOptions = {
             zoom: 13,
@@ -93,7 +94,8 @@
                     }
                     if (exceljson.length > 0) {
 
-                        $scope.dataClaims = [];
+                        $scope.dataClaims = { claims: [] };
+                        $scope.countRowExcel = exceljson.length;
 
                         for (var i = 0; i < exceljson.length; i++) {
                             // $scope.data.push(exceljson[i]);
@@ -101,10 +103,9 @@
                             var address = exceljson[i].Dirección + " " + exceljson[i].Altura + " , Lanus";
 
                             // $scope.$apply();
-                            createClaimImport(address, exceljson[i]);
+                            geoLocationClaim(address, exceljson[i]);
 
                         }
-
 
 
                     }
@@ -117,80 +118,105 @@
             }
         };
 
+        function geoLocationClaim(address, datos) {
 
-        function createClaimImport(address, datos) {
 
-
-            var res = address.replace(" ", "%20");
-            $.ajax({
-                dataType: "json",
-                url: "http://nominatim.openstreetmap.org/search/" + res,
-                type: "get",
-                data: { format: "json" }
-            }).done(function(data) {
-                var coordinates = data[0];
-                if (coordinates.lat != null && coordinates.lon != null) {
-                    var idClaim = datos.Reclamo;
-                    var detail = datos.Calle;
-                    var data = {
-                        "id": idClaim,
-                        "address": address,
-                        "detail": detail,
-                        "lon": coordinates.lon,
-                        "lat": coordinates.lat
-                    }
-                    $scope.dataClaims.push(data);
-                } else {
-
-                    var idClaim = datos.Reclamo;
-                    var detail = datos.Calle;
-                    var data = {
-                        "id": idClaim,
-                        "address": address,
-                        "detail": detail,
-                        "lon": null,
-                        "lat": null
-                    }
-                    $scope.dataClaims.push(data);
+            $scope.geocoder.geocode({ 'address': address }, function(results, status) {
+                if (status == 'OK') {
+                    $scope.latGeo = results[0].geometry.location.lat();
+                    $scope.lngGeo = results[0].geometry.location.lng();
                 }
 
-                if ($scope.dataClaims) {
-                    $http({
-                        method: 'POST',
-                        url: $CONSTANTS.SERVER_URL + 'importClaims',
-                        params: { claims: $scope.dataClaims }
-                    }).then(function(response) {
-                        if (response.data.result == true) {
-
-                        } else {
-                            alert(response.data.data);
+                if ($scope.latGeo != null && $scope.lngGeo != null) {
+                    var idClaim = datos.Reclamo;
+                    var detail = datos.Calle;
+                    if (detail == null || detail == "") {
+                        detail = "--";
+                    }
+                    var data = {
+                            "id": idClaim,
+                            "address": address,
+                            "detail": detail,
+                            "lon": $scope.lngGeo,
+                            "lat": $scope.latGeo
                         }
-                    });
-
+                        //$scope.dataClaims.push(data);
+                } else {
+                    if (detail == null || detail == "") {
+                        detail = "--";
+                    }
+                    var idClaim = datos.Reclamo;
+                    var detail = datos.Calle;
+                    var data = {
+                            "id": idClaim,
+                            "address": address,
+                            "detail": detail,
+                            "lon": null,
+                            "lat": null
+                        }
+                        //$scope.dataClaims.push(data);
                 }
+                $scope.dataClaims.claims.push(data);
+                if ($scope.countRowExcel == $scope.dataClaims.claims.length) {
 
-            });
-
-            alert("Los reclamos fueron importados");
+                    createClaimsImport($scope.dataClaims);
+                }
+            })
 
         }
 
-        // async function createClaimImport(address, exceljsonParam) {
-        //     var geocoder = new google.maps.Geocoder();
-        //     var result = await geocoder.geocode({ 'address': address }, function(results, status) {
-        //         if (status == 'OK') {
+        var createClaimsImport = function(data) {
+            // data = JSON.stringify(data);
+            data = JSON.stringify(data);
 
-        //             $scope.latGeo = results[0].geometry.location.lat();
-        //             $scope.lngGeo = results[0].geometry.location.lng();
-
-        //         }
-        //     })
-
-        //     return result;
-        // }
+            $.ajax({
+                type: 'POST',
+                url: $CONSTANTS.SERVER_URL + 'importClaims',
+                json: data,
+                data: data,
+                datatype: "application/json",
+                contentType: "text/plain",
 
 
-        //fin de importancion
+                success: function(result, response, json) {
+
+
+                    console.log(response);
+                    console.log(json);
+                    console.log(result);
+
+                    alert("Los reclamos fueron importados");
+
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                    alert("Los reclamos fueron importados");
+
+                }
+
+
+            });
+            // $http({
+            //     method: 'POST',
+            //     url: $CONSTANTS.SERVER_URL + 'importClaims',
+            //     json: data,
+            //     data: data,
+            //     datatype: "application/json",
+            //     contentType: "text/plain",
+
+            //     //data: { claims: data }
+            // }).then(function(response) {
+            //     if (response.data.result == true) {
+            //         // alert("Los reclamos fueron importados");
+            //     } else {
+            //         alert(response.data.data);
+            //     }
+            // });
+        }
+
+
+
+
         autocomplete.addListener('place_changed', function() {
             infowindow.close();
             marker.setVisible(false);
@@ -617,12 +643,12 @@
         }
 
         //Init data
-        $scope.getProjects();
-        $interval(function() { $scope.getResumen(); }, 45000);
-        if ($scope.selectedUsers != '' || $scope.selectedUsers != null) {
+        // $scope.getProjects();
+        // $interval(function() { $scope.getResumen(); }, 45000);
+        // if ($scope.selectedUsers != '' || $scope.selectedUsers != null) {
 
-            $interval(function() { $scope.getClaims(); }, 420000);
-        }
+        //     $interval(function() { $scope.getClaims(); }, 420000);
+        // }
 
 
         //route
