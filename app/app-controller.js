@@ -29,13 +29,95 @@
         $scope.index = 0;
         $scope.timeCode = 0;
         $window.sessionStorage.removeItem('listNewMarket');
-        $scope.geocoder = new google.maps.Geocoder();
+        //$scope.geocoder = new google.maps.Geocoder();
 
         var mapOptions = {
             zoom: 13,
             center: new google.maps.LatLng(-32.885, -68.8422),
             mapTypeId: google.maps.MapTypeId.ROADMAP
         }
+
+        //function geolocalizacion
+        var mapBing, searchManager;
+
+        function GetMap(address, datos) {
+            mapBing = new Microsoft.Maps.Map('#myMap', {
+                credentials: 'AjA3ss3hE6KKJh4nzOddYAblgTXQlOkBy7Pra1xx-qjYQCvcC-VzVrFAVPwv-wT5'
+            });
+
+            //Make a request to geocode New York, NY.
+            geocodeQuery(address, datos);
+        }
+
+        function geocodeQuery(address, datos) {
+            //If search manager is not defined, load the search module.
+            if (!searchManager) {
+                //Create an instance of the search manager and call the geocodeQuery function again.
+                Microsoft.Maps.loadModule('Microsoft.Maps.Search', function() {
+                    searchManager = new Microsoft.Maps.Search.SearchManager(mapBing);
+                    geocodeQuery(address, datos);
+                });
+            } else {
+                var searchRequest = {
+                    where: address,
+                    callback: function(r) {
+                        //Add the first result to the map and zoom into it.
+                        if (r && r.results && r.results.length > 0) {
+                            var pin = new Microsoft.Maps.Pushpin(r.results[0].location);
+
+                            $scope.latGeo = r.results[0].location.latitude;
+                            $scope.lngGeo = r.results[0].location.longitude;
+
+
+                            if ($scope.latGeo != null && $scope.lngGeo != null) {
+                                var idClaim = datos.Reclamo;
+                                var detail = datos.Calle;
+                                if (detail == null || detail == "") {
+                                    detail = "--";
+                                }
+                                var data = {
+                                        "id": idClaim,
+                                        "address": address,
+                                        "detail": detail,
+                                        "lon": $scope.lngGeo,
+                                        "lat": $scope.latGeo
+                                    }
+                                    //$scope.dataClaims.push(data);
+                            } else {
+                                if (detail == null || detail == "") {
+                                    detail = "--";
+                                }
+                                var idClaim = datos.Reclamo;
+                                var detail = datos.Calle;
+                                var data = {
+                                        "id": idClaim,
+                                        "address": address,
+                                        "detail": detail,
+                                        "lon": null,
+                                        "lat": null
+                                    }
+                                    //$scope.dataClaims.push(data);
+                            }
+                            $scope.dataClaims.claims.push(data);
+                            if ($scope.countRowExcel == $scope.dataClaims.claims.length) {
+
+                                createClaimsImport($scope.dataClaims);
+                            }
+
+                        }
+                    },
+                    errorCallback: function(e) {
+                        //If there is an error, alert the user about it.
+                        alert("No results found.");
+                    }
+                };
+
+                //Make the geocode request.
+                searchManager.geocode(searchRequest);
+            }
+        }
+
+        //fin de geo
 
         $rootScope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
@@ -98,16 +180,11 @@
                         $scope.countRowExcel = exceljson.length;
 
                         for (var i = 0; i < exceljson.length; i++) {
-                            // $scope.data.push(exceljson[i]);
-
-                            var address = exceljson[i].Dirección + " " + exceljson[i].Altura + " , Lanus";
-
-                            // $scope.$apply();
-                            geoLocationClaim(address, exceljson[i]);
+                            var address = exceljson[i].Dirección + " " + exceljson[i].Altura + ", Lanus, Buenos Aires";
+                            GetMap(address, exceljson[i]);
+                            // geocodeQuery(address);
 
                         }
-
-
                     }
                 });
             }
@@ -118,52 +195,53 @@
             }
         };
 
-        function geoLocationClaim(address, datos) {
+
+        // function geoLocationClaim(address, datos) {
 
 
-            $scope.geocoder.geocode({ 'address': address }, function(results, status) {
-                if (status == 'OK') {
-                    $scope.latGeo = results[0].geometry.location.lat();
-                    $scope.lngGeo = results[0].geometry.location.lng();
-                }
+        //     $scope.geocoder.geocode({ 'address': address }, function(results, status) {
+        //         if (status == 'OK') {
+        //             $scope.latGeo = results[0].geometry.location.lat();
+        //             $scope.lngGeo = results[0].geometry.location.lng();
+        //         }
 
-                if ($scope.latGeo != null && $scope.lngGeo != null) {
-                    var idClaim = datos.Reclamo;
-                    var detail = datos.Calle;
-                    if (detail == null || detail == "") {
-                        detail = "--";
-                    }
-                    var data = {
-                            "id": idClaim,
-                            "address": address,
-                            "detail": detail,
-                            "lon": $scope.lngGeo,
-                            "lat": $scope.latGeo
-                        }
-                        //$scope.dataClaims.push(data);
-                } else {
-                    if (detail == null || detail == "") {
-                        detail = "--";
-                    }
-                    var idClaim = datos.Reclamo;
-                    var detail = datos.Calle;
-                    var data = {
-                            "id": idClaim,
-                            "address": address,
-                            "detail": detail,
-                            "lon": null,
-                            "lat": null
-                        }
-                        //$scope.dataClaims.push(data);
-                }
-                $scope.dataClaims.claims.push(data);
-                if ($scope.countRowExcel == $scope.dataClaims.claims.length) {
+        //         if ($scope.latGeo != null && $scope.lngGeo != null) {
+        //             var idClaim = datos.Reclamo;
+        //             var detail = datos.Calle;
+        //             if (detail == null || detail == "") {
+        //                 detail = "--";
+        //             }
+        //             var data = {
+        //                     "id": idClaim,
+        //                     "address": address,
+        //                     "detail": detail,
+        //                     "lon": $scope.lngGeo,
+        //                     "lat": $scope.latGeo
+        //                 }
+        //                 //$scope.dataClaims.push(data);
+        //         } else {
+        //             if (detail == null || detail == "") {
+        //                 detail = "--";
+        //             }
+        //             var idClaim = datos.Reclamo;
+        //             var detail = datos.Calle;
+        //             var data = {
+        //                     "id": idClaim,
+        //                     "address": address,
+        //                     "detail": detail,
+        //                     "lon": null,
+        //                     "lat": null
+        //                 }
+        //                 //$scope.dataClaims.push(data);
+        //         }
+        //         $scope.dataClaims.claims.push(data);
+        //         if ($scope.countRowExcel == $scope.dataClaims.claims.length) {
 
-                    createClaimsImport($scope.dataClaims);
-                }
-            })
+        //             createClaimsImport($scope.dataClaims);
+        //         }
+        //     })
 
-        }
+        // }
 
         var createClaimsImport = function(data) {
             // data = JSON.stringify(data);
@@ -643,12 +721,12 @@
         }
 
         //Init data
-        // $scope.getProjects();
-        // $interval(function() { $scope.getResumen(); }, 45000);
-        // if ($scope.selectedUsers != '' || $scope.selectedUsers != null) {
+        $scope.getProjects();
+        $interval(function() { $scope.getResumen(); }, 45000);
+        if ($scope.selectedUsers != '' || $scope.selectedUsers != null) {
 
-        //     $interval(function() { $scope.getClaims(); }, 420000);
-        // }
+            $interval(function() { $scope.getClaims(); }, 420000);
+        }
 
 
         //route
