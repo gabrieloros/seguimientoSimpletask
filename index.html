@@ -7,6 +7,8 @@
     <link rel='stylesheet' href="node_modules/angular-loading-bar/build/loading-bar.min.css" type='text/css' media='all' />
     <link rel="stylesheet" type="text/css" href="app/template/style.css">
     <meta name="viewport" content="width=device-width; initial-scale=1.0">
+    <script type="text/javascript" src="https://www.bing.com/api/maps/mapcontrol?callback=GetMap" async defer></script>
+
 
     <title>Simple Task</title>
 </head>
@@ -14,6 +16,7 @@
 <body ng-app="app">
 
     <div class="row">
+
 
 
         <div ui-view="sideBar"></div>
@@ -65,7 +68,10 @@
     </div>
 
     <!-- <div ui-view="sideBar"></div> -->
-
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3O8uGKpwOVbdvKGnqEpAK45qJex9BdPE&libraries=drawing,places,geometry&amp;sensor=false"></script>
     <script type="text/javascript" src="app/js/menu.js"></script>
     <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
