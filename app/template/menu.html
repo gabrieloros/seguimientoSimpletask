@@ -1,4 +1,5 @@
 <link rel="stylesheet" type="text/css" href="app/template/style.css">
+<link rel="stylesheet" type="text/css" href="app/claims/template/style-claims.css">
 
 
 <div class="Box1">
@@ -79,5 +80,16 @@
         <div class="terminadas">{{ freeUser.completed_claims }}</div>
         <div class="pendientes">{{ freeUser.pending_claims }}</div>
         <div class="nombre">{{ freeUser.full_name | limitTo: 16 }}</div>
+    </div>
+</div>
+
+<div class="circulos">
+    <div class="pendientes">
+        <div class="valor">{{ pendingClaims }}</div>
+        <div class="estado">Pendientes</div>
+    </div>
+    <div class="terminados">
+        <div class="valor">{{ completedClaims }}</div>
+        <div class="estado">Terminados</div>
     </div>
 </div>

@@ -14,7 +14,6 @@
         .constant('CONSTANTS', {
             SERVER_URL: 'http://localhost:8089/SimpleTask_Rest/adr/service/'
         })
-        //.constant('SERVER_URL','http://localhost:8080/adr/service/')
         .config(function config($stateProvider) {
 
             $stateProvider

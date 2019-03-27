@@ -196,52 +196,6 @@
         };
 
 
-        // function geoLocationClaim(address, datos) {
-
-
-        //     $scope.geocoder.geocode({ 'address': address }, function(results, status) {
-        //         if (status == 'OK') {
-        //             $scope.latGeo = results[0].geometry.location.lat();
-        //             $scope.lngGeo = results[0].geometry.location.lng();
-        //         }
-
-        //         if ($scope.latGeo != null && $scope.lngGeo != null) {
-        //             var idClaim = datos.Reclamo;
-        //             var detail = datos.Calle;
-        //             if (detail == null || detail == "") {
-        //                 detail = "--";
-        //             }
-        //             var data = {
-        //                     "id": idClaim,
-        //                     "address": address,
-        //                     "detail": detail,
-        //                     "lon": $scope.lngGeo,
-        //                     "lat": $scope.latGeo
-        //                 }
-        //                 //$scope.dataClaims.push(data);
-        //         } else {
-        //             if (detail == null || detail == "") {
-        //                 detail = "--";
-        //             }
-        //             var idClaim = datos.Reclamo;
-        //             var detail = datos.Calle;
-        //             var data = {
-        //                     "id": idClaim,
-        //                     "address": address,
-        //                     "detail": detail,
-        //                     "lon": null,
-        //                     "lat": null
-        //                 }
-        //                 //$scope.dataClaims.push(data);
-        //         }
-        //         $scope.dataClaims.claims.push(data);
-        //         if ($scope.countRowExcel == $scope.dataClaims.claims.length) {
-
-        //             createClaimsImport($scope.dataClaims);
-        //         }
-        //     })
-
-        // }
 
         var createClaimsImport = function(data) {
             // data = JSON.stringify(data);
@@ -474,6 +428,13 @@
                 // anchor: new google.maps.Point(12, 40)
             };
             var date = new Date(claim.date);
+            if (claim.address != null && claim.address != '') {
+
+                var addressClaim = claim.address;
+            } else {
+                var addressClaim = "Sin direccion";
+            }
+
             var marker = new google.maps.Marker({
                 icon: claimIcon,
                 map: $rootScope.map,
@@ -482,10 +443,16 @@
                 content: claim.code,
                 id: claim.id,
                 type: "claim",
-                user_id: claim.user_id
+                draggable: true,
+                user_id: claim.user_id,
+                detail: claim.detail,
+                address: addressClaim
+
             });
 
-            var htmlElement = '<div><h4 style="color: #0f0f0f">' + marker.title + '</h4><br><button class="btn btn-primary" ng-click="deleteCLaim(' + marker.id + ')"> Eliminar </button></div>';
+
+
+            var htmlElement = '<div> <h4 style="color: #0f0f0f">' + marker.title + '</h4><h5 style="color: #0f0f0f"> <input id="address" style="font-size: 30px" type="text" value="' + addressClaim + '"></h5><h5 style="color: #0f0f0f">' + marker.detail + '</h5><br><button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteCLaim(' + marker.id + ')">  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </button><button type="button" class="btn btn-default" aria-label="Left Align" ng-click="newGeobyAddress(' + marker.id + ')"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span></button><button type="button" class="btn btn-default" aria-label="Left Align" ng-click="editAddressClaim(' + marker.id + ')" disabled><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></div>';
 
             var compiled = $compile(htmlElement)($scope);
 
@@ -493,6 +460,23 @@
                 infoWindow.setContent(compiled[0]);
                 //infoWindow.setContent('<h4 style="color: #0f0f0f">' + marker.title + '</h4><br>' + compiled[0]);
                 infoWindow.open($rootScope.map, marker);
+            });
+            google.maps.event.addListener(marker, 'dragend', function() {
+                var latitude = marker.position.lat();
+                var longitude = marker.position.lng();
+
+                $http({
+                    method: 'POST',
+                    url: $CONSTANTS.SERVER_URL + 'updateAddress',
+                    params: { claimId: marker.id, latitude: latitude, longitude: longitude, address: marker.address }
+                }).then(function(response) {
+                    if (response.data.result == true) {
+                        alert("Se guardo correctamen la posicion");
+                    } else {
+                        // alert(response.data.data);
+                    }
+                });
+
             });
             $rootScope.markers.push(marker);
         }
@@ -719,10 +703,60 @@
                 console.log(error);
             });
         }
+        $scope.newGeobyAddress = function(claimId) {
+            var geocoder = new google.maps.Geocoder();
+            var address = document.getElementById('address').value;
+            geocoder.geocode({ 'address': address }, function(results, status) {
+                if (status == 'OK') {
+                    var latitude = results[0].geometry.location.lat();
+                    var longitude = results[0].geometry.location.lng();
+                    var newGeo = results[0].geometry.location;
+                    $scope.resultGeo = false;
+                    angular.forEach($rootScope.markers, function(marker) {
+
+                        if (marker.id = claimId) {
+
+                            marker.setPosition(newGeo);
+
+                            $http({
+                                method: 'POST',
+                                url: $CONSTANTS.SERVER_URL + 'updateAddress',
+                                params: { claimId: marker.id, latitude: latitude, longitude: longitude, address: address }
+                            }).then(function(response) {
+                                if (response.data.result == true) {
+                                    $scope.resultGeo = true;
+
+                                } else {
+                                    // alert(response.data.data);
+                                }
+                            });
+                        }
+                    })
+                    if ($scope.resultGeo == true) {
+                        alert("Se actualizo la ubicacion correctamente");
+                    }
+
+                    $rootScope.map.setCenter(results[0].geometry.location);
+
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+
+        }
+
+        $scope.editAddressClaim = function(claimId) {
+
+            if (claimId != null) {
+                $("#id_input").prop("disabled", true);
+            } else {
+                $("#id_input").prop("disabled", false);
+            }
+        }
 
         //Init data
         $scope.getProjects();
-        $interval(function() { $scope.getResumen(); }, 45000);
+        $interval(function() { $scope.getProjects(); }, 45000);
         if ($scope.selectedUsers != '' || $scope.selectedUsers != null) {
 
             $interval(function() { $scope.getClaims(); }, 420000);
