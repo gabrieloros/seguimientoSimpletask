@@ -5,9 +5,9 @@
         .module('app')
         .controller('appController', appController);
 
-    appController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService', '$window', '$compile'];
+    appController.$inject = ['$rootScope', '$scope', '$http', '$filter', '$interval', 'statusService', '$window', '$compile', 'CONSTANTS'];
 
-    function appController($rootScope, $scope, $http, $filter, $interval, statusService, $window, $compile) {
+    function appController($rootScope, $scope, $http, $filter, $interval, statusService, $window, $compile, $CONSTANTS) {
         var appCntrl = this;
         appController.menuClaims = menuClaims;
         $rootScope.buttonMultipleMarker;
@@ -29,6 +29,7 @@
         $scope.index = 0;
         $scope.timeCode = 0;
         $window.sessionStorage.removeItem('listNewMarket');
+        //$scope.geocoder = new google.maps.Geocoder();
 
         var mapOptions = {
             zoom: 13,
@@ -36,7 +37,313 @@
             mapTypeId: google.maps.MapTypeId.ROADMAP
         }
 
+        //function geolocalizacion
+        var mapBing, searchManager;
+
+        function GetMap(address, datos) {
+            mapBing = new Microsoft.Maps.Map('#myMap', {
+                credentials: 'AjA3ss3hE6KKJh4nzOddYAblgTXQlOkBy7Pra1xx-qjYQCvcC-VzVrFAVPwv-wT5'
+            });
+
+            //Make a request to geocode New York, NY.
+            geocodeQuery(address, datos);
+        }
+
+        function geocodeQuery(address, datos) {
+            //If search manager is not defined, load the search module.
+            if (!searchManager) {
+                //Create an instance of the search manager and call the geocodeQuery function again.
+                Microsoft.Maps.loadModule('Microsoft.Maps.Search', function() {
+                    searchManager = new Microsoft.Maps.Search.SearchManager(mapBing);
+                    geocodeQuery(address, datos);
+                });
+            } else {
+                var searchRequest = {
+                    where: address,
+                    callback: function(r) {
+                        //Add the first result to the map and zoom into it.
+                        if (r && r.results && r.results.length > 0) {
+                            var pin = new Microsoft.Maps.Pushpin(r.results[0].location);
+
+                            $scope.latGeo = r.results[0].location.latitude;
+                            $scope.lngGeo = r.results[0].location.longitude;
+
+
+                            if ($scope.latGeo != null && $scope.lngGeo != null) {
+                                var idClaim = datos.Reclamo;
+                                var detail = datos.Calle;
+                                if (detail == null || detail == "") {
+                                    detail = "--";
+                                }
+                                var data = {
+                                        "id": idClaim,
+                                        "address": address,
+                                        "detail": detail,
+                                        "lon": $scope.lngGeo,
+                                        "lat": $scope.latGeo
+                                    }
+                                    //$scope.dataClaims.push(data);
+                            } else {
+                                if (detail == null || detail == "") {
+                                    detail = "--";
+                                }
+                                var idClaim = datos.Reclamo;
+                                var detail = datos.Calle;
+                                var data = {
+                                        "id": idClaim,
+                                        "address": address,
+                                        "detail": detail,
+                                        "lon": null,
+                                        "lat": null
+                                    }
+                                    //$scope.dataClaims.push(data);
+                            }
+                            $scope.dataClaims.claims.push(data);
+                            if ($scope.countRowExcel == $scope.dataClaims.claims.length) {
+
+                                createClaimsImport($scope.dataClaims);
+                            }
+
+                        }
+                    },
+                    errorCallback: function(e) {
+                        //If there is an error, alert the user about it.
+                        alert("No results found.");
+                    }
+                };
+
+                //Make the geocode request.
+                searchManager.geocode(searchRequest);
+            }
+        }
+
+        //fin de geo
+
         $rootScope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+        var card = document.getElementById('pac-card');
+        var input = document.getElementById('pac-input');
+        var types = "changetype-all";
+
+        $rootScope.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+
+        var autocomplete = new google.maps.places.Autocomplete(input);
+
+        // Bind the map's bounds (viewport) property to the autocomplete object,
+        // so that the autocomplete requests use the current map bounds for the
+        // bounds option in the request.
+        autocomplete.bindTo('bounds', $rootScope.map);
+
+        // Set the data fields to return when the user selects a place.
+        autocomplete.setFields(
+            ['address_components', 'geometry', 'icon', 'name']);
+
+        var infowindow = new google.maps.InfoWindow();
+        var infowindowContent = document.getElementById('infowindow-content');
+        infowindow.setContent(infowindowContent);
+        var marker = new google.maps.Marker({
+            map: $rootScope.map,
+            anchorPoint: new google.maps.Point(0, -29)
+        });
+        // excek
+
+        //scope.data = [];
+
+        $scope.READ = function() {
+            /*Checks whether the file is a valid excel file*/
+            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
+            var xlsxflag = false; /*Flag for checking whether excel is .xls format or .xlsx format*/
+            if ($("#ngexcelfile").val().toLowerCase().indexOf(".xlsx") > 0) {
+                xlsxflag = true;
+            }
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var data = e.target.result;
+                if (xlsxflag) {
+                    var workbook = XLSX.read(data, { type: 'binary' });
+                } else {
+                    var workbook = XLS.read(data, { type: 'binary' });
+                }
+
+                var sheet_name_list = workbook.SheetNames;
+                var cnt = 0;
+                sheet_name_list.forEach(function(y) { /*Iterate through all sheets*/
+
+                    if (xlsxflag) {
+                        var exceljson = XLSX.utils.sheet_to_json(workbook.Sheets[y]);
+                    } else {
+                        var exceljson = XLS.utils.sheet_to_row_object_array(workbook.Sheets[y]);
+                    }
+                    if (exceljson.length > 0) {
+
+                        $scope.dataClaims = { claims: [] };
+                        $scope.countRowExcel = exceljson.length;
+
+                        for (var i = 0; i < exceljson.length; i++) {
+                            var address = exceljson[i].Dirección + " " + exceljson[i].Altura + ", Lanus, Buenos Aires";
+                            GetMap(address, exceljson[i]);
+                            // geocodeQuery(address);
+
+                        }
+                    }
+                });
+            }
+            if (xlsxflag) {
+                reader.readAsArrayBuffer($("#ngexcelfile")[0].files[0]);
+            } else {
+                reader.readAsBinaryString($("#ngexcelfile")[0].files[0]);
+            }
+        };
+
+
+
+        var createClaimsImport = function(data) {
+            // data = JSON.stringify(data);
+            data = JSON.stringify(data);
+
+            $.ajax({
+                type: 'POST',
+                url: $CONSTANTS.SERVER_URL + 'importClaims',
+                json: data,
+                data: data,
+                datatype: "application/json",
+                contentType: "text/plain",
+
+
+                success: function(result, response, json) {
+
+
+                    console.log(response);
+                    console.log(json);
+                    console.log(result);
+
+                    alert("Los reclamos fueron importados");
+
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                    alert("Los reclamos fueron importados");
+
+                }
+
+
+            });
+            // $http({
+            //     method: 'POST',
+            //     url: $CONSTANTS.SERVER_URL + 'importClaims',
+            //     json: data,
+            //     data: data,
+            //     datatype: "application/json",
+            //     contentType: "text/plain",
+
+            //     //data: { claims: data }
+            // }).then(function(response) {
+            //     if (response.data.result == true) {
+            //         // alert("Los reclamos fueron importados");
+            //     } else {
+            //         alert(response.data.data);
+            //     }
+            // });
+        }
+
+
+
+
+        autocomplete.addListener('place_changed', function() {
+            infowindow.close();
+            marker.setVisible(false);
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+
+                var markersSearch = $filter('filter')($rootScope.markers, { type: 'claim' });
+                var markerlocation = false;
+                angular.forEach(markersSearch, function(marker) {
+
+                    if (marker.title == place.name) {
+                        $rootScope.map.setCenter(marker.position);
+                        $rootScope.map.setZoom(17);
+                        markerlocation = true;
+                    }
+
+                })
+                if (!markerlocation) {
+
+                    window.alert("No se encontro la direccion solicitada: '" + place.name + "'");
+                }
+                return;
+            }
+
+
+            if (place.geometry.viewport) {
+                $rootScope.map.fitBounds(place.geometry.viewport);
+            } else {
+                $rootScope.map.setCenter(place.geometry.location);
+                $rootScope.map.setZoom(17); // Why 17? Because it looks good.
+            }
+            marker.setPosition(place.geometry.location);
+            marker.setVisible(true);
+
+            var address = '';
+            if (place.address_components) {
+                address = [
+                    (place.address_components[0] && place.address_components[0].short_name || ''),
+                    (place.address_components[1] && place.address_components[1].short_name || ''),
+                    (place.address_components[2] && place.address_components[2].short_name || '')
+                ].join(' ');
+            }
+
+            //infowindow.open($rootScope.map, marker);
+        });
+
+
+        var drawingManager = new google.maps.drawing.DrawingManager({
+            // drawingMode: google.maps.drawing.OverlayType.MARKER,
+            drawingControl: true,
+            drawingControlOptions: {
+                position: google.maps.ControlPosition.TOP_CENTER,
+                drawingModes: ['marker', 'polygon', 'rectangle']
+            },
+
+        });
+        drawingManager.setMap($rootScope.map);
+        google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
+
+            if (event.type == 'marker') {
+                event.overlay.visible = false;
+
+                $scope.index++;
+                //createMarker(event);
+                var location = event.overlay.position;
+                var infoWindow = new google.maps.InfoWindow();
+                var markerNew = new google.maps.Marker({
+                    position: location,
+                    draggable: true,
+                    animation: google.maps.Animation.DROP,
+                    icon: 'app/mapa/imagen/createClaim.png',
+                    map: $rootScope.map
+
+                });
+                markerNew.set("zIndex", $scope.index);
+
+
+                var htmlElement = '<button class="btn btn-primary" ng-click="removeMarker(' + markerNew.zIndex + ')"> Eliminar </button>';
+
+                var compiled = $compile(htmlElement)($scope)
+                google.maps.event.addListener(markerNew, 'click', function() {
+                    infoWindow.setContent(compiled[0]);
+                    infoWindow.open($rootScope.map, markerNew);
+                });
+                $scope.newClaims.push(markerNew);
+                guardarNewListMarkers();
+
+                google.maps.event.addListener(markerNew, 'dragend', function() {
+
+                    $window.sessionStorage.removeItem('listNewMarket');
+                    guardarNewListMarkers();
+                });
+            }
+        });
+
 
         var updateResumenData = function(arrayNew) {
             //Actualizar los usuarios seleccionados e ir sacando del nuevo lo que coincide
@@ -121,6 +428,13 @@
                 // anchor: new google.maps.Point(12, 40)
             };
             var date = new Date(claim.date);
+            if (claim.address != null && claim.address != '') {
+
+                var addressClaim = claim.address;
+            } else {
+                var addressClaim = "Sin direccion";
+            }
+
             var marker = new google.maps.Marker({
                 icon: claimIcon,
                 map: $rootScope.map,
@@ -129,10 +443,16 @@
                 content: claim.code,
                 id: claim.id,
                 type: "claim",
-                user_id: claim.user_id
+                draggable: true,
+                user_id: claim.user_id,
+                detail: claim.detail,
+                address: addressClaim
+
             });
 
-            var htmlElement = '<div><h4 style="color: #0f0f0f">' + marker.title + '</h4><br><button class="btn btn-primary" ng-click="deleteCLaim(' + marker.id + ')"> Eliminar </button></div>';
+
+
+            var htmlElement = '<div> <h4 style="color: #0f0f0f">' + marker.title + '</h4><h5 style="color: #0f0f0f"> <input id="address" style="font-size: 30px" type="text" value="' + addressClaim + '"></h5><h5 style="color: #0f0f0f">' + marker.detail + '</h5><br><button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteCLaim(' + marker.id + ')">  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </button><button type="button" class="btn btn-default" aria-label="Left Align" ng-click="newGeobyAddress(' + marker.id + ')"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span></button><button type="button" class="btn btn-default" aria-label="Left Align" ng-click="editAddressClaim(' + marker.id + ')" disabled><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></div>';
 
             var compiled = $compile(htmlElement)($scope);
 
@@ -141,46 +461,28 @@
                 //infoWindow.setContent('<h4 style="color: #0f0f0f">' + marker.title + '</h4><br>' + compiled[0]);
                 infoWindow.open($rootScope.map, marker);
             });
+            google.maps.event.addListener(marker, 'dragend', function() {
+                var latitude = marker.position.lat();
+                var longitude = marker.position.lng();
+
+                $http({
+                    method: 'POST',
+                    url: $CONSTANTS.SERVER_URL + 'updateAddress',
+                    params: { claimId: marker.id, latitude: latitude, longitude: longitude, address: marker.address }
+                }).then(function(response) {
+                    if (response.data.result == true) {
+                        alert("Se guardo correctamen la posicion");
+                    } else {
+                        // alert(response.data.data);
+                    }
+                });
+
+            });
             $rootScope.markers.push(marker);
         }
 
-        google.maps.event.addListener($rootScope.map, 'click', function(event) {
-
-            addMarker(event.latLng, $rootScope.map);
-            $scope.index++;
-
-        });
 
 
-        function addMarker(location, map) {
-            var infoWindow = new google.maps.InfoWindow();
-            var markerNew = new google.maps.Marker({
-                position: location,
-                draggable: true,
-                animation: google.maps.Animation.DROP,
-                icon: 'app/mapa/imagen/createClaim.png',
-                map: $rootScope.map
-
-            });
-            markerNew.set("zIndex", $scope.index);
-
-
-            var htmlElement = '<button class="btn btn-primary" ng-click="removeMarker(' + markerNew.zIndex + ')"> Eliminar </button>';
-
-            var compiled = $compile(htmlElement)($scope)
-            google.maps.event.addListener(markerNew, 'click', function() {
-                infoWindow.setContent(compiled[0]);
-                infoWindow.open($rootScope.map, markerNew);
-            });
-            $scope.newClaims.push(markerNew);
-            guardarNewListMarkers();
-
-            google.maps.event.addListener(markerNew, 'dragend', function() {
-
-                $window.sessionStorage.removeItem('listNewMarket');
-                guardarNewListMarkers();
-            });
-        }
 
         function guardarNewListMarkers() {
 
@@ -401,11 +703,64 @@
                 console.log(error);
             });
         }
+        $scope.newGeobyAddress = function(claimId) {
+            var geocoder = new google.maps.Geocoder();
+            var address = document.getElementById('address').value;
+            geocoder.geocode({ 'address': address }, function(results, status) {
+                if (status == 'OK') {
+                    var latitude = results[0].geometry.location.lat();
+                    var longitude = results[0].geometry.location.lng();
+                    var newGeo = results[0].geometry.location;
+                    $scope.resultGeo = false;
+                    angular.forEach($rootScope.markers, function(marker) {
+
+                        if (marker.id = claimId) {
+
+                            marker.setPosition(newGeo);
+
+                            $http({
+                                method: 'POST',
+                                url: $CONSTANTS.SERVER_URL + 'updateAddress',
+                                params: { claimId: marker.id, latitude: latitude, longitude: longitude, address: address }
+                            }).then(function(response) {
+                                if (response.data.result == true) {
+                                    $scope.resultGeo = true;
+
+                                } else {
+                                    // alert(response.data.data);
+                                }
+                            });
+                        }
+                    })
+                    if ($scope.resultGeo == true) {
+                        alert("Se actualizo la ubicacion correctamente");
+                    }
+
+                    $rootScope.map.setCenter(results[0].geometry.location);
+
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+
+        }
+
+        $scope.editAddressClaim = function(claimId) {
+
+            if (claimId != null) {
+                $("#id_input").prop("disabled", true);
+            } else {
+                $("#id_input").prop("disabled", false);
+            }
+        }
 
         //Init data
         $scope.getProjects();
-        $interval(function() { $scope.getResumen(); }, 45000);
-        $interval(function() { $scope.getClaims(); }, 420000);
+        $interval(function() { $scope.getProjects(); }, 45000);
+        if ($scope.selectedUsers != '' || $scope.selectedUsers != null) {
+
+            $interval(function() { $scope.getClaims(); }, 420000);
+        }
 
 
         //route

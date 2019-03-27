@@ -1,11 +1,16 @@
 <link rel="stylesheet" type="text/css" href="app/template/style.css">
+<link rel="stylesheet" type="text/css" href="app/claims/template/style-claims.css">
+
+<div class="pac-card" id="pac-card">
+
+    <div id="pac-container">
+        <input id="pac-input" type="text" class="form-control" placeholder=" Buscar Dirección ">
+    </div>
+</div>
 
 
-
-
-
-
-<div class="circulos">
+<!-- 
+<div class="circulos" ng-controller="appController">
     <div class="pendientes">
         <div class="valor">{{ pendingClaims }}</div>
         <div class="estado">Pendientes</div>
@@ -14,7 +19,7 @@
         <div class="valor">{{ completedClaims }}</div>
         <div class="estado">Terminados</div>
     </div>
-</div>
+</div> -->
 
 <div id="main" ng-app="mapa">
     <div>
@@ -23,5 +28,8 @@
             <a id="country_container" href="#" ng-click="openInfoWindow($event, marker)"><label id="names" >{{marker.title}}</label></a>
         </div>
     </div>
-
 </div>
+
+<div id="myMap" style="position:relative;width:200px;height:100px;"></div>
+
+<!-- style="position:relative;width:600px;height:400px;" -->
