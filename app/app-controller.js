@@ -44,15 +44,11 @@
             mapBing = new Microsoft.Maps.Map('#myMap', {
                 credentials: 'AjA3ss3hE6KKJh4nzOddYAblgTXQlOkBy7Pra1xx-qjYQCvcC-VzVrFAVPwv-wT5'
             });
-
-            //Make a request to geocode New York, NY.
             geocodeQuery(address, datos);
         }
 
         function geocodeQuery(address, datos) {
-            //If search manager is not defined, load the search module.
             if (!searchManager) {
-                //Create an instance of the search manager and call the geocodeQuery function again.
                 Microsoft.Maps.loadModule('Microsoft.Maps.Search', function() {
                     searchManager = new Microsoft.Maps.Search.SearchManager(mapBing);
                     geocodeQuery(address, datos);
@@ -67,36 +63,30 @@
 
                             $scope.latGeo = r.results[0].location.latitude;
                             $scope.lngGeo = r.results[0].location.longitude;
-
+                            var idClaim = datos.Reclamo;
+                            var detail = datos.Calle;
+                            if (detail == null || detail == "") {
+                                detail = "--";
+                            }
 
                             if ($scope.latGeo != null && $scope.lngGeo != null) {
-                                var idClaim = datos.Reclamo;
-                                var detail = datos.Calle;
-                                if (detail == null || detail == "") {
-                                    detail = "--";
-                                }
+
                                 var data = {
-                                        "id": idClaim,
-                                        "address": address,
-                                        "detail": detail,
-                                        "lon": $scope.lngGeo,
-                                        "lat": $scope.latGeo
-                                    }
-                                    //$scope.dataClaims.push(data);
+                                    "id": idClaim,
+                                    "address": address,
+                                    "detail": detail,
+                                    "lon": $scope.lngGeo,
+                                    "lat": $scope.latGeo
+                                }
                             } else {
-                                if (detail == null || detail == "") {
-                                    detail = "--";
-                                }
-                                var idClaim = datos.Reclamo;
-                                var detail = datos.Calle;
+
                                 var data = {
-                                        "id": idClaim,
-                                        "address": address,
-                                        "detail": detail,
-                                        "lon": null,
-                                        "lat": null
-                                    }
-                                    //$scope.dataClaims.push(data);
+                                    "id": idClaim,
+                                    "address": address,
+                                    "detail": detail,
+                                    "lon": null,
+                                    "lat": null
+                                }
                             }
                             $scope.dataClaims.claims.push(data);
                             if ($scope.countRowExcel == $scope.dataClaims.claims.length) {
@@ -107,12 +97,10 @@
                         }
                     },
                     errorCallback: function(e) {
-                        //If there is an error, alert the user about it.
                         alert("No results found.");
                     }
                 };
 
-                //Make the geocode request.
                 searchManager.geocode(searchRequest);
             }
         }
@@ -128,13 +116,7 @@
         $rootScope.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
 
         var autocomplete = new google.maps.places.Autocomplete(input);
-
-        // Bind the map's bounds (viewport) property to the autocomplete object,
-        // so that the autocomplete requests use the current map bounds for the
-        // bounds option in the request.
         autocomplete.bindTo('bounds', $rootScope.map);
-
-        // Set the data fields to return when the user selects a place.
         autocomplete.setFields(
             ['address_components', 'geometry', 'icon', 'name']);
 
@@ -145,12 +127,9 @@
             map: $rootScope.map,
             anchorPoint: new google.maps.Point(0, -29)
         });
-        // excek
-
-        //scope.data = [];
+        // excel
 
         $scope.READ = function() {
-            /*Checks whether the file is a valid excel file*/
             var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xlsx|.xls)$/;
             var xlsxflag = false; /*Flag for checking whether excel is .xls format or .xlsx format*/
             if ($("#ngexcelfile").val().toLowerCase().indexOf(".xlsx") > 0) {
@@ -183,7 +162,6 @@
                             var address = exceljson[i].Dirección + " " + exceljson[i].Altura + ", Lanus, Buenos Aires";
                             GetMap(address, exceljson[i]);
                             // geocodeQuery(address);
-
                         }
                     }
                 });
@@ -198,7 +176,6 @@
 
 
         var createClaimsImport = function(data) {
-            // data = JSON.stringify(data);
             data = JSON.stringify(data);
 
             $.ajax({
@@ -209,16 +186,9 @@
                 datatype: "application/json",
                 contentType: "text/plain",
 
-
                 success: function(result, response, json) {
 
-
-                    console.log(response);
-                    console.log(json);
-                    console.log(result);
-
                     alert("Los reclamos fueron importados");
-
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.log(textStatus, errorThrown);
@@ -228,22 +198,7 @@
 
 
             });
-            // $http({
-            //     method: 'POST',
-            //     url: $CONSTANTS.SERVER_URL + 'importClaims',
-            //     json: data,
-            //     data: data,
-            //     datatype: "application/json",
-            //     contentType: "text/plain",
 
-            //     //data: { claims: data }
-            // }).then(function(response) {
-            //     if (response.data.result == true) {
-            //         // alert("Los reclamos fueron importados");
-            //     } else {
-            //         alert(response.data.data);
-            //     }
-            // });
         }
 
 
@@ -312,7 +267,6 @@
                 event.overlay.visible = false;
 
                 $scope.index++;
-                //createMarker(event);
                 var location = event.overlay.position;
                 var infoWindow = new google.maps.InfoWindow();
                 var markerNew = new google.maps.Marker({
@@ -473,7 +427,7 @@
                     if (response.data.result == true) {
                         alert("Se guardo correctamen la posicion");
                     } else {
-                        // alert(response.data.data);
+                        alert(response.data.data);
                     }
                 });
 
@@ -481,22 +435,15 @@
             $rootScope.markers.push(marker);
         }
 
-
-
-
         function guardarNewListMarkers() {
 
             var positions = [];
-
             if ($scope.newClaims != null) {
                 angular.forEach($scope.newClaims, function(marker) {
-
                     positions.push(marker.getPosition().lat() + '|' + marker.getPosition().lng());
-
                 })
                 $window.sessionStorage["listNewMarket"] = positions;
             }
-
         }
 
         var drawPositionMarkers = function() {
@@ -727,7 +674,7 @@
                                     $scope.resultGeo = true;
 
                                 } else {
-                                    // alert(response.data.data);
+                                    alert(response.data.data);
                                 }
                             });
                         }
