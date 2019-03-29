@@ -404,9 +404,14 @@
 
             });
 
+            if (claim.status == 'pending') {
 
+                var htmlElement = '<div> <h4 style="color: #0f0f0f">' + marker.title + '</h4><h5 style="color: #0f0f0f"> <input id="address" style="font-size: 30px" type="text" value="' + addressClaim + '"></h5><h5 style="color: #0f0f0f">' + marker.detail + '</h5><br><button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteCLaim(' + marker.id + ')">  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </button><button type="button" class="btn btn-default" aria-label="Left Align" ng-click="newGeobyAddress(' + marker.id + ')"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span></button><button type="button" class="btn btn-default" aria-label="Left Align" ng-click="editAddressClaim(' + marker.id + ')" disabled><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></div>';
+            } else {
+                var htmlElement = '<div> <h4 style="color: #0f0f0f">' + marker.title + '</h4><h5 style="color: #0f0f0f">' + addressClaim + '</h5><h5 style="color: #0f0f0f">' + marker.detail + '</h5>';
 
-            var htmlElement = '<div> <h4 style="color: #0f0f0f">' + marker.title + '</h4><h5 style="color: #0f0f0f"> <input id="address" style="font-size: 30px" type="text" value="' + addressClaim + '"></h5><h5 style="color: #0f0f0f">' + marker.detail + '</h5><br><button type="button" class="btn btn-default" aria-label="Left Align" ng-click="deleteCLaim(' + marker.id + ')">  <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> </button><button type="button" class="btn btn-default" aria-label="Left Align" ng-click="newGeobyAddress(' + marker.id + ')"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span></button><button type="button" class="btn btn-default" aria-label="Left Align" ng-click="editAddressClaim(' + marker.id + ')" disabled><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></div>';
+            }
+
 
             var compiled = $compile(htmlElement)($scope);
 
