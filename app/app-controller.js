@@ -29,7 +29,7 @@
         $scope.index = 0;
         $scope.timeCode = 0;
         $window.sessionStorage.removeItem('listNewMarket');
-        //$scope.geocoder = new google.maps.Geocoder();
+        $scope.geocoder = new google.maps.Geocoder();
 
         var mapOptions = {
             zoom: 13,
@@ -42,9 +42,19 @@
 
         function GetMap(address, datos) {
             mapBing = new Microsoft.Maps.Map('#myMap', {
-                credentials: 'AjA3ss3hE6KKJh4nzOddYAblgTXQlOkBy7Pra1xx-qjYQCvcC-VzVrFAVPwv-wT5'
+                credentials: 'AiidwO0kFvWaqK0z-0NHrcJVLbdlK3RaXRRSkbEs7WxEiIHDm_MQ6MGRwxTdStRv'
             });
+            //geoLocationClaim(address, datos);
             geocodeQuery(address, datos);
+        }
+
+        function sleep(milliseconds) {
+            var start = new Date().getTime();
+            for (var i = 0; i < 1e7; i++) {
+                if ((new Date().getTime() - start) > milliseconds) {
+                    break;
+                }
+            }
         }
 
         function geocodeQuery(address, datos) {
@@ -52,6 +62,7 @@
                 Microsoft.Maps.loadModule('Microsoft.Maps.Search', function() {
                     searchManager = new Microsoft.Maps.Search.SearchManager(mapBing);
                     geocodeQuery(address, datos);
+                    // sleep(500);
                 });
             } else {
                 var searchRequest = {
@@ -89,7 +100,7 @@
                                 }
                             }
                             $scope.dataClaims.claims.push(data);
-                            if ($scope.countRowExcel == $scope.dataClaims.claims.length) {
+                            if (20 == $scope.dataClaims.claims.length) {
 
                                 createClaimsImport($scope.dataClaims);
                             }
@@ -105,6 +116,53 @@
             }
         }
 
+        function geoLocationClaimw(address, datos) {
+
+            var geocoder = new google.maps.Geocoder();
+
+            geocoder.geocode({ 'address': address }, function(results, status) {
+                if (status == 'OK') {
+                    $scope.latGeo = results[0].geometry.location.lat();
+                    $scope.lngGeo = results[0].geometry.location.lng();
+                }
+
+                if ($scope.latGeo != null && $scope.lngGeo != null) {
+                    var idClaim = datos.Reclamo;
+                    var detail = datos.Calle;
+                    if (detail == null || detail == "") {
+                        detail = "--";
+                    }
+                    var data = {
+                        "id": idClaim,
+                        "address": address,
+                        "detail": detail,
+                        "lon": $scope.lngGeo,
+                        "lat": $scope.latGeo
+                    }
+
+                } else {
+                    if (detail == null || detail == "") {
+                        detail = "--";
+                    }
+                    var idClaim = datos.Reclamo;
+                    var detail = datos.Calle;
+                    var data = {
+                        "id": idClaim,
+                        "address": address,
+                        "detail": detail,
+                        "lon": null,
+                        "lat": null
+                    }
+
+                }
+                $scope.dataClaims.claims.push(data);
+                if (20 == $scope.dataClaims.claims.length) {
+
+                    createClaimsImport($scope.dataClaims);
+                }
+            })
+
+        }
         //fin de geo
 
         $rootScope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
@@ -157,12 +215,16 @@
 
                         $scope.dataClaims = { claims: [] };
                         $scope.countRowExcel = exceljson.length;
+                        addressField(exceljson);
 
-                        for (var i = 0; i < exceljson.length; i++) {
-                            var address = exceljson[i].Dirección + " " + exceljson[i].Altura + ", Lanus, Buenos Aires";
-                            GetMap(address, exceljson[i]);
-                            // geocodeQuery(address);
-                        }
+
+                        // for (var i = 0; i < exceljson.length; i++) {
+                        //     var address = exceljson[i].Dirección + " " + exceljson[i].Altura + ", Lanus, Buenos Aires";
+
+                        //     GetMap(address, exceljson[i]);
+
+                        //     // geocodeQuery(address);
+                        // }
                     }
                 });
             }
@@ -172,8 +234,45 @@
                 reader.readAsBinaryString($("#ngexcelfile")[0].files[0]);
             }
         };
+        async function geoLocationClaim(address) {
+            return $scope.geocoder.geocode({ 'address': address }, (results, status) => {
+                let latGeo = results[0].geometry.location.lat();
+                let lngGeo = results[0].geometry.location.lng();
+            });
+        }
+
+        async function b(addressArray) {
+            addressArray.map(async(address) => {
+                let results = await geoLocationClaim(address);
+
+                if (results != null && result != undefined) {
+                    $scope.latGeo = results[0].geometry.location.lat();
+                    $scope.lngGeo = results[0].geometry.location.lng();
+                }
+            })
+        };
+
+        async function addressField(exceljson) {
 
 
+            let addressArray = []
+
+            for (let i = 0; i < exceljson.length; i++) {
+                let address = exceljson[i].Dirección + " " + exceljson[i].Altura + ", Lanus, Buenos Aires";
+
+
+                addressArray.push(address);
+
+                // geocodeQuery(address);
+                if (addressArray.length == exceljson.length) {
+
+                }
+            }
+            b(addressArray);
+
+
+
+        }
 
         var createClaimsImport = function(data) {
             data = JSON.stringify(data);
@@ -668,7 +767,7 @@
 
                         if (marker.id = claimId) {
 
-                            marker.setPosition(newGeo);
+                            // marker.setPosition(newGeo);
 
                             $http({
                                 method: 'POST',
@@ -688,7 +787,7 @@
                         alert("Se actualizo la ubicacion correctamente");
                     }
 
-                    $rootScope.map.setCenter(results[0].geometry.location);
+                    //$rootScope.map.setCenter(results[0].geometry.location);
 
                 } else {
                     alert('Geocode was not successful for the following reason: ' + status);
