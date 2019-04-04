@@ -666,9 +666,8 @@
                     $scope.resultGeo = false;
                     angular.forEach($rootScope.markers, function(marker) {
 
-                        if (marker.id = claimId) {
-
-                            marker.setPosition(newGeo);
+                        if (marker.id == claimId) {
+                            //  marker.setPosition(newGeo);
 
                             $http({
                                 method: 'POST',
@@ -677,16 +676,17 @@
                             }).then(function(response) {
                                 if (response.data.result == true) {
                                     $scope.resultGeo = true;
-
                                 } else {
                                     alert(response.data.data);
                                 }
                             });
                         }
                     })
-                    if ($scope.resultGeo == true) {
-                        alert("Se actualizo la ubicacion correctamente");
-                    }
+
+                    alert("Se actualizo la ubicacion correctamente");
+                    let updateMarker = $filter('filter')($rootScope.markers, { id: claimId });
+                    updateMarker[0].setPosition(newGeo);
+
 
                     $rootScope.map.setCenter(results[0].geometry.location);
 

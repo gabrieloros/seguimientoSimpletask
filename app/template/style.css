@@ -294,8 +294,9 @@ select {
     width: 220px;
     position: absolute;
     float: right;
-    top: 110%;
-    right: 10%;
+    top: 80%;
+    right: -340%;
+    /*110 - 10 */
     z-index: 100;
     font-weight: bold;
 }
