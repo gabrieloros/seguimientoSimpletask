@@ -1,0 +1,19 @@
+<link rel="stylesheet" type="text/css" href="app/claims/template/style-claims.css">
+<form name="newsClaims" class="form-claim">
+    <h4>Formulario de Nuevos Reclamos</h4>
+    <hr>
+    <div class="form-group">
+        <!-- Full Name -->
+        <label for="motivo_id" class="control-label">Motivo</label>
+        <select class="form-control" id="motivo_id" ng-model="claimsCntrl.data.motivo">
+                <option ng-repeat="cause in listCauses" value="{{cause.id}}" >{{cause.name}}</option>
+        </select>
+    </div>
+
+
+    <div class="form-group">
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary" ng-click="claimsCntrl.form()">Guardar</button>
+    </div>
+
+</form>

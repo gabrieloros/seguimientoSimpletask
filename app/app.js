@@ -12,7 +12,7 @@
 
         ])
         .constant('CONSTANTS', {
-            SERVER_URL: 'http://localhost:8089/SimpleTask_Rest/adr/service/'
+            SERVER_URL: 'http://localhost:8080/SimpleTask_Rest/adr/service/'
         })
         .config(function config($stateProvider) {
 
@@ -40,6 +40,16 @@
                         'content@': {
                             templateUrl: 'app/claims/template/menu-claims.html',
                             controller: 'claimsController as claimsCntrl'
+                        }
+                    }
+                })
+                .state('app.calendar', {
+                    url: '/calendar',
+                    views: {
+
+                        'content@': {
+                            templateUrl: 'app/calendar/template/calendar.html',
+                            controller: 'calendarController as calendarCntrl'
                         }
                     }
                 })
