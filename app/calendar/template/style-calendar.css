@@ -1,0 +1,105 @@
+.container {
+    width: 800px;
+}
+
+
+/** General Calendar **/
+
+.bs-calendar-container {
+    overflow: scroll;
+    width: 800px;
+    height: 550px;
+}
+
+
+/** Monthly view **/
+
+.bs-calendar-month tr {
+    width: 700px;
+}
+
+.bs-calendar-month thead tr th {
+    width: 100px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.bs-calendar-month tbody td {
+    height: 75px;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: right;
+    vertical-align: bottom;
+}
+
+
+/** Calendar Monthly Popup **/
+
+.bs-calendar-popup-month {
+    overflow: scroll;
+    width: 70px;
+    height: 70px;
+}
+
+
+/** Monthly view **/
+
+.bs-calendar-popup-month tr {
+    width: 70px;
+}
+
+.bs-calendar-popup-month thead tr th {
+    width: 210px;
+    text-align: center;
+}
+
+.bs-calendar-popup-month tbody td {
+    height: 10px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+
+/** Weekly view **/
+
+.bs-calendar-week thead tr th {
+    width: 92px;
+    text-align: center;
+}
+
+.bs-calendar-week tbody td {
+    height: 25px;
+}
+
+.bs-calendar-week tbody th.time {
+    width: 50px;
+}
+
+.bs-calendar-week tbody td.time {
+    font-weight: bold;
+    vertical-align: top;
+    text-align: right;
+    font-size: 12px;
+}
+
+
+/** Daily view **/
+
+.bs-calendar-day thead tr th.time {
+    width: 80px;
+}
+
+.bs-calendar-day thead tr th {
+    text-align: center;
+}
+
+.bs-calendar-day tbody td {
+    height: 25px;
+}
+
+.bs-calendar-day tbody td.time {
+    font-weight: bold;
+    vertical-align: top;
+    text-align: right;
+    font-size: 12px;
+}

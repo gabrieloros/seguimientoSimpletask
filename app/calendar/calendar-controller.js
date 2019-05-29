@@ -11,56 +11,74 @@
 
         var calendarCntrl = this;
 
-        calendarCntrl.form = newClaims;
+        calendarCntrl.form = newBlockedDate;
+        calendarCntrl.delete = deleteBlokedDate;
         calendarCntrl.data = {};
-        $scope.listCauses = [];
-        $scope.listGroups = [];
-        $scope.listUsers = [];
+        $scope.listBlockedDate = [];
 
-        statusService.getListTheInfoForm({}, function(response) {
-            $scope.listCauses = response.data[0];
-            $scope.listGroups = response.data[1];
-            $scope.listUsers = response.data[2];
-            $scope.listGroups.push({ id: 0, name: "Sin grupo" });
-            //listCauses();
-        }, function(error) {
-            console.log(error);
-        });
+        // $scope.listGroups = [];
+        // $scope.listUsers = [];
 
+        $scope.dateBlocked = function() {
 
-
-
-        function newClaims() {
-            claimsCntrl.data;
-            $scope.newClaims = $window.sessionStorage.getItem('listNewMarket');
-            $scope.identikey = null;
-
-            $scope.listUsers.forEach(user => {
-                if (user.id == claimsCntrl.data.operario) {
-                    $scope.identikey = user.identikey;
-                }
+            statusService.getListBlockedDate({}, function(response) {
+                $scope.listBlockedDate = response.data;
+            }, function(error) {
+                console.log(error);
             });
 
+        }
 
-            var hs = new Date().getHours();
-            var min = new Date().getMinutes();
-            var seg = new Date().getSeconds();
+        $scope.dateBlocked();
 
-            claimsCntrl.data.code = 'ST-M-' + hs + '-' + min + '-' + seg;
+        function newBlockedDate() {
+            let fecha = calendarCntrl.data.date;
+
+
+            let datebloked = year + '-' + month + '-' + day;
+
             $http({
                 method: 'POST',
-                url: $CONSTANTS.SERVER_URL + 'createclaimbyst',
-                params: { identikey: $scope.identikey, data: claimsCntrl.data, positions: $scope.newClaims }
+                url: $CONSTANTS.SERVER_URL + 'createBlokedDate',
+                params: { date: fecha }
             }).then(function(response) {
-                $window.sessionStorage.removeItem('listNewMarket');
+                $scope.listBlockedDate = [];
+                $scope.dateBlocked();
                 if (response.data.result == true) {
-                    alert("Los reclamos fueron guardados correctamente");
-                    $state.go('app');
+                    alert("La fecha fue agregada correctamente");
                 } else {
                     alert(response.data.data);
                 }
             });
         }
+
+
+        function deleteBlokedDate() {
+            let fecha = calendarCntrl.data.date;
+            var ms = Date.parse(fecha);
+            var fechas = new Date(ms);
+            var year = new Date(ms).getFullYear();
+            var month = new Date(ms).getMonth();
+            var day = new Date(ms).getDay();
+
+            let datebloked = year + '-' + month + '-' + day;
+
+            $http({
+                method: 'POST',
+                url: $CONSTANTS.SERVER_URL + 'deleteBlokedDate',
+                params: { date: fecha }
+            }).then(function(response) {
+                $scope.listBlockedDate = [];
+                $scope.dateBlocked();
+                if (response.data.result == true) {
+                    alert("La fecha fue borrada correctamente");
+                } else {
+                    alert(response.data.data);
+                }
+            });
+        }
+
+
 
     }
 
