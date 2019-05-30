@@ -1,0 +1,17 @@
+<link rel="stylesheet" type="text/css" href="app/import/template/import.css">
+<link rel="stylesheet" type="text/css" href="app/template/style.css">
+<link rel="stylesheet" type="text/css" href="app/claims/template/style-claims.css">
+
+<div>
+    <form>
+
+        <input type="file" style="padding: 21px 10px;" class="btn-sm btn" id="ngexcelfile" />
+        <input type="button" style="margin-left: 206px;" class="btn-sm btn btn-success" value="Importar" ng-click="READ()" />
+
+    </form>
+    <div class="alert alert-info" role="alert">
+        Descargue el excel <a href="https://drive.google.com/open?id=1530zSI8NZ0NU-wUn1OxxXoV6tA1hdLp0" class="alert-link">aqui.</a> Campos obligatorio( Id o Codigo de Reclamo, latitude y longitude o direccion).
+    </div>
+</div>
+
+<div id="myMap" style="position:relative;width: 34%;height: 15%;"></div>

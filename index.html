@@ -7,7 +7,7 @@
     <link rel='stylesheet' href="node_modules/angular-loading-bar/build/loading-bar.min.css" type='text/css' media='all' />
     <link rel="stylesheet" type="text/css" href="app/template/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
-
+    <link rel="stylesheet" type="text/css" href="app/import/template/import.css">
 
     <!-- <link rel="stylesheet" type="text/css" href="bower_components/bootstrap-calendar/css/calendar.min.css"> -->
     <meta name="viewport" content="width=device-width; initial-scale=1.0">
@@ -58,7 +58,7 @@
                             <li><a ui-sref="app.assignmentClaim">Asignación de Reclamos</a></li>
                             <li class="disabled"><a href="#" aria-disabled="true">Administración de Grupos</a></li>
                             <li role="separator" class="divider"></li>
-                            <li class="disabled"><a href="#">Más</a></li>
+                            <li><a ui-sref="app.import">Importar Excel</a></li>
                         </ul>
                     </div>
                 </div>
@@ -100,6 +100,7 @@
     <script type="text/javascript" src="app/calendar/calendar.js"></script>
     <script type="text/javascript" src="app/assignment/assignment.js"></script>
     <script type="text/javascript" src="app/mapa/mapa.js"></script>
+    <script type="text/javascript" src="app/import/import.js"></script>
 
 
     <!-- Controlador  Y service-->
@@ -107,6 +108,8 @@
     <script type="text/javascript" src="app/calendar/calendar-controller.js"></script>
     <script type="text/javascript" src="app/claims/claims-controller.js"></script>
     <script type="text/javascript" src="app/assignment/assignment-controller.js"></script>
+    <script type="text/javascript" src="app/import/import-controller.js"></script>
+
 
     <script type="text/javascript" src="app/services/servicesData/viewModuleMenu-service.js"></script>
     <script type="text/javascript" src="app/services/status-service.js"></script>

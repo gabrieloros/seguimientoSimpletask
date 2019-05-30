@@ -7,7 +7,8 @@
             'angular-loading-bar',
             'mapa',
             'claims',
-            'assignment'
+            'assignment',
+            'import'
 
 
         ])
@@ -40,6 +41,16 @@
                         'content@': {
                             templateUrl: 'app/claims/template/menu-claims.html',
                             controller: 'claimsController as claimsCntrl'
+                        }
+                    }
+                })
+                .state('app.import', {
+                    url: '/import',
+                    views: {
+
+                        'content@': {
+                            templateUrl: 'app/import/template/import.html',
+                            controller: 'importController as importController'
                         }
                     }
                 })
