@@ -23,15 +23,7 @@
     <div class="pendientes" > {{ instalation.total_pending_claims }}</div>
     <div class="totales">Total: {{ instalation.total_completed_claims + instalation.total_pending_claims }}</div> -->
 </div>
-<div>
-    <form>
 
-        <input type="file" class="btn-sm btn" id="ngexcelfile" />
-        <input type="button" class="btn-sm btn btn-success" value="Importar" ng-click="READ()" />
-
-    </form>
-
-</div>
 <div class="Box3">
     <select class="titulo" ng-model="currentProjectId" ng-change="changeCurrentProject()" ng-options="project.id as project.name for project in projects"></select>
     <!--<div class="titulo">{{ currentProjectName }}</div> -->
