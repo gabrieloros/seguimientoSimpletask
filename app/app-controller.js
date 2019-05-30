@@ -63,8 +63,8 @@
 
                             $scope.latGeo = r.results[0].location.latitude;
                             $scope.lngGeo = r.results[0].location.longitude;
-                            var idClaim = datos.Reclamo;
-                            var detail = datos.Calle;
+                            var idClaim = datos.ID;
+                            var detail = datos.DETALLE;
                             if (detail == null || detail == "") {
                                 detail = "--";
                             }
@@ -159,8 +159,44 @@
                         $scope.countRowExcel = exceljson.length;
 
                         for (var i = 0; i < exceljson.length; i++) {
-                            var address = exceljson[i].Dirección + " " + exceljson[i].Altura + ", Lanus, Buenos Aires";
-                            GetMap(address, exceljson[i]);
+                            if (exceljson[i].LATITUD != null && exceljson[i].LONGITUD != null) {
+                                var address = exceljson[i].CALLE;
+                                var detail = exceljson[i].DETALLE;
+                                var id = exceljson[i].ID;
+                                if (exceljson[i].LATITUD != null) {
+
+                                    var latitude = exceljson[i].LATITUD;
+                                }
+                                if (exceljson[i].LONGITUD != null) {
+
+                                    var longitude = exceljson[i].LONGITUD;
+                                }
+                                if (address == null || address == "") {
+                                    address = "--";
+                                }
+                                if (detail == null || detail == "") {
+                                    detail = "--";
+                                }
+                                var data = {
+                                    "id": id,
+                                    "address": address,
+                                    "detail": detail,
+                                    "lon": longitude,
+                                    "lat": latitude
+                                }
+                                $scope.dataClaims.claims.push(data);
+                                if ($scope.countRowExcel == $scope.dataClaims.claims.length) {
+
+                                    createClaimsImport($scope.dataClaims);
+                                }
+                            } else {
+                                var address = exceljson[i].CALLE + ", Godoy Cruz, Mendoza";
+                                GetMap(address, exceljson[i]);
+                                //geocodeQuery(address);
+
+                            }
+                            // var address = exceljson[i].Dirección + " " + exceljson[i].Altura + ", Lanus, Buenos Aires";
+                            //GetMap(address, exceljson[i]);
                             // geocodeQuery(address);
                         }
                     }
@@ -523,11 +559,19 @@
         }
 
         var updateProjectPendingClaims = function() {
-            $scope.projectPendingClaims = $scope.allUsers.sum('pending_claims');
+            angular.forEach($scope.projects, function(project) {
+                if (project.id == $scope.currentProjectId) {
+                    $scope.projectPendingClaims = project.pending_claims;
+                }
+            })
         }
 
         var updateProjectCompletedClaims = function() {
-            $scope.projectCompletedClaims = $scope.allUsers.sum('completed_claims');
+            angular.forEach($scope.projects, function(project) {
+                if (project.id == $scope.currentProjectId) {
+                    $scope.projectCompletedClaims = project.completed_claims;
+                }
+            })
         }
 
 
@@ -613,7 +657,7 @@
                 $scope.instalation = response.data[0];
                 $scope.projects = response.data[1]
                     //Add group by default
-                $scope.projects.push({ id: 0, name: "Sin grupo" });
+                    //  $scope.projects.push({ id: 0, name: "Sin grupo" });
                 $scope.currentProjectId = $scope.projects[0].id;
                 $scope.projectPendingClaims = $scope.projects[0].pending_claims;
                 $scope.projectCompletedClaims = $scope.projects[0].completed_claims;
@@ -708,7 +752,7 @@
 
         //Init data
         $scope.getProjects();
-        $interval(function() { $scope.getProjects(); }, 45000);
+        $interval(function() { $scope.getResumen(); }, 45000);
         if ($scope.selectedUsers != '' || $scope.selectedUsers != null) {
 
             $interval(function() { $scope.getClaims(); }, 420000);
