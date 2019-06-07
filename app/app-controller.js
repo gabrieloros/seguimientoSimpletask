@@ -29,6 +29,9 @@
         $scope.index = 0;
         $scope.timeCode = 0;
         $window.sessionStorage.removeItem('listNewMarket');
+        $scope.isNavCollapsed = true;
+        $scope.isCollapsed = false;
+        $scope.isCollapsedHorizontal = true;
         //$scope.geocoder = new google.maps.Geocoder();
 
         var mapOptions = {

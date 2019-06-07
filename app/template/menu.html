@@ -3,7 +3,9 @@
 
 
 <div class="Box1">
-    <div class=" titulo">{{ instalation.name }}</div>
+    <div class=" titulo" style="padding-top: 0;"> {{ instalation.name }}</div>
+    <!-- <button type="button" class="btn btn-default" ng-click="isCollapsedHorizontal = !isCollapsedHorizontal">Ver Lista</button> -->
+    <hr>
 </div>
 <div class="btn-group btn-group-toggle">
     <label class="btn btn-secondary">
@@ -14,17 +16,68 @@
 </label>
 </div>
 
-<div class="Box2">
+<div class="Box2" style="z-index: 1;">
     <!--<button>ver</button>-->
     <div class="totales"><a class="total" ng-click="getClaimAmounts(0)">Total: {{ instalation.total_completed_claims + instalation.total_pending_claims }}</a></div>
     <div><a class="terminadas" ng-click="getClaimAmounts(2)">{{ instalation.total_completed_claims }}</a></div>
     <div><a class="pendientes" ng-click="getClaimAmounts(1)">{{ instalation.total_pending_claims }}</a></div>
+
     <!-- <div class="terminadas">{{ instalation.total_completed_claims }}</div>
     <div class="pendientes" > {{ instalation.total_pending_claims }}</div>
     <div class="totales">Total: {{ instalation.total_completed_claims + instalation.total_pending_claims }}</div> -->
+    <div style="z-index: 2;">
+
+        <div class="horizontal-collapse" uib-collapse="isCollapsedHorizontal" horizontal style="width: 376px; height: 440px;z-index: 3; position: absolute;">
+            <div class="well well-lg" style="width: 376px; height: 440px;">
+                <div ng-repeat="claim in claims">
+                    <div class="row">
+                        <div ng-if="claim.status == 'pending'" class="col-md-5">
+                            <h5 style="color: darkgreen">{{claim.code}}</h5>
+                        </div>
+                        <div ng-if="claim.status == 'completed'" class="col-md-5">
+                            <h5 style="color: crimson">{{claim.code}}</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <h5><span class="glyphicon glyphicon-arrow-down" aria-hidden="true">{{claim.date}}</span></h5>
+                        </div>
+                        <div class="col-md-3">
+                            <h5><span class="glyphicon glyphicon-ok" aria-hidden="true">Heading2</span></h5>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5><span class="glyphicon glyphicon-info-sign" aria-hidden="true">Heading</span></h5>
+                        </div>
+                        <div class="col-md-3">
+                            <h5><span class="glyphicon glyphicon-object-align-horizontal" aria-hidden="true">Heading2</span></h5>
+                        </div>
+                        <div class="col-md-3">
+                            <h5><span class="glyphicon glyphicon-home" aria-hidden="true">Heading1</span></h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5><span class="glyphicon glyphicon-phone" aria-hidden="true"> Heading</span></h5>
+                        </div>
+                        <div class="col-md-3">
+                            <h5><span class="glyphicon glyphicon-wrench" aria-hidden="true"> {{claim.address}}</span></h5>
+                        </div>
+
+                        <div class="col-md-3">
+                            <h5><span class="glyphicon glyphicon-paperclip" aria-hidden="true"> {{claim.detail}}</span></h5>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="Box3">
+
+<div class="Box3" style="z-index: 1;">
     <select class="titulo" ng-model="currentProjectId" ng-change="changeCurrentProject()" ng-options="project.id as project.name for project in projects"></select>
     <!--<div class="titulo">{{ currentProjectName }}</div> -->
     <!--<button>ver</button> -->
@@ -38,7 +91,7 @@
 
 </div>
 
-<div class="Box4">
+<div class="Box4" style="z-index: 1;">
 
     <div class="Box5" ng-repeat="selectedUser in selectedUsers track by $index">
         <div class="Box5-1">
@@ -59,12 +112,12 @@
     </div>
 </div>
 
-<div class="Box6">
+<div class="Box6" style="z-index: 1;">
     <div class="titulo">Agregar Usuarios</div>
 </div>
 
 
-<div class="Box7">
+<div class="Box7" style="z-index: 1;">
     <div class="Box8" ng-repeat="freeUser in freeUsers track by $index">
         <div class="flecha">
             <a href="#" ng-click="selectUser(freeUser)"><img src="app/template/img/flecha.png"></img>

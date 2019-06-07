@@ -2,9 +2,12 @@
     'use strict';
 
     angular.module('app', [
+
             'ui.router',
             'ngResource',
             'angular-loading-bar',
+            'ngSanitize',
+            'ui.bootstrap',
             'mapa',
             'claims',
             'assignment',
