@@ -16,7 +16,10 @@
         $scope.freeUsers = [];
         $scope.allUsers = [];
         $scope.claims = [];
+        $scope.tableExcelClaims = [];
         $scope.newClaims = [];
+        $scope.dateIn = null;
+        $scope.dateOut = null;
         $scope.completedClaims = 0;
         $scope.pendingClaims = 0;
         $scope.currentProjectId = 0;
@@ -443,6 +446,7 @@
             });
         }
 
+
         var updatePendingClaims = function() {
             $scope.pendingClaims = $scope.selectedUsers.sum('pending_claims');
         }
@@ -507,7 +511,8 @@
             var userSelectedIds = $scope.selectedUsers.map(function(user) {
                 return user.id;
             });
-            statusService.getClaimsFromUsers({ projectId: $scope.currentProjectId, timeCode: $scope.timeCode, 'ids[]': userSelectedIds }, function(response) {
+
+            statusService.getClaimsFromUsers({ projectId: $scope.currentProjectId, timeCode: $scope.timeCode, 'dateIn': $scope.dateIn, 'dateOut': $scope.dateOut, 'ids[]': userSelectedIds }, function(response) {
                 $scope.claims = response.data;
                 drawClaimMarkers();
             }, function(error) {
@@ -516,7 +521,7 @@
         }
 
         $scope.getResumen = function() {
-            statusService.getResumenUsers({ projectId: $scope.currentProjectId, timeCode: $scope.timeCode }, function(response) {
+            statusService.getResumenUsers({ projectId: $scope.currentProjectId, timeCode: $scope.timeCode, 'dateIn': $scope.dateIn, 'dateOut': $scope.dateOut }, function(response) {
                 $scope.allUsers = response.data;
                 updateResumenData(response.data);
             }, function(error) {
@@ -633,6 +638,52 @@
             });
 
         }
+
+        $scope.exportTableToExcel = function() {
+
+            statusService.getClaimsDataExcel({ projectId: $scope.currentProjectId, timeCode: $scope.timeCode, 'dateIn': $scope.dateIn, 'dateOut': $scope.dateOut }, function(response) {
+                $scope.tableExcelClaims = response.data;
+                setTimeout(function() {
+                    exportExceldata()
+                }, 5000);
+
+            }, function(error) {
+                console.log(error);
+            });
+        }
+
+
+        var exportExceldata = function() {
+            var downloadLink;
+            var dataType = 'application/vnd.ms-excel';
+            var tableSelect = document.getElementById('tblData');
+            var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+            let filename = ''
+                // Specify file name
+            filename = filename ? filename + '.xls' : 'excel_data.xls';
+
+            // Create download link element
+            downloadLink = document.createElement("a");
+
+            document.body.appendChild(downloadLink);
+
+            if (navigator.msSaveOrOpenBlob) {
+                var blob = new Blob(['ufeff', tableHTML], {
+                    type: dataType
+                });
+                navigator.msSaveOrOpenBlob(blob, filename);
+            } else {
+                // Create a link to the file
+                downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+
+                // Setting the file name
+                downloadLink.download = filename;
+
+                //triggering the function
+                downloadLink.click();
+            }
+        }
+
 
         $scope.editAddressClaim = function(claimId) {
 

@@ -15,7 +15,9 @@
                 'getListBlockedDate': { url: route + "getListBlockedDate", method: 'GET' },
                 'deleteClaim': { url: route + "deleteClaim/:claimId", claimId: '@claimId', method: 'GET' },
                 'getListClaimsAssignmentByUser': { url: route + "listClaimsAssignmentByUser/:userId/:groupId", userId: '@userId', groupId: '@groupId', method: 'GET' },
-                'getListClaimsNotAssignment': { url: route + "listClaimsNotAssignment/:groupId", groupId: '@groupId', method: 'GET' }
+                'getListClaimsNotAssignment': { url: route + "listClaimsNotAssignment/:groupId", groupId: '@groupId', method: 'GET' },
+                'getClaimsDataExcel': { url: route + "exportExcel/:projectId/:timeCode", method: 'GET', projectId: '@projectId', timeCode: '@projectId' }
+
             });
             return resource;
         });

@@ -5,7 +5,7 @@
 <div class="Box1">
     <div class=" titulo" style="padding-top: 0;"> {{ instalation.name }}</div>
     <!-- <button type="button" class="btn btn-default" ng-click="isCollapsedHorizontal = !isCollapsedHorizontal">Ver Lista</button> -->
-    <hr>
+    <!-- <hr> -->
 </div>
 <div class="btn-group btn-group-toggle">
     <label class="btn btn-secondary">
@@ -14,6 +14,38 @@
     <label class="btn btn-secondary">
 <input type="radio" autocomplete="off" ng-model="timeCode" value="1" ng-change="changeTimeCode()"> Histórico
 </label>
+    <label class="btn btn-secondary">
+    <input type="radio" autocomplete="off" ng-model="timeCode" value="2" > Elegir fechas
+    </label>
+
+    <form name="newsBlockedDate" ng-show="timeCode == 2" class="form-claim">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="form-group">
+                    <label for="label_date_block" class="control-label">Fecha entrada</label>
+                    <input type="date" class="form-control" id="date_in" name="date_in" ng-model="dateIn">
+                </div>
+            </div>
+            <br>
+            <!--/.col-xs-6.col-lg-4-->
+            <div class=" col-lg-8">
+                <div class="form-group">
+                    <label for="label_date_block" class="control-label">Fecha salida</label>
+                    <input type="date" class="form-control" id="date_out" name="date_out" ng-model="dateOut">
+                </div>
+            </div>
+            <!--/.col-xs-6.col-lg-4-->
+            <div class=" col-lg-4">
+                <div class="form-group">
+
+
+                    <button class="btn btn-success" ng-click="exportTableToExcel()">Exportar Excel</button>
+
+                    <button type="submit" class="btn btn-primary" ng-click="changeTimeCode()">Buscar</button>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 
 <div class="Box2" style="z-index: 1;">
@@ -139,3 +171,35 @@
         <div class="estado">Terminados</div>
     </div>
 </div>
+<!-- style="display:none" -->
+<table id="tblData" style="display:none">
+    <tr>
+        <th>ID</th>
+        <th>CALLE</th>
+        <th>DETALLE</th>
+        <th>GRUPO</th>
+        <th>LATITUD</th>
+        <th>LONGITUD</th>
+        <th>CODIGO COLOCADO</th>
+        <th>CODIGO RETIRADO</th>
+        <th>ESTADO</th>
+        <th>FECHA DE INGRESO</th>
+        <th>FECHA DE CIERRE</th>
+        <th>OPERARIO</th>
+    </tr>
+    <tr ng-repeat="claimData in tableExcelClaims">
+        <td>{{claimData.code}}</td>
+        <td>{{claimData.address}}</td>
+        <td>{{claimData.detail}}</td>
+        <td>{{claimData.namegroup}}</td>
+        <td>{{claimData.latitude}}</td>
+        <td>{{claimData.longitude}}</td>
+        <td>{{claimData.inqrcode}}</td>
+        <td>{{claimData.outqrcode}}</td>
+        <td>{{claimData.stateid}}</td>
+        <td>{{claimData.entrydate}}</td>
+        <td>{{claimData.closedate}}</td>
+        <td>{{claimData.username}}</td>
+    </tr>
+
+</table>

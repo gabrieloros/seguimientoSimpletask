@@ -34,9 +34,6 @@
         function newBlockedDate() {
             let fecha = calendarCntrl.data.date;
 
-
-            let datebloked = year + '-' + month + '-' + day;
-
             $http({
                 method: 'POST',
                 url: $CONSTANTS.SERVER_URL + 'createBlokedDate',
