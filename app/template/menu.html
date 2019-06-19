@@ -20,30 +20,39 @@
 
     <form name="newsBlockedDate" ng-show="timeCode == 2" class="form-claim">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-6">
                 <div class="form-group">
-                    <label for="label_date_block" class="control-label">Fecha entrada</label>
+                    <label for="label_date_block" class="control-label">Desde: </label>
                     <input type="date" class="form-control" id="date_in" name="date_in" ng-model="dateIn">
                 </div>
             </div>
-            <br>
+            <div class="col-lg-2">
+            </div>
             <!--/.col-xs-6.col-lg-4-->
-            <div class=" col-lg-8">
+            <div class=" col-lg-6">
                 <div class="form-group">
-                    <label for="label_date_block" class="control-label">Fecha salida</label>
+                    <label for="label_date_block" class="control-label">Hasta: </label>
                     <input type="date" class="form-control" id="date_out" name="date_out" ng-model="dateOut">
                 </div>
             </div>
             <!--/.col-xs-6.col-lg-4-->
-            <div class=" col-lg-4">
-                <div class="form-group">
 
+            <div class="form-group">
 
-                    <button class="btn btn-success" ng-click="exportTableToExcel()">Exportar Excel</button>
+                <div class="col-lg-6">
+                    <button class="btn btn-success" style="width: 100%" ng-click="exportTableToExcel()">Exportar Excel</button>
 
-                    <button type="submit" class="btn btn-primary" ng-click="changeTimeCode()">Buscar</button>
                 </div>
+                <div class="col-lg-2">
+                </div>
+                <!--/.col-xs-6.col-lg-4-->
+                <div class=" col-lg-6">
+                    <button type="submit" style="width: 100%" class="btn btn-primary" ng-click="changeTimeCode()">Buscar</button>
+
+                </div>
+
             </div>
+
         </div>
     </form>
 </div>
