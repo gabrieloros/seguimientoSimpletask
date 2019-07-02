@@ -329,7 +329,7 @@
                 content: claim.code,
                 id: claim.id,
                 type: "claim",
-                draggable: true,
+                draggable: false,
                 user_id: claim.user_id,
                 detail: claim.detail,
                 address: addressClaim
