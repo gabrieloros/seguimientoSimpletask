@@ -39,20 +39,14 @@
 
             <div class="form-group">
 
-                <div class="col-lg-6">
-                    <button class="btn btn-success" style="width: 100%" ng-click="exportTableToExcel()">Exportar Excel</button>
-
-                </div>
-                <div class="col-lg-2">
+                <div class="col6">
+                    <button type="submit" style="width: 340px;margin: 0px 15px 2px 0px;" class="btn btn-primary" ng-click="changeTimeCode()">Buscar</button>
                 </div>
                 <!--/.col-xs-6.col-lg-4-->
-                <div class=" col-lg-6">
-                    <button type="submit" style="width: 100%" class="btn btn-primary" ng-click="changeTimeCode()">Buscar</button>
-
+                <div class="col7">>
+                    <button class="btn btn-success" style="width: 340px;margin: 0px 15px 0px 0px;" ng-click="exportTableToExcel()">Exportar Excel</button>
                 </div>
-
             </div>
-
         </div>
     </form>
 </div>
@@ -182,6 +176,12 @@
 </div>
 <!-- style="display:none" -->
 <table id="tblData" style="display:none">
+    <tr>
+        <th>Total Tareas: {{tableCount.count}}</th>
+        <th>Total Pendientes: {{tableCount.pending}}</th>
+        <th>Total Tareas Cerradas: {{tableCount.finish}}</th>
+        <th>Total Fuera de termininos: {{tableCount.out}}</th>
+    </tr>
     <tr>
         <th>ID</th>
         <th>CALLE</th>
