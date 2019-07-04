@@ -642,8 +642,8 @@
         $scope.exportTableToExcel = function() {
 
             statusService.getClaimsDataExcel({ projectId: $scope.currentProjectId, timeCode: $scope.timeCode, 'dateIn': $scope.dateIn, 'dateOut': $scope.dateOut }, function(response) {
-                $scope.tableExcelClaims = response.data; //[0];
-                // $scope.tableCount = response.data[1]
+                $scope.tableExcelClaims = response.data[0]; //direccion de tabla y implementacion de objeto
+                $scope.tableCount = response.data[1]
                 setTimeout(function() {
                     exportExceldata()
                 }, 5000);
