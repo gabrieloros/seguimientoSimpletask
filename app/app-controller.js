@@ -539,8 +539,6 @@
             });
         }
 
-
-
         $scope.getClaimAmounts = function(type) {
             statusService.getClaimAmountsData({ typeCode: type }, function(response) {
                 $scope.claims = response.data;
@@ -553,9 +551,9 @@
         $scope.getProjects = function() {
             statusService.getProjects({}, function(response) {
                 $scope.instalation = response.data[0];
-                $scope.projects = response.data[1]
-                    //Add group by default
-                    //  $scope.projects.push({ id: 0, name: "Sin grupo" });
+                $scope.projects = response.data[1];
+                //Add group by default
+                //  $scope.projects.push({ id: 0, name: "Sin grupo" });
                 $scope.currentProjectId = $scope.projects[0].id;
                 $scope.projectPendingClaims = $scope.projects[0].pending_claims;
                 $scope.projectCompletedClaims = $scope.projects[0].completed_claims;
@@ -643,7 +641,7 @@
 
             statusService.getClaimsDataExcel({ projectId: $scope.currentProjectId, timeCode: $scope.timeCode, 'dateIn': $scope.dateIn, 'dateOut': $scope.dateOut }, function(response) {
                 $scope.tableExcelClaims = response.data[0]; //direccion de tabla y implementacion de objeto
-                $scope.tableCount = response.data[1]
+                $scope.tableCount = response.data[1];
                 setTimeout(function() {
                     exportExceldata()
                 }, 5000);
