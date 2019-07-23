@@ -20,6 +20,7 @@
         $scope.newClaims = [];
         $scope.dateIn = null;
         $scope.dateOut = null;
+        $scope.typeDate = 2;
         $scope.completedClaims = 0;
         $scope.pendingClaims = 0;
         $scope.currentProjectId = 0;
@@ -639,7 +640,7 @@
 
         $scope.exportTableToExcel = function() {
 
-            statusService.getClaimsDataExcel({ projectId: $scope.currentProjectId, timeCode: $scope.timeCode, 'dateIn': $scope.dateIn, 'dateOut': $scope.dateOut }, function(response) {
+            statusService.getClaimsDataExcel({ projectId: $scope.currentProjectId, timeCode: $scope.timeCode, 'dateIn': $scope.dateIn, 'dateOut': $scope.dateOut, 'typeDate': $scope.typeDate }, function(response) {
                 $scope.tableExcelClaims = response.data[0]; //direccion de tabla y implementacion de objeto
                 $scope.tableCount = response.data[1];
                 setTimeout(function() {

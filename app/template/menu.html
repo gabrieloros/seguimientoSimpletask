@@ -17,198 +17,207 @@
     <label class="btn btn-secondary">
     <input type="radio" autocomplete="off" ng-model="timeCode" value="2" > Elegir fechas
     </label>
+    <form name="newsBlockedDate" ng-show="timeCode == 2" class="form-claim ng-pristine ng-valid">
+        <div id="frm_claimsFilter_filter_container_entryDate" class="form-group">
+            <select class="btn btn-default dropdown-toggle" ng-model="typeDate" id="type_date" name="type_date" style="width: 340px; margin: 0px 0px 0px 5px;">
+                <option selected="selected" value="1" >Fecha Entrada</option>
+                <option  value="2" >Fecha Cierre</option>
+            </select>
 
-    <form name="newsBlockedDate" ng-show="timeCode == 2" class="form-claim">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <label for="label_date_block" class="control-label">Desde: </label>
-                    <input type="date" class="form-control" id="date_in" name="date_in" ng-model="dateIn">
-                </div>
-            </div>
-            <div class="col-lg-2">
-            </div>
-            <!--/.col-xs-6.col-lg-4-->
-            <div class=" col-lg-6">
-                <div class="form-group">
-                    <label for="label_date_block" class="control-label">Hasta: </label>
-                    <input type="date" class="form-control" id="date_out" name="date_out" ng-model="dateOut">
-                </div>
-            </div>
-            <!--/.col-xs-6.col-lg-4-->
+            <div class="date-range-container">
+                <!--form name="newsBlockedDate" ng-show="timeCode == 2" class="form-claim ng-pristine ng-valid"-->
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label for="label_date_block" class="control-label">Desde: </label>
+                            <input type="date" class="form-control ng-pristine ng-untouched ng-valid ng-empty" id="date_in" name="date_in" ng-model="dateIn">
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                    </div>
+                    <!--/.col-xs-6.col-lg-4-->
+                    <div class=" col-lg-6">
+                        <div class="form-group">
+                            <label for="label_date_block" class="control-label">Hasta: </label>
+                            <input type="date" class="form-control ng-pristine ng-untouched ng-valid ng-empty" id="date_out" name="date_out" ng-model="dateOut">
+                        </div>
+                    </div>
+                    <!--/.col-xs-6.col-lg-4-->
 
-            <div class="form-group">
+                    <div class="form-group">
 
-                <div class="col6">
-                    <button type="submit" style="width: 340px;margin: 0px 15px 5px 0px;" class="btn btn-primary" ng-click="changeTimeCode()">Buscar</button>
+                        <div class="col6">
+                            <button type="submit" style="width: 340px;margin: 0px 15px 5px 0px;" class="btn btn-primary" ng-click="changeTimeCode()">Buscar</button>
+                        </div>
+                        <!--/.col-xs-6.col-lg-4-->
+                        <div class="col7">
+                            <button class="btn btn-success" style="width: 340px;margin: 0px 15px 10px 0px;" ng-click="exportTableToExcel()">Exportar Excel</button>
+                        </div>
+
+                    </div>
                 </div>
-                <!--/.col-xs-6.col-lg-4-->
-                <div class="col7">
-                    <button class="btn btn-success" style="width: 340px;margin: 0px 15px 10px 0px;" ng-click="exportTableToExcel()">Exportar Excel</button>
-                </div>
-            </div>
-        </div>
     </form>
-</div>
+    </div>
+    </div>
 
-<div class="Box2" style="z-index: 1;">
-    <!--<button>ver</button>-->
-    <div class="totales"><a class="total" ng-click="getClaimAmounts(0)">Total: {{ instalation.total_completed_claims + instalation.total_pending_claims }}</a></div>
-    <div><a class="terminadas" ng-click="getClaimAmounts(2)">{{ instalation.total_completed_claims }}</a></div>
-    <div><a class="pendientes" ng-click="getClaimAmounts(1)">{{ instalation.total_pending_claims }}</a></div>
+    <div class="Box2" style="z-index: 1;">
+        <!--<button>ver</button>-->
+        <div class="totales"><a class="total" ng-click="getClaimAmounts(0)">Total: {{ instalation.total_completed_claims + instalation.total_pending_claims }}</a></div>
+        <div><a class="terminadas" ng-click="getClaimAmounts(2)">{{ instalation.total_completed_claims }}</a></div>
+        <div><a class="pendientes" ng-click="getClaimAmounts(1)">{{ instalation.total_pending_claims }}</a></div>
 
-    <!-- <div class="terminadas">{{ instalation.total_completed_claims }}</div>
+        <!-- <div class="terminadas">{{ instalation.total_completed_claims }}</div>
     <div class="pendientes" > {{ instalation.total_pending_claims }}</div>
     <div class="totales">Total: {{ instalation.total_completed_claims + instalation.total_pending_claims }}</div> -->
-    <div style="z-index: 2;">
+        <div style="z-index: 2;">
 
-        <div class="horizontal-collapse" uib-collapse="isCollapsedHorizontal" horizontal style="width: 376px; height: 440px;z-index: 3; position: absolute;">
-            <div class="well well-lg" style="width: 376px; height: 440px;">
-                <div ng-repeat="claim in claims">
-                    <div class="row">
-                        <div ng-if="claim.status == 'pending'" class="col-md-5">
-                            <h5 style="color: darkgreen">{{claim.code}}</h5>
-                        </div>
-                        <div ng-if="claim.status == 'completed'" class="col-md-5">
-                            <h5 style="color: crimson">{{claim.code}}</h5>
-                        </div>
-                        <div class="col-md-3">
-                            <h5><span class="glyphicon glyphicon-arrow-down" aria-hidden="true">{{claim.date}}</span></h5>
-                        </div>
-                        <div class="col-md-3">
-                            <h5><span class="glyphicon glyphicon-ok" aria-hidden="true">Heading2</span></h5>
-                        </div>
+            <div class="horizontal-collapse" uib-collapse="isCollapsedHorizontal" horizontal style="width: 376px; height: 440px;z-index: 3; position: absolute;">
+                <div class="well well-lg" style="width: 376px; height: 440px;">
+                    <div ng-repeat="claim in claims">
+                        <div class="row">
+                            <div ng-if="claim.status == 'pending'" class="col-md-5">
+                                <h5 style="color: darkgreen">{{claim.code}}</h5>
+                            </div>
+                            <div ng-if="claim.status == 'completed'" class="col-md-5">
+                                <h5 style="color: crimson">{{claim.code}}</h5>
+                            </div>
+                            <div class="col-md-3">
+                                <h5><span class="glyphicon glyphicon-arrow-down" aria-hidden="true">{{claim.date}}</span></h5>
+                            </div>
+                            <div class="col-md-3">
+                                <h5><span class="glyphicon glyphicon-ok" aria-hidden="true">Heading2</span></h5>
+                            </div>
 
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <h5><span class="glyphicon glyphicon-info-sign" aria-hidden="true">Heading</span></h5>
                         </div>
-                        <div class="col-md-3">
-                            <h5><span class="glyphicon glyphicon-object-align-horizontal" aria-hidden="true">Heading2</span></h5>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h5><span class="glyphicon glyphicon-info-sign" aria-hidden="true">Heading</span></h5>
+                            </div>
+                            <div class="col-md-3">
+                                <h5><span class="glyphicon glyphicon-object-align-horizontal" aria-hidden="true">Heading2</span></h5>
+                            </div>
+                            <div class="col-md-3">
+                                <h5><span class="glyphicon glyphicon-home" aria-hidden="true">Heading1</span></h5>
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <h5><span class="glyphicon glyphicon-home" aria-hidden="true">Heading1</span></h5>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <h5><span class="glyphicon glyphicon-phone" aria-hidden="true"> Heading</span></h5>
-                        </div>
-                        <div class="col-md-3">
-                            <h5><span class="glyphicon glyphicon-wrench" aria-hidden="true"> {{claim.address}}</span></h5>
-                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <h5><span class="glyphicon glyphicon-phone" aria-hidden="true"> Heading</span></h5>
+                            </div>
+                            <div class="col-md-3">
+                                <h5><span class="glyphicon glyphicon-wrench" aria-hidden="true"> {{claim.address}}</span></h5>
+                            </div>
 
-                        <div class="col-md-3">
-                            <h5><span class="glyphicon glyphicon-paperclip" aria-hidden="true"> {{claim.detail}}</span></h5>
+                            <div class="col-md-3">
+                                <h5><span class="glyphicon glyphicon-paperclip" aria-hidden="true"> {{claim.detail}}</span></h5>
+                            </div>
                         </div>
+                        <hr>
                     </div>
-                    <hr>
+
                 </div>
-
             </div>
         </div>
     </div>
-</div>
 
 
-<div class="Box3" style="z-index: 1;">
-    <select class="titulo" ng-model="currentProjectId" ng-change="changeCurrentProject()" ng-options="project.id as project.name for project in projects"></select>
-    <!--<div class="titulo">{{ currentProjectName }}</div> -->
-    <!--<button>ver</button> -->
+    <div class="Box3" style="z-index: 1;">
+        <select class="titulo" ng-model="currentProjectId" ng-change="changeCurrentProject()" ng-options="project.id as project.name for project in projects"></select>
+        <!--<div class="titulo">{{ currentProjectName }}</div> -->
+        <!--<button>ver</button> -->
 
-    <div class="totales">
-        <div class="total"><a class="total" ng-click="getCount(0)">Total: {{ projectPendingClaims + projectCompletedClaims }}</a></div>
-        <div><a class="terminadas" ng-click="getCount(2)">{{ projectCompletedClaims }}</a></div>
-        <div><a class="pendientes" ng-click="getCount(1)">{{ projectPendingClaims }}</a></div>
+        <div class="totales">
+            <div class="total"><a class="total" ng-click="getCount(0)">Total: {{ projectPendingClaims + projectCompletedClaims }}</a></div>
+            <div><a class="terminadas" ng-click="getCount(2)">{{ projectCompletedClaims }}</a></div>
+            <div><a class="pendientes" ng-click="getCount(1)">{{ projectPendingClaims }}</a></div>
+        </div>
+
+
     </div>
 
+    <div class="Box4" style="z-index: 1;">
 
-</div>
+        <div class="Box5" ng-repeat="selectedUser in selectedUsers track by $index">
+            <div class="Box5-1">
+                <div class="date">{{ selectedUser.last_position_date | date:'dd-MM-yyyy HH:mm:ss' }}</div>
+                <div class="titulo">{{ selectedUser.full_name | limitTo: 11 }}</div>
+            </div>
+            <div class="Box5-2">
+                <div class="total">Total: {{selectedUser.pending_claims + selectedUser.completed_claims}}</div>
+                <div class="pendientes">{{ selectedUser.pending_claims }}</div>
+                <div class="terminadas">{{ selectedUser.completed_claims }}</div>
 
-<div class="Box4" style="z-index: 1;">
-
-    <div class="Box5" ng-repeat="selectedUser in selectedUsers track by $index">
-        <div class="Box5-1">
-            <div class="date">{{ selectedUser.last_position_date | date:'dd-MM-yyyy HH:mm:ss' }}</div>
-            <div class="titulo">{{ selectedUser.full_name | limitTo: 11 }}</div>
-        </div>
-        <div class="Box5-2">
-            <div class="total">Total: {{selectedUser.pending_claims + selectedUser.completed_claims}}</div>
-            <div class="pendientes">{{ selectedUser.pending_claims }}</div>
-            <div class="terminadas">{{ selectedUser.completed_claims }}</div>
-
-        </div>
-        <div class="Box5-3">
-            <div class="cerrar">
-                <a href="#" ng-click="removeUser(selectedUser)"><img src="app/template/img/cerrar.png"></a>
+            </div>
+            <div class="Box5-3">
+                <div class="cerrar">
+                    <a href="#" ng-click="removeUser(selectedUser)"><img src="app/template/img/cerrar.png"></a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="Box6" style="z-index: 1;">
-    <div class="titulo">Agregar Usuarios</div>
-</div>
+    <div class="Box6" style="z-index: 1;">
+        <div class="titulo">Agregar Usuarios</div>
+    </div>
 
 
-<div class="Box7" style="z-index: 1;">
-    <div class="Box8" ng-repeat="freeUser in freeUsers track by $index">
-        <div class="flecha">
-            <a href="#" ng-click="selectUser(freeUser)"><img src="app/template/img/flecha.png"></img>
-            </a>
+    <div class="Box7" style="z-index: 1;">
+        <div class="Box8" ng-repeat="freeUser in freeUsers track by $index">
+            <div class="flecha">
+                <a href="#" ng-click="selectUser(freeUser)"><img src="app/template/img/flecha.png"></img>
+                </a>
+            </div>
+            <div class="terminadas">{{ freeUser.completed_claims }}</div>
+            <div class="pendientes">{{ freeUser.pending_claims }}</div>
+            <div class="nombre">{{ freeUser.full_name | limitTo: 16 }}</div>
         </div>
-        <div class="terminadas">{{ freeUser.completed_claims }}</div>
-        <div class="pendientes">{{ freeUser.pending_claims }}</div>
-        <div class="nombre">{{ freeUser.full_name | limitTo: 16 }}</div>
     </div>
-</div>
 
-<div class="circulos">
-    <div class="pendientes">
-        <div class="valor">{{ pendingClaims }}</div>
-        <div class="estado">Pendientes</div>
+    <div class="circulos">
+        <div class="pendientes">
+            <div class="valor">{{ pendingClaims }}</div>
+            <div class="estado">Pendientes</div>
+        </div>
+        <div class="terminados">
+            <div class="valor">{{ completedClaims }}</div>
+            <div class="estado">Terminados</div>
+        </div>
     </div>
-    <div class="terminados">
-        <div class="valor">{{ completedClaims }}</div>
-        <div class="estado">Terminados</div>
-    </div>
-</div>
-<!-- style="display:none" -->
-<table id="tblData" style="display:none">
-    <tr>
-        <th>Total Tareas: {{tableCount.count}}</th>
-        <th>Total Pendientes: {{tableCount.pending}}</th>
-        <th>Total Tareas Cerradas: {{tableCount.finish}}</th>
-        <th>Total Fuera de termininos: {{tableCount.out}}</th>
-    </tr>
-    <tr>
-        <th>ID</th>
-        <th>CALLE</th>
-        <th>DETALLE</th>
-        <th>GRUPO</th>
-        <th>LATITUD</th>
-        <th>LONGITUD</th>
-        <th>CODIGO COLOCADO</th>
-        <th>CODIGO RETIRADO</th>
-        <th>ESTADO</th>
-        <th>FECHA DE INGRESO</th>
-        <th>FECHA DE CIERRE</th>
-        <th>OPERARIO</th>
-    </tr>
-    <tr ng-repeat="claimData in tableExcelClaims">
-        <td>{{claimData.code}}</td>
-        <td>{{claimData.address}}</td>
-        <td>{{claimData.detail}}</td>
-        <td>{{claimData.namegroup}}</td>
-        <td>{{claimData.latitude}}</td>
-        <td>{{claimData.longitude}}</td>
-        <td>{{claimData.inqrcode}}</td>
-        <td>{{claimData.outqrcode}}</td>
-        <td>{{claimData.stateid}}</td>
-        <td>{{claimData.entrydate}}</td>
-        <td>{{claimData.closedate}}</td>
-        <td>{{claimData.username}}</td>
-    </tr>
+    <!-- style="display:none" -->
+    <table id="tblData" style="display:none">
+        <tr>
+            <th>Total Tareas: {{tableCount.count}}</th>
+            <th>Total Pendientes: {{tableCount.pending}}</th>
+            <th>Total Tareas Cerradas: {{tableCount.finish}}</th>
+            <th>Total Fuera de termininos: {{tableCount.out}}</th>
+        </tr>
+        <tr>
+            <th>ID</th>
+            <th>CALLE</th>
+            <th>DETALLE</th>
+            <th>GRUPO</th>
+            <th>LATITUD</th>
+            <th>LONGITUD</th>
+            <th>CODIGO COLOCADO</th>
+            <th>CODIGO RETIRADO</th>
+            <th>ESTADO</th>
+            <th>FECHA DE INGRESO</th>
+            <th>FECHA DE CIERRE</th>
+            <th>OPERARIO</th>
+        </tr>
+        <tr ng-repeat="claimData in tableExcelClaims">
+            <td>{{claimData.code}}</td>
+            <td>{{claimData.address}}</td>
+            <td>{{claimData.detail}}</td>
+            <td>{{claimData.namegroup}}</td>
+            <td>{{claimData.latitude}}</td>
+            <td>{{claimData.longitude}}</td>
+            <td>{{claimData.inqrcode}}</td>
+            <td>{{claimData.outqrcode}}</td>
+            <td>{{claimData.stateid}}</td>
+            <td>{{claimData.entrydate}}</td>
+            <td>{{claimData.closedate}}</td>
+            <td>{{claimData.username}}</td>
+        </tr>
 
-</table>
+    </table>
