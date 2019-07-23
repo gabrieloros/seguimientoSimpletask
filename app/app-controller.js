@@ -554,8 +554,8 @@
                 $scope.instalation = response.data[0];
                 $scope.projects = response.data[1];
                 //Add group by default
-                //  $scope.projects.push({ id: 0, name: "Sin grupo" });
-                $scope.currentProjectId = $scope.projects[0].id;
+                $scope.projects.push({ id: 0, name: "Sin grupo" });
+                //$scope.currentProjectId = $scope.projects[0].id;
                 $scope.projectPendingClaims = $scope.projects[0].pending_claims;
                 $scope.projectCompletedClaims = $scope.projects[0].completed_claims;
                 $scope.currentProjectName = $scope.projects[0].name;
